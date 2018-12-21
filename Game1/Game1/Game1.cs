@@ -22,6 +22,8 @@ namespace Game1
         private GameObject bottomWall;
         private GameObject leftWall;
         private GameObject rightWall;
+        private Vec2 currentCrateVelocity;
+        private Logger Logger = LogManager.GetCurrentClassLogger();
 
         public Game1()
         {
@@ -98,6 +100,7 @@ namespace Game1
             }
 
             texture2d.SetData(data);
+            Logger.Info($"Wall created at ({wallBody.GetPosition().X},{wallBody.GetPosition().Y})");
             return new GameObject(texture2d, wallBody);
         }
 
@@ -169,6 +172,19 @@ namespace Game1
 
             physicsWorld.Step(1.0f / 60.0f, 2, 1);
 
+            var lVelocity = crate.RigidBody.GetLinearVelocity();
+            if (currentCrateVelocity != null)
+            {
+                if (Math.Abs(lVelocity.X) <= 0 && Math.Abs(lVelocity.Y) <= 0 && 
+                    (Math.Abs(currentCrateVelocity.X) > 0 || Math.Abs(currentCrateVelocity.Y) > 0))
+                {
+                    //we came to a stop, log the position
+                    var position = crate.RigidBody.GetPosition();
+                    Logger.Info($"Crate stopped at ({position.X},{position.Y})");
+                }
+            }
+
+            currentCrateVelocity = lVelocity;
             base.Update(gameTime);
         }
 
