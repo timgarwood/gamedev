@@ -17,6 +17,10 @@ namespace Game1
         private GameObject crate;
         private World physicsWorld;
         private AABB aabb;
+        private GameObject topWall;
+        private GameObject bottomWall;
+        private GameObject leftWall;
+        private GameObject rightWall;
 
         public Game1()
         {
@@ -53,7 +57,15 @@ namespace Game1
             };
         }
 
-        private void AddWall(float x, float y, float w, float h)
+        /// <summary>
+        /// Creates a wall
+        /// </summary>
+        /// <param name="x">x position in pixels</param>
+        /// <param name="y">y position in pixels</param>
+        /// <param name="w">width of wall in pixels</param>
+        /// <param name="h">height of wall in pixels</param>
+        /// <returns></returns>
+        private GameObject Wall(float x, float y, float w, float h)
         {
             // Define the ground body.
             var wallBodyDef = new BodyDef();
@@ -73,6 +85,17 @@ namespace Game1
 
             // Add the ground shape to the ground body.
             wallBody.CreateShape(wallShapeDef);
+
+            var vTex = GraphicsVec(wallPhysicsSize);
+            var texture2d = new Texture2D(graphics.GraphicsDevice, (int) vTex.X, (int) vTex.Y);
+            var data = new Microsoft.Xna.Framework.Color[(int)vTex.X * (int)vTex.Y];
+            for (int i = 0; i < data.Length; ++i)
+            {
+                data[i] = Microsoft.Xna.Framework.Color.Chocolate;
+            }
+
+            texture2d.SetData(data);
+            return new GameObject(texture2d, wallBody);
         }
 
         /// <summary>
@@ -83,23 +106,21 @@ namespace Game1
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            var crateTexture = Content.Load<Texture2D>("crate");
+            var crateTexture = Content.Load<Texture2D>("cratesmall");
 
             aabb = new AABB();
             aabb.LowerBound = new Vec2(-10, -10);
             aabb.UpperBound = new Vec2(10, 10);
             physicsWorld = new World(aabb, new Vec2(0, .98f), doSleep: true);
 
-            var wallDim = PhysicsVec(new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height));
-
             //top wall
-            AddWall(0, 0, wallDim.X, 0.5f);
+            topWall = Wall(0, 0, Window.ClientBounds.Width, 10);
             //bottom wall
-            AddWall(0, wallDim.Y, wallDim.X, 0.5f);
+            bottomWall = Wall(0, Window.ClientBounds.Height, Window.ClientBounds.Width, 10);
             //left wall
-            AddWall(0, 0, 0.5f, wallDim.Y);
+            leftWall = Wall(0, 0, 10, Window.ClientBounds.Height);
             //right wall
-            AddWall(0, wallDim.X, 0.5f, wallDim.Y);
+            rightWall = Wall(Window.ClientBounds.Width, 0, 10, Window.ClientBounds.Height);
 
             var crateShapeDef = new PolygonDef();
             var cratePhysicsSize = PhysicsVec(new Vector2(crateTexture.Width, crateTexture.Height));
@@ -147,6 +168,18 @@ namespace Game1
             base.Update(gameTime);
         }
 
+        private void DrawWalls(SpriteBatch spriteBatch)
+        {
+            var texturePosition = GraphicsVec(topWall.RigidBody.GetPosition());
+            spriteBatch.Draw(topWall.Texture, texturePosition);
+            texturePosition = GraphicsVec(bottomWall.RigidBody.GetPosition());
+            spriteBatch.Draw(bottomWall.Texture, texturePosition);
+            texturePosition = GraphicsVec(leftWall.RigidBody.GetPosition());
+            spriteBatch.Draw(leftWall.Texture, texturePosition);
+            texturePosition = GraphicsVec(rightWall.RigidBody.GetPosition());
+            spriteBatch.Draw(rightWall.Texture, texturePosition);
+        }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -155,13 +188,16 @@ namespace Game1
         {
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
+
             var texturePosition = GraphicsVec(crate.RigidBody.GetPosition());
 
             spriteBatch.Begin();
+            DrawWalls(spriteBatch);
             spriteBatch.Draw(crate.Texture, texturePosition);
             spriteBatch.End();
 
             // TODO: Add your drawing code here
+
 
             base.Draw(gameTime);
         }
