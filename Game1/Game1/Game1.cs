@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Box2DX.Dynamics;
 using Box2DX.Collision;
 using Box2DX.Common;
+using NLog;
 
 namespace Game1
 {
@@ -78,13 +79,15 @@ namespace Game1
 
             // Define the wall box shape.
             var wallShapeDef = new PolygonDef();
+            wallShapeDef.Friction = 0.3f;
+            wallShapeDef.Density = 1.0f;
 
             // The extents are the half-widths of the box.
             var wallPhysicsSize = PhysicsVec(new Vector2(w,h));
             wallShapeDef.SetAsBox(wallPhysicsSize.X, wallPhysicsSize.Y);
 
             // Add the ground shape to the ground body.
-            wallBody.CreateShape(wallShapeDef);
+            var shape = wallBody.CreateShape(wallShapeDef);
 
             var vTex = GraphicsVec(wallPhysicsSize);
             var texture2d = new Texture2D(graphics.GraphicsDevice, (int) vTex.X, (int) vTex.Y);
@@ -113,20 +116,21 @@ namespace Game1
             aabb.UpperBound = new Vec2(10, 10);
             physicsWorld = new World(aabb, new Vec2(0, .98f), doSleep: true);
 
+            int wallThickness = 10;
             //top wall
-            topWall = Wall(0, 0, Window.ClientBounds.Width, 10);
+            topWall = Wall(0, 0, GraphicsDevice.Viewport.Width, wallThickness);
             //bottom wall
-            bottomWall = Wall(0, Window.ClientBounds.Height, Window.ClientBounds.Width, 10);
+            bottomWall = Wall(0, GraphicsDevice.Viewport.Height - wallThickness, GraphicsDevice.Viewport.Width, wallThickness);
             //left wall
-            leftWall = Wall(0, 0, 10, Window.ClientBounds.Height);
+            leftWall = Wall(0, 0, wallThickness, GraphicsDevice.Viewport.Height);
             //right wall
-            rightWall = Wall(Window.ClientBounds.Width, 0, 10, Window.ClientBounds.Height);
+            rightWall = Wall(GraphicsDevice.Viewport.Width - wallThickness, 0, wallThickness, GraphicsDevice.Viewport.Height);
 
             var crateShapeDef = new PolygonDef();
             var cratePhysicsSize = PhysicsVec(new Vector2(crateTexture.Width, crateTexture.Height));
             crateShapeDef.SetAsBox(cratePhysicsSize.X, cratePhysicsSize.Y);
             crateShapeDef.Density = 1.0f;
-            crateShapeDef.Friction = 0.3f;
+            crateShapeDef.Friction = 0.6f;
 
             var crateBodyDef = new BodyDef();
             var centerOfScreen = PhysicsVec(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2));
@@ -160,7 +164,7 @@ namespace Game1
             if(Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 var cratePosition = crate.RigidBody.GetPosition();
-                crate.RigidBody.ApplyImpulse(new Vec2(1, 1), new Vec2(cratePosition.X, cratePosition.Y + 5));
+                crate.RigidBody.ApplyImpulse(new Vec2(.005f, .005f), new Vec2(cratePosition.X, cratePosition.Y + 5));
             }
 
             physicsWorld.Step(1.0f / 60.0f, 2, 1);
@@ -188,16 +192,13 @@ namespace Game1
         {
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
-
             var texturePosition = GraphicsVec(crate.RigidBody.GetPosition());
+            var origin = new Vector2(crate.Texture.Width / 2, crate.Texture.Height / 2);
 
             spriteBatch.Begin();
             DrawWalls(spriteBatch);
-            spriteBatch.Draw(crate.Texture, texturePosition);
+            spriteBatch.Draw(crate.Texture, texturePosition, null, null, origin, crate.RigidBody.GetAngle());
             spriteBatch.End();
-
-            // TODO: Add your drawing code here
-
 
             base.Draw(gameTime);
         }
