@@ -24,6 +24,8 @@ namespace Game1
         private GameObject rightWall;
         private Vec2 currentCrateVelocity;
         private Logger Logger = LogManager.GetCurrentClassLogger();
+        private static float PixelsPerMeterX;
+        private static float PixelsPerMeterY;
 
         public Game1()
         {
@@ -48,15 +50,15 @@ namespace Game1
 
         private Vec2 PhysicsVec(Vector2 gfxVector)
         {
-            return new Vec2(((float)gfxVector.X) / 225f, ((float)gfxVector.Y) / 255f);
+            return new Vec2(((float)gfxVector.X) * (1.0f/PixelsPerMeterX), ((float)gfxVector.Y) * (1.0f/PixelsPerMeterY));
         }
 
         private Vector2 GraphicsVec(Vec2 physicsVec)
         {
             return new Vector2()
             {
-                X = physicsVec.X * 225f,
-                Y = physicsVec.Y * 225f
+                X = physicsVec.X * PixelsPerMeterX,
+                Y = physicsVec.Y * PixelsPerMeterY 
             };
         }
 
@@ -100,7 +102,8 @@ namespace Game1
             }
 
             texture2d.SetData(data);
-            Logger.Info($"Wall created at ({wallBody.GetPosition().X},{wallBody.GetPosition().Y})");
+            Logger.Info($"Wall created at ({wallBody.GetPosition().X},{wallBody.GetPosition().Y}) " + 
+                $"extends to ({wallBody.GetPosition().X + wallPhysicsSize.X},{wallBody.GetPosition().Y + wallPhysicsSize.Y})");
             return new GameObject(texture2d, wallBody);
         }
 
@@ -110,10 +113,19 @@ namespace Game1
         /// </summary>
         protected override void LoadContent()
         {
+            float xpix = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            float ypix = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+
+            //calculate pixels-per-meter for x and y
+            //lets say a meter is some number of x-pixels
+            PixelsPerMeterX = 250;
+            PixelsPerMeterY = PixelsPerMeterX * (ypix / xpix);
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             var crateTexture = Content.Load<Texture2D>("cratesmall");
 
+            //create physics bounds
             aabb = new AABB();
             aabb.LowerBound = new Vec2(-10, -10);
             aabb.UpperBound = new Vec2(10, 10);
@@ -132,6 +144,7 @@ namespace Game1
             var crateShapeDef = new PolygonDef();
             var cratePhysicsSize = PhysicsVec(new Vector2(crateTexture.Width, crateTexture.Height));
             crateShapeDef.SetAsBox(cratePhysicsSize.X, cratePhysicsSize.Y);
+            Logger.Info($"crate size = ({cratePhysicsSize.X},{cratePhysicsSize.Y})");
             crateShapeDef.Density = 1.0f;
             crateShapeDef.Friction = 0.6f;
 
