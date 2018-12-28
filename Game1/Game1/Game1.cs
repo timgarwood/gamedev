@@ -107,17 +107,25 @@ namespace Game1
             return x * PixelsPerMeterY;
         }
 
-        private GameObject Wall(float x1, float y1, float width, float height)
+        private GameObject Wall(cpVect topLeft, cpVect bottomRight)
         {
-            var ul = new cpVect(x1, y1);
-            var br = new cpVect(x1+width, y1+height);
-
-            var wallShape = physicsWorld.AddShape(new cpSegmentShape(physicsWorld.GetStaticBody(), ul, br, 0));
+            var wallBody = physicsWorld.GetStaticBody();
+            physicsWorld.AddBody(wallBody);
+            var wallShape = physicsWorld.AddShape(new cpSegmentShape(wallBody, topLeft,bottomRight, 0));
             wallShape.SetFriction(1.0f);
-            wallShape.SetElasticity(1.0f);
+            wallShape.SetElasticity(0.0f);
 
-            var textureWidth = GraphicsScalarX(width);
-            var textureHeight = GraphicsScalarY(height);
+            var textureWidth = GraphicsScalarX(Math.Abs(bottomRight.x - topLeft.x));
+            var textureHeight = GraphicsScalarY(Math.Abs(bottomRight.y - topLeft.y));
+            if(textureWidth <= 0)
+            {
+                textureWidth = 1;
+            }
+            if(textureHeight <= 0)
+            {
+                textureHeight = 1;
+            }
+
             var texture2d = new Texture2D(graphics.GraphicsDevice, (int)textureWidth, (int)textureHeight);
             var data = new Color[(int)textureWidth * (int)textureHeight];
             for (int i = 0; i < data.Length; ++i)
@@ -143,7 +151,7 @@ namespace Game1
             crateBody.SetAngle(1.0f);
             var crateShape = physicsWorld.AddShape(cpPolyShape.BoxShape(crateBody, cratePhysicsSize.x, cratePhysicsSize.y, 0)) as cpPolyShape;
             crateShape.SetFriction(0.7f);
-            crateShape.SetElasticity(0.7f);
+            crateShape.SetElasticity(0.5f);
             Logger.Info($"crate size = ({cratePhysicsSize.x},{cratePhysicsSize.y})");
             return new GameObject(crateTexture, crateShape, crateBody);
         }
@@ -174,20 +182,19 @@ namespace Game1
             */
 
             physicsWorld = new cpSpace();
-            physicsWorld.SetGravity(new cpVect(0, 15));
+            physicsWorld.SetGravity(new cpVect(0, 150));
             physicsWorld.SetSleepTimeThreshold(0.5f);
-            physicsWorld.SetCollisionSlop(0.5f);
+            physicsWorld.SetCollisionSlop(0.0f);
             physicsWorld.SetSleepTimeThreshold(0.5f);
 
-            var wallThickness = 15f;
             //top wall
-            topWall = Wall(0, 0, 400, wallThickness);
+            topWall = Wall(new cpVect(10,10), new cpVect(400,10));
             //bottom wall
-            bottomWall = Wall(0, 240-wallThickness, 400, wallThickness);
+            bottomWall = Wall(new cpVect(10,240), new cpVect(400,240));
             //left wall
-            leftWall = Wall(0, 0, wallThickness, 240);
+            leftWall = Wall(new cpVect(10,10), new cpVect(10, 240));
             //right wall
-            rightWall = Wall(400-wallThickness, 0, wallThickness, 240);
+            rightWall = Wall(new cpVect(400, 10), new cpVect(400,240));
 
             crate = Crate(crateTexture);
         }
@@ -223,7 +230,7 @@ namespace Game1
             }
 
             //physicsWorld.Step(1.0f / 60.0f, 100, 100);
-            physicsWorld.Step(1.0f / 60.0f);
+            physicsWorld.Step(1.0f / 30.0f);
             
             var lVelocity = crate.Body.GetVelocity();
             if (currentCrateVelocity != null)

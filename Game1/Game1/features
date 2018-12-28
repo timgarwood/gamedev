@@ -1,0 +1,17 @@
+must haves:
+- parallax background with google earth images
+- "interact" with background for health/weapon pickups
+- player controls done through physics, not faked.
+- combat against enemy spaceships
+- defend landmarks
+- minimap
+- shadows below enemies and player to simulate height above ground
+- simple AI
+- simple animations
+
+nice to haves:
+- varying difficulty levels
+- weather effects
+- lighting
+- power up to slow down time/enemies
+
