@@ -26,6 +26,8 @@ namespace Game1
         private Logger Logger = LogManager.GetCurrentClassLogger();
         private static float PixelsPerMeterX;
         private static float PixelsPerMeterY;
+        private static float MetersPerPixelX;
+        private static float MetersPerPixelY;
 
         public Game1()
         {
@@ -70,12 +72,11 @@ namespace Game1
         /// <param name="w">width of wall in pixels</param>
         /// <param name="h">height of wall in pixels</param>
         /// <returns></returns>
-        private GameObject Wall(float x, float y, float w, float h)
+        private GameObject Wall(Vec2 topLeft, Vec2 bottomRight)
         {
             // Define the ground body.
             var wallBodyDef = new BodyDef();
-            var wallPhysicsLocation = PhysicsVec(new Vector2(x, y));
-            wallBodyDef.Position.Set(wallPhysicsLocation.X, wallPhysicsLocation.Y);
+            wallBodyDef.Position.Set(topLeft.X, topLeft.Y);
 
             // Call the body factory which creates the wall box shape.
             // The body is also added to the world.
@@ -87,13 +88,31 @@ namespace Game1
             wallShapeDef.Density = 1.0f;
 
             // The extents are the half-widths of the box.
-            var wallPhysicsSize = PhysicsVec(new Vector2(w,h));
+            var wallPhysicsSize = new Vec2(Math.Abs(bottomRight.X - topLeft.X), Math.Abs(bottomRight.Y - topLeft.Y));
+            if(wallPhysicsSize.X <= 0)
+            {
+                wallPhysicsSize.X = 1*MetersPerPixelX;
+            }
+            if(wallPhysicsSize.Y <= 0)
+            {
+                wallPhysicsSize.Y = 1*MetersPerPixelY;
+            }
+
             wallShapeDef.SetAsBox(wallPhysicsSize.X, wallPhysicsSize.Y);
 
             // Add the ground shape to the ground body.
             var shape = wallBody.CreateShape(wallShapeDef);
-
             var vTex = GraphicsVec(wallPhysicsSize);
+
+            if(vTex.X <= 0)
+            {
+                vTex.X = 1;
+            }
+            if(vTex.Y <= 0)
+            {
+                vTex.Y = 1;
+            }
+
             var texture2d = new Texture2D(graphics.GraphicsDevice, (int) vTex.X, (int) vTex.Y);
             var data = new Microsoft.Xna.Framework.Color[(int)vTex.X * (int)vTex.Y];
             for (int i = 0; i < data.Length; ++i)
@@ -120,6 +139,8 @@ namespace Game1
             //lets say a meter is some number of x-pixels
             PixelsPerMeterX = 250;
             PixelsPerMeterY = PixelsPerMeterX * (ypix / xpix);
+            MetersPerPixelX = 1 / PixelsPerMeterX;
+            MetersPerPixelY = 1 / PixelsPerMeterY;
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -132,14 +153,16 @@ namespace Game1
             physicsWorld = new World(aabb, new Vec2(0, .98f), doSleep: true);
 
             int wallThickness = 10;
+            var width = 800;
+            var height = 400;
             //top wall
-            topWall = Wall(0, 0, GraphicsDevice.Viewport.Width, wallThickness);
+            topWall = Wall(new Vec2(10*MetersPerPixelX,10*MetersPerPixelY), new Vec2(width*MetersPerPixelX,10*MetersPerPixelY));
             //bottom wall
-            bottomWall = Wall(0, GraphicsDevice.Viewport.Height - wallThickness, GraphicsDevice.Viewport.Width, wallThickness);
+            bottomWall = Wall(new Vec2(10*MetersPerPixelX, height * MetersPerPixelY), new Vec2(width * MetersPerPixelX, height * MetersPerPixelY));
             //left wall
-            leftWall = Wall(0, 0, wallThickness, GraphicsDevice.Viewport.Height);
+            leftWall = Wall(new Vec2(10 * MetersPerPixelX, 10 * MetersPerPixelY), new Vec2(10 * MetersPerPixelX, height * MetersPerPixelY));
             //right wall
-            rightWall = Wall(GraphicsDevice.Viewport.Width - wallThickness, 0, wallThickness, GraphicsDevice.Viewport.Height);
+            rightWall = Wall(new Vec2(width * MetersPerPixelX, 10 * MetersPerPixelY), new Vec2(width * MetersPerPixelX, height * MetersPerPixelY));
 
             var crateShapeDef = new PolygonDef();
             var cratePhysicsSize = PhysicsVec(new Vector2(crateTexture.Width, crateTexture.Height));
