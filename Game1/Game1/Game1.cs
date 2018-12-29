@@ -123,7 +123,7 @@ namespace Game1
             texture2d.SetData(data);
             Logger.Info($"Wall created at ({wallBody.GetPosition().X},{wallBody.GetPosition().Y}) " + 
                 $"extends to ({wallBody.GetPosition().X + wallPhysicsSize.X},{wallBody.GetPosition().Y + wallPhysicsSize.Y})");
-            return new GameObject(texture2d, wallBody);
+            return new GameObject(texture2d, shape, wallBody);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Game1
 
             var crateShapeDef = new PolygonDef();
             var cratePhysicsSize = PhysicsVec(new Vector2(crateTexture.Width, crateTexture.Height));
-            crateShapeDef.SetAsBox(cratePhysicsSize.X, cratePhysicsSize.Y);
+            crateShapeDef.SetAsBox(cratePhysicsSize.X/2, cratePhysicsSize.Y/2);
             Logger.Info($"crate size = ({cratePhysicsSize.X},{cratePhysicsSize.Y})");
             crateShapeDef.Density = 1.0f;
             crateShapeDef.Friction = 0.6f;
@@ -175,10 +175,10 @@ namespace Game1
             var centerOfScreen = PhysicsVec(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2));
             crateBodyDef.Position.Set(centerOfScreen.X, centerOfScreen.Y);
             var crateBody = physicsWorld.CreateBody(crateBodyDef);
-            crateBody.CreateShape(crateShapeDef);
+            var crateShape = crateBody.CreateShape(crateShapeDef);
             crateBody.SetMassFromShapes();
 
-            crate = new GameObject(crateTexture, crateBody);
+            crate = new GameObject(crateTexture, crateShape, crateBody);
         }
 
         /// <summary>
