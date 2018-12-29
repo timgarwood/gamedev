@@ -172,6 +172,7 @@ namespace Game1
             crateShapeDef.Friction = 0.6f;
 
             var crateBodyDef = new BodyDef();
+            crateBodyDef.IsBullet = true;
             var centerOfScreen = PhysicsVec(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2));
             crateBodyDef.Position.Set(centerOfScreen.X, centerOfScreen.Y);
             var crateBody = physicsWorld.CreateBody(crateBodyDef);
@@ -203,10 +204,22 @@ namespace Game1
             if(Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 var cratePosition = crate.RigidBody.GetPosition();
-                crate.RigidBody.ApplyImpulse(new Vec2(.005f, .005f), new Vec2(cratePosition.X, cratePosition.Y + 5));
+                crate.RigidBody.ApplyImpulse(new Vec2(-.0025f, 0), new Vec2(cratePosition.X, cratePosition.Y));
             }
 
-            physicsWorld.Step(1.0f / 60.0f, 2, 1);
+            if (Mouse.GetState().RightButton == ButtonState.Pressed)
+            {
+                var cratePosition = crate.RigidBody.GetPosition();
+                crate.RigidBody.ApplyImpulse(new Vec2(.0025f, 0), new Vec2(cratePosition.X, cratePosition.Y));
+            }
+
+            if(Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                var cratePosition = crate.RigidBody.GetPosition();
+                crate.RigidBody.ApplyImpulse(new Vec2(0, -0.0025f), new Vec2(cratePosition.X, cratePosition.Y));
+            }
+
+            physicsWorld.Step(1.0f / 60.0f, 20, 20);
 
             var lVelocity = crate.RigidBody.GetLinearVelocity();
             if (currentCrateVelocity != null)

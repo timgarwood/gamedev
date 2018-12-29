@@ -18,5 +18,15 @@ namespace Game1
         public Body RigidBody { get; private set; }
 
         public Shape Shape { get; private set; }
+
+        public AABB BoundingBox
+        {
+            get
+            {
+                AABB boundingBox;
+                Shape.ComputeAABB(out boundingBox, RigidBody.GetXForm());
+                return boundingBox;
+            }
+        }
     }
 }
