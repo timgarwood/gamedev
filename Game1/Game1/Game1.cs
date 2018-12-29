@@ -138,7 +138,7 @@ namespace Game1
             //calculate pixels-per-meter for x and y
             //lets say a meter is some number of x-pixels
             PixelsPerMeterX = 250;
-            PixelsPerMeterY = PixelsPerMeterX * (ypix / xpix);
+            PixelsPerMeterY = PixelsPerMeterX;// * (ypix / xpix);
             MetersPerPixelX = 1 / PixelsPerMeterX;
             MetersPerPixelY = 1 / PixelsPerMeterY;
 
@@ -216,10 +216,10 @@ namespace Game1
             if(Keyboard.GetState().IsKeyDown(Keys.Space))
             {
                 var cratePosition = crate.RigidBody.GetPosition();
-                crate.RigidBody.ApplyImpulse(new Vec2(0, -0.0025f), new Vec2(cratePosition.X, cratePosition.Y));
+                crate.RigidBody.ApplyImpulse(new Vec2(0, -0.0045f), new Vec2(cratePosition.X, cratePosition.Y));
             }
 
-            physicsWorld.Step(1.0f / 60.0f, 20, 20);
+            physicsWorld.Step(1.0f / 60.0f, 2,1);
 
             var lVelocity = crate.RigidBody.GetLinearVelocity();
             if (currentCrateVelocity != null)
