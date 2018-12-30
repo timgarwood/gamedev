@@ -1,0 +1,6 @@
+﻿{
+  "backgroundDensity": 100,
+  "maxXDimension" :  10000,
+  "maxYDimension" :  10000,
+  "pixelsPerMeter": 250
+}

@@ -1,17 +1,24 @@
 must haves:
-- parallax background with google earth images
-- "interact" with background for health/weapon pickups
+- parallax background with multiple depths
 - player controls done through physics, not faked.
 - combat against enemy spaceships
-- defend landmarks
+- defend passenger transport ships
+- repair/defend broken ship by picking up items at remote parts of the map and
+   bringing them back to the ship
 - minimap
-- shadows below enemies and player to simulate height above ground
 - simple AI
-- simple animations
+- simple animations on planets/stars and ships
+-background music
+-sound effects for aliens/weapons
+-heads up display with health and weapon stats
+-
 
 nice to haves:
+-arrow pointing to next objective
+- dynamic background music
 - varying difficulty levels
 - weather effects
 - lighting
 - power up to slow down time/enemies
+- asteroids that can damage enemies, player and transport ships
 
