@@ -1,39 +1,49 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Box2DX.Common;
 
 namespace Game1
 {
     /// <summary>
     /// This class represents an object in the background of the game
     /// </summary>
-    public class BackgroundObject
+    public class BackgroundObject : Drawable
     {
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="texture"></param>
-        /// <param name="distanceFromCamera"></param>
-        public BackgroundObject(Texture2D texture, float distanceFromCamera)
+        /// <param name="scale"></param>
+        public BackgroundObject(Texture2D texture, Vec2 worldPosition, float scale) : base(texture)
         {
+            WorldPosition = worldPosition;
         }
 
         /// <summary>
-        /// the texture of the background
+        /// the world position of this background object
         /// </summary>
-        public Texture2D Texture { get; private set; }
+        public Vec2 WorldPosition { get; private set; }
 
         /// <summary>
-        /// the world position of this background object.  This uses the XNA vector
-        /// type since we don't really need a physics type for backgrounds
+        /// returns the world position of this background object
         /// </summary>
-        public Vector2 WorldPosition { get; private set; }
+        /// <returns></returns>
+        public override Vec2 GetWorldPosition()
+        {
+            return WorldPosition;
+        }
 
         /// <summary>
         /// Draws this background object using the given SpriteBatch
         /// </summary>
         /// <param name="spriteBatch"></param>
-        public void Draw(SpriteBatch spriteBatch, Vector2 cameraOrigin, Vector2 viewport)
+        public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin)
         {
+            var diffx = WorldPosition.X - cameraOrigin.X;
+            var diffy = WorldPosition.Y - cameraOrigin.Y;
+
+            var location = new Vector2(diffx * GameData.Instance.PixelsPerMeter, diffy * GameData.Instance.PixelsPerMeter);
+            spriteBatch.Draw(Texture, location, null, null, null, 0);
         }
     }
 }

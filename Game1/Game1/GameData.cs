@@ -2,11 +2,17 @@
 {
     public class GameData
     {
+        public GameData()
+        {
+            Instance = this;
+        }
+
+        public static GameData Instance { get; private set; }
+
         /// <summary>
         /// this parameter defines how dense the background should be
-        /// basically, how close together background objects should be
         /// </summary>
-        public int BackgroundDensity { get; set; }
+        public int NumBackgroundObjects { get; set; }
 
         /// <summary>
         /// max x dimension of the game world (meters)
@@ -17,6 +23,12 @@
         /// max y dimension of the game world (meters)
         /// </summary>
         public float MaxYDimension { get; set; }
+
+        /// <summary>
+        /// starting position of player
+        /// </summary>
+        public float PlayerStartX { get; set; }
+        public float PlayerStartY { get; set; }
 
         /// <summary>
         /// translation from meters to pixels

@@ -1,6 +1,8 @@
 ﻿{
-  "backgroundDensity": 100,
-  "maxXDimension" :  10000,
-  "maxYDimension" :  10000,
+  "numBackgroundObjects": 1000,
+  "maxXDimension" :  50,
+  "maxYDimension" :  50,
+  "playerStartX" :  10,
+  "playerStartY" :  10,
   "pixelsPerMeter": 250
 }

@@ -145,7 +145,6 @@ namespace Game1
         /// </summary>
         protected override void LoadContent()
         {
-            //TODO: fix borders on bright moon and transparency on yellow planet
             blueStar = Content.Load<Texture2D>("sprites/planets/blue-star-transparent");
             brightMoon = Content.Load<Texture2D>("sprites/planets/bright-moon-transparent");
             brightStar = Content.Load<Texture2D>("sprites/planets/bright-star-transparent");
@@ -165,27 +164,29 @@ namespace Game1
                 planets.Add(yellowPlanet);
             }
 
+            Background.GenerateBackground(planets.ToArray(), gameData);
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            var crateTexture = Content.Load<Texture2D>("sprites/planets/yellow-planet-transparent");
+            var crateTexture = Content.Load<Texture2D>("sprites/ships/ship1small");
 
             //create physics bounds
             aabb = new AABB();
             aabb.LowerBound = new Vec2(-10, -10);
             aabb.UpperBound = new Vec2(10, 10);
-            physicsWorld = new World(aabb, new Vec2(0, .98f), doSleep: true);
+            physicsWorld = new World(aabb, new Vec2(0, 0), doSleep: true);
 
             int wallThickness = 10;
             var width = 1200;
             var height = 800;
             //top wall
-            topWall = Wall(new Vec2(10*gameData.MetersPerPixel,10* gameData.MetersPerPixel), new Vec2(width* gameData.MetersPerPixel, 10* gameData.MetersPerPixel));
+            //topWall = Wall(new Vec2(10*gameData.MetersPerPixel,10* gameData.MetersPerPixel), new Vec2(width* gameData.MetersPerPixel, 10* gameData.MetersPerPixel));
             //bottom wall
-            bottomWall = Wall(new Vec2(10* gameData.MetersPerPixel, height * gameData.MetersPerPixel), new Vec2(width * gameData.MetersPerPixel, height * gameData.MetersPerPixel));
+            //bottomWall = Wall(new Vec2(10* gameData.MetersPerPixel, height * gameData.MetersPerPixel), new Vec2(width * gameData.MetersPerPixel, height * gameData.MetersPerPixel));
             //left wall
-            leftWall = Wall(new Vec2(10 * gameData.MetersPerPixel, 10 * gameData.MetersPerPixel), new Vec2(10 * gameData.MetersPerPixel, height * gameData.MetersPerPixel));
+            //leftWall = Wall(new Vec2(10 * gameData.MetersPerPixel, 10 * gameData.MetersPerPixel), new Vec2(10 * gameData.MetersPerPixel, height * gameData.MetersPerPixel));
             //right wall
-            rightWall = Wall(new Vec2(width * gameData.MetersPerPixel, 10 * gameData.MetersPerPixel), new Vec2(width * gameData.MetersPerPixel, height * gameData.MetersPerPixel));
+            //rightWall = Wall(new Vec2(width * gameData.MetersPerPixel, 10 * gameData.MetersPerPixel), new Vec2(width * gameData.MetersPerPixel, height * gameData.MetersPerPixel));
 
             var crateShapeDef = new PolygonDef();
             var cratePhysicsSize = PhysicsVec(new Vector2(crateTexture.Width, crateTexture.Height));
@@ -196,8 +197,8 @@ namespace Game1
 
             var crateBodyDef = new BodyDef();
             crateBodyDef.IsBullet = true;
-            var centerOfScreen = PhysicsVec(new Vector2(Window.ClientBounds.Width / 2, Window.ClientBounds.Height / 2));
-            crateBodyDef.Position.Set(centerOfScreen.X, centerOfScreen.Y);
+            var playerPosition = new Vec2(GameData.Instance.PlayerStartX, GameData.Instance.PlayerStartY);
+            crateBodyDef.Position.Set(playerPosition.X, playerPosition.Y);
             var crateBody = physicsWorld.CreateBody(crateBodyDef);
             var crateShape = crateBody.CreateShape(crateShapeDef);
             crateBody.SetMassFromShapes();
@@ -227,19 +228,34 @@ namespace Game1
             if(Mouse.GetState().LeftButton == ButtonState.Pressed)
             {
                 var cratePosition = crate.RigidBody.GetPosition();
-                crate.RigidBody.ApplyImpulse(new Vec2(-.25f, 0), new Vec2(cratePosition.X, cratePosition.Y));
+                crate.RigidBody.ApplyImpulse(new Vec2(-.0025f, 0), new Vec2(cratePosition.X, cratePosition.Y));
             }
 
             if (Mouse.GetState().RightButton == ButtonState.Pressed)
             {
                 var cratePosition = crate.RigidBody.GetPosition();
-                crate.RigidBody.ApplyImpulse(new Vec2(.25f, 0), new Vec2(cratePosition.X, cratePosition.Y));
+                crate.RigidBody.ApplyImpulse(new Vec2(.0025f, 0), new Vec2(cratePosition.X, cratePosition.Y));
             }
 
-            if(Keyboard.GetState().IsKeyDown(Keys.Space))
+            if(Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 var cratePosition = crate.RigidBody.GetPosition();
-                crate.RigidBody.ApplyImpulse(new Vec2(0, -0.45f), new Vec2(cratePosition.X, cratePosition.Y));
+                crate.RigidBody.ApplyImpulse(new Vec2(0, -0.0045f), new Vec2(cratePosition.X, cratePosition.Y));
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                var cratePosition = crate.RigidBody.GetPosition();
+                crate.RigidBody.ApplyImpulse(new Vec2(0, 0.0045f), new Vec2(cratePosition.X, cratePosition.Y));
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                var cratePosition = crate.RigidBody.GetPosition();
+                crate.RigidBody.ApplyImpulse(new Vec2(0.0045f, 0), new Vec2(cratePosition.X, cratePosition.Y));
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                var cratePosition = crate.RigidBody.GetPosition();
+                crate.RigidBody.ApplyImpulse(new Vec2(-0.0045f, 0), new Vec2(cratePosition.X, cratePosition.Y));
             }
 
             physicsWorld.Step(1.0f / 60.0f, 2,1);
@@ -262,7 +278,7 @@ namespace Game1
 
         private void DrawWalls(SpriteBatch spriteBatch)
         {
-            var planetLocation = new Vector2(0, 0);
+            /*var planetLocation = new Vector2(0, 0);
             var scale = .75f;
             var vscale = new Vector2(scale,scale);
             foreach(var planet in planets)
@@ -275,7 +291,8 @@ namespace Game1
                     planetLocation.Y += 250 * scale;
                 }
             }
-            var texturePosition = GraphicsVec(topWall.RigidBody.GetPosition());
+            */
+            /*var texturePosition = GraphicsVec(topWall.RigidBody.GetPosition());
             spriteBatch.Draw(topWall.Texture, texturePosition);
             texturePosition = GraphicsVec(bottomWall.RigidBody.GetPosition());
             spriteBatch.Draw(bottomWall.Texture, texturePosition);
@@ -283,6 +300,7 @@ namespace Game1
             spriteBatch.Draw(leftWall.Texture, texturePosition);
             texturePosition = GraphicsVec(rightWall.RigidBody.GetPosition());
             spriteBatch.Draw(rightWall.Texture, texturePosition);
+            */
         }
 
         /// <summary>
@@ -293,12 +311,25 @@ namespace Game1
         {
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
-            var texturePosition = GraphicsVec(crate.RigidBody.GetPosition());
-            var origin = new Vector2(crate.Texture.Width / 2, crate.Texture.Height / 2);
+            //figure out where the camera should be using the player position
+
+            //FIXME: viewport doesn't need to be calculated every frame
+            var viewport = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+
+            var playerPosition = crate.RigidBody.GetPosition();
+
+            var cameraPosition = playerPosition - new Vec2((viewport.X / 2) * GameData.Instance.MetersPerPixel,
+                (viewport.Y / 2) * GameData.Instance.MetersPerPixel); 
 
             spriteBatch.Begin();
-            DrawWalls(spriteBatch);
-            spriteBatch.Draw(crate.Texture, texturePosition, null, null, origin, crate.RigidBody.GetAngle());
+
+            Background.DrawBackground(spriteBatch, cameraPosition, viewport);
+
+            //draw player relative to camera
+            var drawPosition = new Vector2((playerPosition.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                (playerPosition.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+
+            spriteBatch.Draw(crate.Texture, drawPosition, null, null, drawPosition, crate.RigidBody.GetAngle());
             spriteBatch.End();
 
             base.Draw(gameTime);
