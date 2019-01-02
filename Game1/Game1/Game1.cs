@@ -126,17 +126,17 @@ namespace Game1
                 vTex.Y = 1;
             }
 
-            var texture2d = new Texture2D(graphics.GraphicsDevice, (int) vTex.X, (int) vTex.Y);
-            var data = new Microsoft.Xna.Framework.Color[(int)vTex.X * (int)vTex.Y];
-            for (int i = 0; i < data.Length; ++i)
-            {
-                data[i] = Microsoft.Xna.Framework.Color.Chocolate;
-            }
+            //var texture2d = new Texture2D(graphics.GraphicsDevice, (int) vTex.X, (int) vTex.Y);
+            //var data = new Microsoft.Xna.Framework.Color[(int)vTex.X * (int)vTex.Y];
+            //for (int i = 0; i < data.Length; ++i)
+           // {
+           //     data[i] = Microsoft.Xna.Framework.Color.Chocolate;
+           // }
 
-            texture2d.SetData(data);
+           // texture2d.SetData(data);
             Logger.Info($"Wall created at ({wallBody.GetPosition().X},{wallBody.GetPosition().Y}) " + 
                 $"extends to ({wallBody.GetPosition().X + wallPhysicsSize.X},{wallBody.GetPosition().Y + wallPhysicsSize.Y})");
-            return new GameObject(texture2d, shape, wallBody);
+            return new GameObject(null, shape, wallBody);
         }
 
         /// <summary>
@@ -180,13 +180,13 @@ namespace Game1
             var width = 1200;
             var height = 800;
             //top wall
-            //topWall = Wall(new Vec2(10*gameData.MetersPerPixel,10* gameData.MetersPerPixel), new Vec2(width* gameData.MetersPerPixel, 10* gameData.MetersPerPixel));
+            topWall = Wall(new Vec2(0.1f, 0.1f), new Vec2(gameData.MaxXDimension-1,0.1f));
             //bottom wall
-            //bottomWall = Wall(new Vec2(10* gameData.MetersPerPixel, height * gameData.MetersPerPixel), new Vec2(width * gameData.MetersPerPixel, height * gameData.MetersPerPixel));
+            bottomWall = Wall(new Vec2(0.1f, gameData.MaxYDimension - 1), new Vec2(gameData.MaxXDimension - 1, gameData.MaxYDimension - 1));
             //left wall
-            //leftWall = Wall(new Vec2(10 * gameData.MetersPerPixel, 10 * gameData.MetersPerPixel), new Vec2(10 * gameData.MetersPerPixel, height * gameData.MetersPerPixel));
+            leftWall = Wall(new Vec2(0.1f,0.1f), new Vec2(0.1f,gameData.MaxYDimension-1));
             //right wall
-            //rightWall = Wall(new Vec2(width * gameData.MetersPerPixel, 10 * gameData.MetersPerPixel), new Vec2(width * gameData.MetersPerPixel, height * gameData.MetersPerPixel));
+            rightWall = Wall(new Vec2(gameData.MaxXDimension - 1, 0.1f), new Vec2(gameData.MaxXDimension - 1, gameData.MaxYDimension - 1));
 
             var crateShapeDef = new PolygonDef();
             var cratePhysicsSize = PhysicsVec(new Vector2(crateTexture.Width, crateTexture.Height));
