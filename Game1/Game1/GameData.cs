@@ -56,8 +56,8 @@
         /// these parameters define how to relate the background distance
         /// to texture scaling size
         /// </summary>
-        public float MinBackgroundDistance { get; set; }
-        public float MaxBackgroundDistance { get; set; }
+        public int MinDistanceFromCamera { get; set; }
+        public int MaxDistanceFromCamera { get; set; }
         public float MinBackgroundScale { get; set; }
         public float MaxBackgroundScale { get; set; }
     }

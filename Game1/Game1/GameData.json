@@ -1,8 +1,12 @@
 ﻿{
-  "numBackgroundObjects": 1000,
-  "maxXDimension" :  50,
-  "maxYDimension" :  50,
+  "numBackgroundObjects": 3000,
+  "maxXDimension" :  100,
+  "maxYDimension" :  100,
   "playerStartX" :  10,
   "playerStartY" :  10,
+  "minDistanceFromCamera" :  15,
+  "maxDistanceFromCamera" :  1,
+  "minBackgroundScale" :  0.1,
+  "maxBackgroundScale" :  1,
   "pixelsPerMeter": 250
 }

@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using Box2DX.Common;
+using System.Linq;
 
 namespace Game1
 {
@@ -27,6 +28,7 @@ namespace Game1
             _backgroundObjects.Clear();
             var textureRandom = new Random((int)(DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds);
             var positionRandom = new Random((int)(DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds);
+            var distanceRandom = new Random((int)(DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds);
             for(var i = 0; i < gameData.NumBackgroundObjects; ++i)
             {
                 var texture = backgroundTextures[textureRandom.Next(0, backgroundTextures.Length - 1)];
@@ -35,9 +37,12 @@ namespace Game1
                 var positionXf = ((float)positionX) / gameData.MaxXDimension;
                 var positionYf = ((float)positionY) / gameData.MaxYDimension;
                 var position = new Vec2(positionXf, positionYf);
+                var distance = distanceRandom.Next(gameData.MaxDistanceFromCamera, gameData.MinDistanceFromCamera);
 
-                _backgroundObjects.Add(new BackgroundObject(texture, position, 1));
+                _backgroundObjects.Add(new BackgroundObject(texture, position, distance));
             }
+
+            _backgroundObjects.OrderBy(x => x.DistanceFromCamera).Reverse();
         }
 
         /// <summary>
