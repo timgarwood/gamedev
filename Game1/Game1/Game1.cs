@@ -172,8 +172,8 @@ namespace Game1
 
             //create physics bounds
             aabb = new AABB();
-            aabb.LowerBound = new Vec2(-10, -10);
-            aabb.UpperBound = new Vec2(10, 10);
+            aabb.LowerBound = new Vec2(0, 0);
+            aabb.UpperBound = new Vec2(gameData.MaxXDimension, gameData.MaxYDimension);
             physicsWorld = new World(aabb, new Vec2(0, 0), doSleep: true);
 
             int wallThickness = 10;
@@ -329,7 +329,7 @@ namespace Game1
             var drawPosition = new Vector2((playerPosition.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
                 (playerPosition.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
 
-            spriteBatch.Draw(crate.Texture, drawPosition, null, null, drawPosition, crate.RigidBody.GetAngle());
+            spriteBatch.Draw(crate.Texture, drawPosition, null, null, null, crate.RigidBody.GetAngle());
             spriteBatch.End();
 
             base.Draw(gameTime);
