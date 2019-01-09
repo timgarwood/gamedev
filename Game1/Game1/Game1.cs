@@ -17,6 +17,8 @@ namespace Game1
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private GameObject crate;
+        //private Joint crateJoint;
+        //private Body crateAnchor;
         private World physicsWorld;
         private AABB aabb;
         private GameObject topWall;
@@ -35,7 +37,12 @@ namespace Game1
         private Texture2D firePlanet;
         private Texture2D venusPlanet;
         private Texture2D yellowPlanet;
+        private Texture2D positionTexture;
+        private Texture2D upperBoundTexture;
+        private Texture2D lowerBoundTexture;
         private List<Texture2D> planets = new List<Texture2D>();
+
+        private Vector2 viewport;
 
         public Game1(GameData data)
         {
@@ -59,6 +66,8 @@ namespace Game1
             float xpix = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             float ypix = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
+            //FIXME: viewport doesn't need to be calculated every frame
+            viewport = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
             base.Initialize();
         }
@@ -152,6 +161,27 @@ namespace Game1
             firePlanet = Content.Load<Texture2D>("sprites/planets/fire-planet-transparent");
             venusPlanet = Content.Load<Texture2D>("sprites/planets/venus-planet-transparent");
             yellowPlanet = Content.Load<Texture2D>("sprites/planets/yellow-planet-transparent");
+            positionTexture = new Texture2D(graphics.GraphicsDevice, 5, 5);
+            var data = new Microsoft.Xna.Framework.Color[5*5];
+            for (int i = 0; i < data.Length; ++i)
+             {
+                 data[i] = Microsoft.Xna.Framework.Color.Red;
+             }
+
+            positionTexture.SetData(data);
+
+            upperBoundTexture = new Texture2D(graphics.GraphicsDevice, 5, 5);
+            lowerBoundTexture = new Texture2D(graphics.GraphicsDevice, 5, 5);
+            var upperData = new Microsoft.Xna.Framework.Color[5 * 5];
+            var lowerData = new Microsoft.Xna.Framework.Color[5 * 5];
+            for (int i = 0; i < upperData.Length; ++i)
+            {
+                upperData[i] = Microsoft.Xna.Framework.Color.Yellow;
+                lowerData[i] = Microsoft.Xna.Framework.Color.Orange;
+            }
+
+            upperBoundTexture.SetData(upperData);
+            lowerBoundTexture.SetData(lowerData);
 
             for (var i = 0; i < 10; ++i)
             {
@@ -176,7 +206,6 @@ namespace Game1
             aabb.UpperBound = new Vec2(gameData.MaxXDimension, gameData.MaxYDimension);
             physicsWorld = new World(aabb, new Vec2(0, 0), doSleep: true);
 
-            int wallThickness = 10;
             var width = 1200;
             var height = 800;
             //top wall
@@ -190,10 +219,20 @@ namespace Game1
 
             var crateShapeDef = new PolygonDef();
             var cratePhysicsSize = PhysicsVec(new Vector2(crateTexture.Width, crateTexture.Height));
-            crateShapeDef.SetAsBox(cratePhysicsSize.X/2, cratePhysicsSize.Y/2);
+            crateShapeDef.Vertices = new Vec2[4];
+            crateShapeDef.Vertices[0] = new Vec2( -(cratePhysicsSize.X / 2),  -(cratePhysicsSize.Y / 2));
+            crateShapeDef.Vertices[1] = new Vec2((cratePhysicsSize.X / 2),  -(cratePhysicsSize.Y / 2));
+            crateShapeDef.Vertices[2] = new Vec2((cratePhysicsSize.X / 2), (cratePhysicsSize.Y / 2));
+            crateShapeDef.Vertices[3] = new Vec2(-(cratePhysicsSize.X / 2), (cratePhysicsSize.Y / 2));
+            //crateShapeDef.Vertices[0] = new Vec2(-cratePhysicsSize.X,-cratePhysicsSize.Y);
+            //crateShapeDef.Vertices[1] = new Vec2(0,  -cratePhysicsSize.Y);
+            //crateShapeDef.Vertices[2] = new Vec2(0, 0);
+            //crateShapeDef.Vertices[3] = new Vec2(-cratePhysicsSize.X, 0);
+            crateShapeDef.VertexCount = 4;
+            //crateShapeDef.SetAsBox(cratePhysicsSize.X/2, cratePhysicsSize.Y/2, new Vec2(0f,0f), 0);
             Logger.Info($"crate size = ({cratePhysicsSize.X},{cratePhysicsSize.Y})");
             crateShapeDef.Density = 1.0f;
-            crateShapeDef.Friction = 0.6f;
+            crateShapeDef.Friction = 1.6f;
 
             var crateBodyDef = new BodyDef();
             crateBodyDef.IsBullet = true;
@@ -202,6 +241,26 @@ namespace Game1
             var crateBody = physicsWorld.CreateBody(crateBodyDef);
             var crateShape = crateBody.CreateShape(crateShapeDef);
             crateBody.SetMassFromShapes();
+
+            //var anchorBodyDef = new BodyDef();
+            //anchorBodyDef.IsBullet = true;
+            //anchorBodyDef.Position.Set(GameData.Instance.PlayerStartX + cratePhysicsSize.X / 2, GameData.Instance.PlayerStartY + cratePhysicsSize.Y / 2);
+            //crateAnchor = physicsWorld.CreateBody(anchorBodyDef);
+
+            //var jointDef = new RevoluteJointDef();
+            //jointDef.Body1 = crateBody;
+            //jointDef.Body2 = crateAnchor;
+            //jointDef.LocalAnchor2 = new Vec2(0, 0);
+            //jointDef.LocalAnchor1 = new Vec2(cratePhysicsSize.X / 2, cratePhysicsSize.Y / 2);
+            //var offset = 0;
+            //jointDef.Initialize(crateAnchor, crateBody, new Vec2(anchorBodyDef.Position.X + offset, anchorBodyDef.Position.Y + offset));
+            //jointDef.UpperAngle = (float)(2 * System.Math.PI);
+            //jointDef.LowerAngle = (float)(2 * System.Math.PI);
+            //jointDef.CollideConnected = false;
+            //jointDef.MotorSpeed = 1.0f;
+            //jointDef.MaxMotorTorque = 1.0f;
+            //jointDef.EnableMotor = true;
+            //crateJoint = physicsWorld.CreateJoint(jointDef);
 
             crate = new GameObject(crateTexture, crateShape, crateBody);
         }
@@ -237,25 +296,34 @@ namespace Game1
                 crate.RigidBody.ApplyImpulse(new Vec2(.0025f, 0), new Vec2(cratePosition.X, cratePosition.Y));
             }
 
+            var angle = crate.RigidBody.GetAngle();
+
             if(Keyboard.GetState().IsKeyDown(Keys.W))
             {
                 var cratePosition = crate.RigidBody.GetPosition();
-                crate.RigidBody.ApplyImpulse(new Vec2(0, -0.0045f), new Vec2(cratePosition.X, cratePosition.Y));
+                //crate.RigidBody.ApplyImpulse(new Vec2(torqueX, torqueY), new Vec2(cratePosition.X, cratePosition.Y));
+                var maxImpulse = -0.045;
+                var impulseX = (float) ((crate.RigidBody.GetAngle() / (System.Math.PI / 2)) * -maxImpulse);
+                var impulseY = (float) maxImpulse + impulseX;
+                crate.RigidBody.ApplyForce(new Vec2(impulseX, impulseY), new Vec2(cratePosition.X, cratePosition.Y));
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
                 var cratePosition = crate.RigidBody.GetPosition();
-                crate.RigidBody.ApplyImpulse(new Vec2(0, 0.0045f), new Vec2(cratePosition.X, cratePosition.Y));
+                var maxImpulse = 0.045;
+                var impulseX = (float)((crate.RigidBody.GetAngle() / (System.Math.PI / 2)) * -maxImpulse);
+                var impulseY = (float)maxImpulse + impulseX;
+                //crate.RigidBody.ApplyForce(new Vec2(impulseX, impulseY), new Vec2(cratePosition.X, cratePosition.Y)); ;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                var cratePosition = crate.RigidBody.GetPosition();
-                crate.RigidBody.ApplyImpulse(new Vec2(0.0045f, 0), new Vec2(cratePosition.X, cratePosition.Y));
+                //crate.RigidBody.ApplyImpulse(new Vec2(0.0045f, 0), crate.RigidBody.GetPosition());
+                crate.RigidBody.ApplyTorque(.001f);
             }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                var cratePosition = crate.RigidBody.GetPosition();
-                crate.RigidBody.ApplyImpulse(new Vec2(-0.0045f, 0), new Vec2(cratePosition.X, cratePosition.Y));
+                crate.RigidBody.ApplyTorque(-.001f);
+                //crate.RigidBody.ApplyImpulse(new Vec2(-0.0045f, 0), crate.RigidBody.GetPosition());
             }
 
             physicsWorld.Step(1.0f / 60.0f, 2,1);
@@ -312,24 +380,33 @@ namespace Game1
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
             //figure out where the camera should be using the player position
-
-            //FIXME: viewport doesn't need to be calculated every frame
-            var viewport = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
-
             var playerPosition = crate.RigidBody.GetPosition();
+            var boundingBox = crate.BoundingBox;
 
             var cameraPosition = playerPosition - new Vec2((viewport.X / 2) * GameData.Instance.MetersPerPixel,
-                (viewport.Y / 2) * GameData.Instance.MetersPerPixel); 
+                (viewport.Y / 2) * GameData.Instance.MetersPerPixel);
+
+            var angle = crate.RigidBody.GetAngle();
 
             spriteBatch.Begin();
 
             Background.DrawBackground(spriteBatch, cameraPosition, viewport);
 
             //draw player relative to camera
-            var drawPosition = new Vector2((playerPosition.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+            var texturePosition= new Vector2((playerPosition.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
                 (playerPosition.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+            var bodyPosition = new Vector2((crate.RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                (crate.RigidBody.GetPosition().Y - cameraPosition.Y)* GameData.Instance.PixelsPerMeter);
+            var upperBound = new Vector2((crate.BoundingBox.UpperBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                (crate.BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+            var lowerBound = new Vector2((crate.BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                (crate.BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
 
-            spriteBatch.Draw(crate.Texture, drawPosition, null, null, null, crate.RigidBody.GetAngle());
+            spriteBatch.Draw(crate.Texture, texturePosition, null, null, rotation:angle, origin: new Vector2(crate.Texture.Width/2, crate.Texture.Height/2));
+            spriteBatch.Draw(positionTexture, bodyPosition);
+            spriteBatch.Draw(upperBoundTexture, upperBound);
+            spriteBatch.Draw(lowerBoundTexture, lowerBound);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
