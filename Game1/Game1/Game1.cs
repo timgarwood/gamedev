@@ -275,6 +275,100 @@ namespace Game1
         }
 
         /// <summary>
+        /// converts degrees to radians
+        /// </summary>
+        /// <param name="degrees"></param>
+        /// <returns></returns>
+        private double ToRadians(double degrees)
+        {
+            return degrees * System.Math.PI / 180.0;
+        }
+
+        /// <summary>
+        /// Takes an angle in degrees and converts to a x,y distance vector
+        /// </summary>
+        /// <param name="r"></param>
+        /// <returns></returns>
+        private Vec2 RotationToVec2(float r)
+        {
+            //TODO:  is there a better way to do this?
+            r = r % 360;
+
+            if(r < 0)
+            {
+                r = 360 + r;
+            }
+
+            var rotation = Math.Abs(r);
+            int xSign, ySign;
+            double x, y;
+
+            //break rotation down into right triangles 
+            if(rotation >= 0 && rotation <= 90)
+            {
+                xSign = 1;
+                ySign = -1;
+                if(rotation + 45 > 90)
+                {
+                    x = System.Math.Cos(ToRadians(90 - rotation));
+                    y = System.Math.Sin(ToRadians(90 - rotation));
+                }
+                else
+                {
+                    x = System.Math.Sin(ToRadians(rotation));
+                    y = System.Math.Cos(ToRadians(rotation));
+                }
+            }
+            else if(rotation > 90 && rotation <= 180)
+            {
+                xSign = 1;
+                ySign = 1;
+                if(rotation + 45 > 180)
+                {
+                    x = System.Math.Sin(ToRadians(180 - rotation));
+                    y = System.Math.Cos(ToRadians(180 - rotation));
+                }
+                else
+                {
+                    x = System.Math.Cos(ToRadians(rotation - 90));
+                    y = System.Math.Sin(ToRadians(rotation - 90));
+                }
+            }
+            else if(rotation > 180 && rotation <= 270)
+            {
+                xSign = -1;
+                ySign = 1;
+                if(rotation + 45 > 270)
+                {
+                    x = System.Math.Cos(ToRadians(270- rotation));
+                    y = System.Math.Sin(ToRadians(270- rotation));
+                }
+                else
+                {
+                    x = System.Math.Sin(ToRadians(rotation - 180));
+                    y = System.Math.Cos(ToRadians(rotation - 180));
+                }
+            }
+            else
+            {
+                xSign = -1;
+                ySign = -1;
+                if(rotation + 45 > 360)
+                {
+                    x = System.Math.Sin(ToRadians(360 - rotation));
+                    y = System.Math.Cos(ToRadians(360 - rotation));
+                }
+                else
+                {
+                    x = System.Math.Cos(ToRadians(rotation - 270));
+                    y = System.Math.Sin(ToRadians(rotation - 270));
+                }
+            }
+
+            return new Vec2((float)x * xSign, (float)y * ySign);
+        }
+
+        /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
@@ -296,34 +390,38 @@ namespace Game1
                 crate.RigidBody.ApplyImpulse(new Vec2(.0025f, 0), new Vec2(cratePosition.X, cratePosition.Y));
             }
 
-            var angle = crate.RigidBody.GetAngle();
+            var degrees = (crate.RigidBody.GetAngle() * 180 / System.Math.PI) % 360;
 
             if(Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                var cratePosition = crate.RigidBody.GetPosition();
-                //crate.RigidBody.ApplyImpulse(new Vec2(torqueX, torqueY), new Vec2(cratePosition.X, cratePosition.Y));
-                var maxImpulse = -0.045;
-                var impulseX = (float) ((crate.RigidBody.GetAngle() / (System.Math.PI / 2)) * -maxImpulse);
-                var impulseY = (float) maxImpulse + impulseX;
-                crate.RigidBody.ApplyForce(new Vec2(impulseX, impulseY), new Vec2(cratePosition.X, cratePosition.Y));
+                //zero out torque
+                //crate.RigidBody.SetAngularVelocity(0);
+
+                var maxImpulse = 0.0045f;
+                var impulseVec = RotationToVec2((float)(crate.RigidBody.GetAngle() * 180 / System.Math.PI));
+                Logger.Info($"impulse = ({impulseVec.X},{impulseVec.Y})");
+                crate.RigidBody.ApplyImpulse(new Vec2(impulseVec.X * maxImpulse, impulseVec.Y * maxImpulse), crate.RigidBody.GetPosition());
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                var cratePosition = crate.RigidBody.GetPosition();
-                var maxImpulse = 0.045;
-                var impulseX = (float)((crate.RigidBody.GetAngle() / (System.Math.PI / 2)) * -maxImpulse);
-                var impulseY = (float)maxImpulse + impulseX;
-                //crate.RigidBody.ApplyForce(new Vec2(impulseX, impulseY), new Vec2(cratePosition.X, cratePosition.Y)); ;
+                //zero out torque
+                //crate.RigidBody.SetAngularVelocity(0);
+
+                var maxImpulse = 0.0045f;
+                var impulseVec = RotationToVec2((float)(crate.RigidBody.GetAngle() * 180 / System.Math.PI));
+                Logger.Info($"impulse = ({impulseVec.X},{impulseVec.Y})");
+                crate.RigidBody.ApplyImpulse(new Vec2(-impulseVec.X * maxImpulse, -impulseVec.Y * maxImpulse), crate.RigidBody.GetPosition());
+
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                //crate.RigidBody.ApplyImpulse(new Vec2(0.0045f, 0), crate.RigidBody.GetPosition());
                 crate.RigidBody.ApplyTorque(.001f);
+                Logger.Info(crate.RigidBody.GetAngle());
             }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 crate.RigidBody.ApplyTorque(-.001f);
-                //crate.RigidBody.ApplyImpulse(new Vec2(-0.0045f, 0), crate.RigidBody.GetPosition());
+                Logger.Info(crate.RigidBody.GetAngle());
             }
 
             physicsWorld.Step(1.0f / 60.0f, 2,1);
