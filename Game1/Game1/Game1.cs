@@ -411,17 +411,20 @@ namespace Game1
                 var impulseVec = RotationToVec2((float)(crate.RigidBody.GetAngle() * 180 / System.Math.PI));
                 Logger.Info($"impulse = ({impulseVec.X},{impulseVec.Y})");
                 crate.RigidBody.ApplyImpulse(new Vec2(-impulseVec.X * maxImpulse, -impulseVec.Y * maxImpulse), crate.RigidBody.GetPosition());
-
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
-                crate.RigidBody.ApplyTorque(.001f);
+                crate.RigidBody.ApplyTorque(.003f);
                 Logger.Info(crate.RigidBody.GetAngle());
             }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
-                crate.RigidBody.ApplyTorque(-.001f);
+                crate.RigidBody.ApplyTorque(-.003f);
                 Logger.Info(crate.RigidBody.GetAngle());
+            }
+            if(Keyboard.GetState().IsKeyUp(Keys.A) && Keyboard.GetState().IsKeyUp(Keys.D))
+            {
+                crate.RigidBody.SetAngularVelocity(0);
             }
 
             physicsWorld.Step(1.0f / 60.0f, 2,1);
