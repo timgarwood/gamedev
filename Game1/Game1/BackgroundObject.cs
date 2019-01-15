@@ -53,7 +53,9 @@ namespace Game1
         /// Draws this background object using the given SpriteBatch
         /// </summary>
         /// <param name="spriteBatch"></param>
-        public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin)
+        /// <param name="cameraOrigin"></param>
+        /// <param name="viewport"></param>
+        public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
             //parallax calculation
             //we can use Scale.X and Scale.Y here because they are derived from distance-from-camera

@@ -51,8 +51,9 @@ namespace Game1
             return Vec2.Zero;
         }
 
-        public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin)
+        public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
+
         }
     }
 }

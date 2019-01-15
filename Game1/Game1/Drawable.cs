@@ -34,7 +34,7 @@ namespace Game1
         public void Draw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
             //FIXME:  add filtering for objects that are not visible
-            OnDraw(spriteBatch, cameraOrigin);
+            OnDraw(spriteBatch, cameraOrigin, viewport);
         }
 
         /// <summary>
@@ -42,7 +42,8 @@ namespace Game1
         /// </summary>
         /// <param name="spriteBatch"></param>
         /// <param name="cameraOrigin"></param>
-        public abstract void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin);
+        /// <param name="viewport"></param>
+        public abstract void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport);
 
         /// <summary>
         /// retrieves the world position of this object

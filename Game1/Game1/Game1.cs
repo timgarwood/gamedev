@@ -16,7 +16,7 @@ namespace Game1
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private GameObject crate;
+        private Player player;
         //private Joint crateJoint;
         //private Body crateAnchor;
         private World physicsWorld;
@@ -66,25 +66,12 @@ namespace Game1
             float xpix = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             float ypix = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
-            //FIXME: viewport doesn't need to be calculated every frame
             viewport = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
             base.Initialize();
         }
 
-        private Vec2 PhysicsVec(Vector2 gfxVector)
-        {
-            return new Vec2(((float)gfxVector.X) * (1.0f/gameData.PixelsPerMeter), ((float)gfxVector.Y) * (1.0f/gameData.PixelsPerMeter));
-        }
 
-        private Vector2 GraphicsVec(Vec2 physicsVec)
-        {
-            return new Vector2()
-            {
-                X = physicsVec.X * gameData.PixelsPerMeter,
-                Y = physicsVec.Y * gameData.PixelsPerMeter 
-            };
-        }
 
         /// <summary>
         /// Creates a wall
@@ -124,7 +111,7 @@ namespace Game1
 
             // Add the ground shape to the ground body.
             var shape = wallBody.CreateShape(wallShapeDef);
-            var vTex = GraphicsVec(wallPhysicsSize);
+            var vTex = GameUtils.GraphicsVec(wallPhysicsSize);
 
             if(vTex.X <= 0)
             {
@@ -218,7 +205,7 @@ namespace Game1
             rightWall = Wall(new Vec2(gameData.MaxXDimension - 1, 0.1f), new Vec2(gameData.MaxXDimension - 1, gameData.MaxYDimension - 1));
 
             var crateShapeDef = new PolygonDef();
-            var cratePhysicsSize = PhysicsVec(new Vector2(crateTexture.Width, crateTexture.Height));
+            var cratePhysicsSize = GameUtils.PhysicsVec(new Vector2(crateTexture.Width, crateTexture.Height));
             crateShapeDef.Vertices = new Vec2[4];
             crateShapeDef.Vertices[0] = new Vec2( -(cratePhysicsSize.X / 2),  -(cratePhysicsSize.Y / 2));
             crateShapeDef.Vertices[1] = new Vec2((cratePhysicsSize.X / 2),  -(cratePhysicsSize.Y / 2));
@@ -262,7 +249,7 @@ namespace Game1
             //jointDef.EnableMotor = true;
             //crateJoint = physicsWorld.CreateJoint(jointDef);
 
-            crate = new GameObject(crateTexture, crateShape, crateBody);
+            player = new Player(crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody);
         }
 
         /// <summary>
@@ -275,100 +262,6 @@ namespace Game1
         }
 
         /// <summary>
-        /// converts degrees to radians
-        /// </summary>
-        /// <param name="degrees"></param>
-        /// <returns></returns>
-        private double ToRadians(double degrees)
-        {
-            return degrees * System.Math.PI / 180.0;
-        }
-
-        /// <summary>
-        /// Takes an angle in degrees and converts to a x,y distance vector
-        /// </summary>
-        /// <param name="r"></param>
-        /// <returns></returns>
-        private Vec2 RotationToVec2(float r)
-        {
-            //TODO:  is there a better way to do this?
-            r = r % 360;
-
-            if(r < 0)
-            {
-                r = 360 + r;
-            }
-
-            var rotation = Math.Abs(r);
-            int xSign, ySign;
-            double x, y;
-
-            //break rotation down into right triangles 
-            if(rotation >= 0 && rotation <= 90)
-            {
-                xSign = 1;
-                ySign = -1;
-                if(rotation + 45 > 90)
-                {
-                    x = System.Math.Cos(ToRadians(90 - rotation));
-                    y = System.Math.Sin(ToRadians(90 - rotation));
-                }
-                else
-                {
-                    x = System.Math.Sin(ToRadians(rotation));
-                    y = System.Math.Cos(ToRadians(rotation));
-                }
-            }
-            else if(rotation > 90 && rotation <= 180)
-            {
-                xSign = 1;
-                ySign = 1;
-                if(rotation + 45 > 180)
-                {
-                    x = System.Math.Sin(ToRadians(180 - rotation));
-                    y = System.Math.Cos(ToRadians(180 - rotation));
-                }
-                else
-                {
-                    x = System.Math.Cos(ToRadians(rotation - 90));
-                    y = System.Math.Sin(ToRadians(rotation - 90));
-                }
-            }
-            else if(rotation > 180 && rotation <= 270)
-            {
-                xSign = -1;
-                ySign = 1;
-                if(rotation + 45 > 270)
-                {
-                    x = System.Math.Cos(ToRadians(270- rotation));
-                    y = System.Math.Sin(ToRadians(270- rotation));
-                }
-                else
-                {
-                    x = System.Math.Sin(ToRadians(rotation - 180));
-                    y = System.Math.Cos(ToRadians(rotation - 180));
-                }
-            }
-            else
-            {
-                xSign = -1;
-                ySign = -1;
-                if(rotation + 45 > 360)
-                {
-                    x = System.Math.Sin(ToRadians(360 - rotation));
-                    y = System.Math.Cos(ToRadians(360 - rotation));
-                }
-                else
-                {
-                    x = System.Math.Cos(ToRadians(rotation - 270));
-                    y = System.Math.Sin(ToRadians(rotation - 270));
-                }
-            }
-
-            return new Vec2((float)x * xSign, (float)y * ySign);
-        }
-
-        /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
@@ -378,65 +271,18 @@ namespace Game1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            if(Mouse.GetState().LeftButton == ButtonState.Pressed)
-            {
-                var cratePosition = crate.RigidBody.GetPosition();
-                crate.RigidBody.ApplyImpulse(new Vec2(-.0025f, 0), new Vec2(cratePosition.X, cratePosition.Y));
-            }
-
-            if (Mouse.GetState().RightButton == ButtonState.Pressed)
-            {
-                var cratePosition = crate.RigidBody.GetPosition();
-                crate.RigidBody.ApplyImpulse(new Vec2(.0025f, 0), new Vec2(cratePosition.X, cratePosition.Y));
-            }
-
-            var degrees = (crate.RigidBody.GetAngle() * 180 / System.Math.PI) % 360;
-
-            if(Keyboard.GetState().IsKeyDown(Keys.W))
-            {
-                //zero out torque
-                //crate.RigidBody.SetAngularVelocity(0);
-
-                var maxImpulse = 0.0045f;
-                var impulseVec = RotationToVec2((float)(crate.RigidBody.GetAngle() * 180 / System.Math.PI));
-                Logger.Info($"impulse = ({impulseVec.X},{impulseVec.Y})");
-                crate.RigidBody.ApplyImpulse(new Vec2(impulseVec.X * maxImpulse, impulseVec.Y * maxImpulse), crate.RigidBody.GetPosition());
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                //zero out torque
-                //crate.RigidBody.SetAngularVelocity(0);
-
-                var maxImpulse = 0.0045f;
-                var impulseVec = RotationToVec2((float)(crate.RigidBody.GetAngle() * 180 / System.Math.PI));
-                Logger.Info($"impulse = ({impulseVec.X},{impulseVec.Y})");
-                crate.RigidBody.ApplyImpulse(new Vec2(-impulseVec.X * maxImpulse, -impulseVec.Y * maxImpulse), crate.RigidBody.GetPosition());
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                crate.RigidBody.ApplyTorque(.003f);
-                Logger.Info(crate.RigidBody.GetAngle());
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                crate.RigidBody.ApplyTorque(-.003f);
-                Logger.Info(crate.RigidBody.GetAngle());
-            }
-            if(Keyboard.GetState().IsKeyUp(Keys.A) && Keyboard.GetState().IsKeyUp(Keys.D))
-            {
-                crate.RigidBody.SetAngularVelocity(0);
-            }
+            player.HandleInput();
 
             physicsWorld.Step(1.0f / 60.0f, 2,1);
 
-            var lVelocity = crate.RigidBody.GetLinearVelocity();
+            var lVelocity = player.RigidBody.GetLinearVelocity();
             if (currentCrateVelocity != null)
             {
                 if (Math.Abs(lVelocity.X) <= 0 && Math.Abs(lVelocity.Y) <= 0 && 
                     (Math.Abs(currentCrateVelocity.X) > 0 || Math.Abs(currentCrateVelocity.Y) > 0))
                 {
                     //we came to a stop, log the position
-                    var position = crate.RigidBody.GetPosition();
+                    var position = player.RigidBody.GetPosition();
                     Logger.Info($"Crate stopped at ({position.X},{position.Y})");
                 }
             }
@@ -480,33 +326,14 @@ namespace Game1
         {
             GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
 
-            //figure out where the camera should be using the player position
-            var playerPosition = crate.RigidBody.GetPosition();
-            var boundingBox = crate.BoundingBox;
-
-            var cameraPosition = playerPosition - new Vec2((viewport.X / 2) * GameData.Instance.MetersPerPixel,
-                (viewport.Y / 2) * GameData.Instance.MetersPerPixel);
-
-            var angle = crate.RigidBody.GetAngle();
-
             spriteBatch.Begin();
 
+            var cameraPosition = player.CalculateCamera(viewport);
+
+            //TODO:  implement camera logic
             Background.DrawBackground(spriteBatch, cameraPosition, viewport);
 
-            //draw player relative to camera
-            var texturePosition= new Vector2((playerPosition.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (playerPosition.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            var bodyPosition = new Vector2((crate.RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (crate.RigidBody.GetPosition().Y - cameraPosition.Y)* GameData.Instance.PixelsPerMeter);
-            var upperBound = new Vector2((crate.BoundingBox.UpperBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (crate.BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            var lowerBound = new Vector2((crate.BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (crate.BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-
-            spriteBatch.Draw(crate.Texture, texturePosition, null, null, rotation:angle, origin: new Vector2(crate.Texture.Width/2, crate.Texture.Height/2));
-            spriteBatch.Draw(positionTexture, bodyPosition);
-            spriteBatch.Draw(upperBoundTexture, upperBound);
-            spriteBatch.Draw(lowerBoundTexture, lowerBound);
+            player.Draw(spriteBatch, cameraPosition, viewport); 
 
             spriteBatch.End();
 
