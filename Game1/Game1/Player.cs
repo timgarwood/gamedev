@@ -141,5 +141,13 @@ namespace Game1
             spriteBatch.Draw(upperBoundTexture, upperBound);
             spriteBatch.Draw(lowerBoundTexture, lowerBound);
         }
+
+        /// <summary>
+        /// update override
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public override void Update(GameTime gameTime)
+        {
+        }
     }
 }

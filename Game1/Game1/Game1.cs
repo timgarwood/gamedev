@@ -250,6 +250,7 @@ namespace Game1
             //crateJoint = physicsWorld.CreateJoint(jointDef);
 
             player = new Player(crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody);
+            GameWorld.Instance.AddGameObject(player);
         }
 
         /// <summary>
@@ -274,6 +275,8 @@ namespace Game1
             player.HandleInput();
 
             physicsWorld.Step(1.0f / 60.0f, 2,1);
+
+            GameWorld.Instance.Update(gameTime);
 
             var lVelocity = player.RigidBody.GetLinearVelocity();
             if (currentCrateVelocity != null)
@@ -333,7 +336,7 @@ namespace Game1
             //TODO:  implement camera logic
             Background.DrawBackground(spriteBatch, cameraPosition, viewport);
 
-            player.Draw(spriteBatch, cameraPosition, viewport); 
+            GameWorld.Instance.Draw(spriteBatch, cameraPosition, viewport);
 
             spriteBatch.End();
 

@@ -9,7 +9,7 @@ namespace Game1
     /// <summary>
     /// This class represents an object in the game that can be interacted with and drawn to the screen
     /// </summary>
-    public class GameObject : Drawable
+    public class GameObject : Drawable, IUpdateable
     {
         /// <summary>
         /// ctor
@@ -53,7 +53,10 @@ namespace Game1
 
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
+        }
 
+        public virtual void Update(GameTime gameTime)
+        {
         }
     }
 }
