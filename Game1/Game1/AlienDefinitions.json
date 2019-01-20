@@ -1,0 +1,75 @@
+﻿[
+  {
+    "name" :  "Alien1",
+    "textureName": "sprites\\ships\\alien1-transparent",
+    "scale": 1.0,
+    "mass": 1.0,
+    "density": 1.0,
+    "friction": 0.3,
+    "hp" :  100
+  },
+  {
+    "name" :  "Alien2",
+    "textureName" : "sprites\\ships\\alien2-transparent",
+    "scale" : 1.0,
+    "mass": 1.0,
+    "density": 1.0,
+    "friction": 0.3,
+    "hp" :  100
+  },
+  {
+    "name" :  "Alien3",
+    "textureName" : "sprites\\ships\\alien3-transparent",
+    "scale" : 1.0,
+    "mass": 1.0,
+    "density": 1.0,
+    "friction": 0.3,
+    "hp" :  100
+  },
+  {
+    "name" :  "Alien4",
+    "textureName": "sprites\\ships\\alien4-transparent",
+    "scale" : 1.0,
+    "mass": 1.0,
+    "density": 1.0,
+    "friction": 0.3,
+    "hp" :  100
+  },
+  {
+    "name" :  "Alien5",
+    "textureName": "sprites\\ships\\alien5-transparent",
+    "scale" : 1.0,
+    "mass": 1.0,
+    "density": 1.0,
+    "friction": 1.0,
+    "hp" :  100
+  },
+  {
+    "name" :  "Alien6",
+    "textureName": "sprites\\ships\\alien6-transparent",
+    "scale" : 1.0,
+    "mass": 1.0,
+    "density": 1.0,
+    "friction": 0.3,
+    "hp" :  100
+  },
+  {
+    "name" :  "Alien7",
+    "textureName": "sprites\\ships\\alien7-transparent",
+    "scale" : 1.0,
+    "mass": 1.0,
+    "density": 1.0,
+    "friction": 0.3,
+    "hp" :  100
+  },
+  {
+    "name" :  "Alien8",
+    "textureName": "sprites\\ships\\alien8-transparent",
+    "scale" : 1.0,
+    "mass": 1.0,
+    "density": 1.0,
+    "friction": 0.3,
+    "hp" :  100
+  },
+
+]

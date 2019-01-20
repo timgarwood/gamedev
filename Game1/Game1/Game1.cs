@@ -6,6 +6,7 @@ using Box2DX.Collision;
 using Box2DX.Common;
 using NLog;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Game1
 {
@@ -17,8 +18,6 @@ namespace Game1
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Player player;
-        //private Joint crateJoint;
-        //private Body crateAnchor;
         private World physicsWorld;
         private AABB aabb;
         private GameObject topWall;
@@ -44,11 +43,21 @@ namespace Game1
 
         private Vector2 viewport;
 
+        private Factory<AlienDefinition> _alienFactory;
+
         public Game1(GameData data)
         {
             gameData = data;
             graphics = new GraphicsDeviceManager(this);
+
+            //create physics bounds
+            aabb = new AABB();
+            aabb.LowerBound = new Vec2(0, 0);
+            aabb.UpperBound = new Vec2(gameData.MaxXDimension, gameData.MaxYDimension);
+            physicsWorld = new World(aabb, new Vec2(0, 0), doSleep: true);
             Content.RootDirectory = "Content";
+
+            _alienFactory = new Factory<AlienDefinition>(physicsWorld, Content);
         }
 
         /// <summary>
@@ -187,11 +196,6 @@ namespace Game1
             spriteBatch = new SpriteBatch(GraphicsDevice);
             var crateTexture = Content.Load<Texture2D>("sprites/ships/ship1small");
 
-            //create physics bounds
-            aabb = new AABB();
-            aabb.LowerBound = new Vec2(0, 0);
-            aabb.UpperBound = new Vec2(gameData.MaxXDimension, gameData.MaxYDimension);
-            physicsWorld = new World(aabb, new Vec2(0, 0), doSleep: true);
 
             var width = 1200;
             var height = 800;
@@ -219,7 +223,7 @@ namespace Game1
             //crateShapeDef.SetAsBox(cratePhysicsSize.X/2, cratePhysicsSize.Y/2, new Vec2(0f,0f), 0);
             Logger.Info($"crate size = ({cratePhysicsSize.X},{cratePhysicsSize.Y})");
             crateShapeDef.Density = 1.0f;
-            crateShapeDef.Friction = 1.6f;
+            crateShapeDef.Friction = 2.6f;
 
             var crateBodyDef = new BodyDef();
             crateBodyDef.IsBullet = true;
@@ -229,28 +233,25 @@ namespace Game1
             var crateShape = crateBody.CreateShape(crateShapeDef);
             crateBody.SetMassFromShapes();
 
-            //var anchorBodyDef = new BodyDef();
-            //anchorBodyDef.IsBullet = true;
-            //anchorBodyDef.Position.Set(GameData.Instance.PlayerStartX + cratePhysicsSize.X / 2, GameData.Instance.PlayerStartY + cratePhysicsSize.Y / 2);
-            //crateAnchor = physicsWorld.CreateBody(anchorBodyDef);
-
-            //var jointDef = new RevoluteJointDef();
-            //jointDef.Body1 = crateBody;
-            //jointDef.Body2 = crateAnchor;
-            //jointDef.LocalAnchor2 = new Vec2(0, 0);
-            //jointDef.LocalAnchor1 = new Vec2(cratePhysicsSize.X / 2, cratePhysicsSize.Y / 2);
-            //var offset = 0;
-            //jointDef.Initialize(crateAnchor, crateBody, new Vec2(anchorBodyDef.Position.X + offset, anchorBodyDef.Position.Y + offset));
-            //jointDef.UpperAngle = (float)(2 * System.Math.PI);
-            //jointDef.LowerAngle = (float)(2 * System.Math.PI);
-            //jointDef.CollideConnected = false;
-            //jointDef.MotorSpeed = 1.0f;
-            //jointDef.MaxMotorTorque = 1.0f;
-            //jointDef.EnableMotor = true;
-            //crateJoint = physicsWorld.CreateJoint(jointDef);
-
             player = new Player(crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody);
             GameWorld.Instance.AddGameObject(player);
+
+            //load up aliens
+            using (var stream = new FileStream("./AlienDefinitions.json", FileMode.Open))
+            {
+                _alienFactory.Load(stream);
+            }
+
+            var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).TotalMilliseconds);
+
+            _alienFactory.Create("Alien1", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+            _alienFactory.Create("Alien2", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+            _alienFactory.Create("Alien3", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+            _alienFactory.Create("Alien4", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+            _alienFactory.Create("Alien5", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+            _alienFactory.Create("Alien6", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+            _alienFactory.Create("Alien7", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+            _alienFactory.Create("Alien8", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
         }
 
         /// <summary>

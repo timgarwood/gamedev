@@ -53,6 +53,9 @@ namespace Game1
 
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
+            var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraOrigin.X) * GameData.Instance.PixelsPerMeter,
+                (RigidBody.GetPosition().Y - cameraOrigin.Y) * GameData.Instance.PixelsPerMeter);
+            spriteBatch.Draw(Texture, texturePosition, null, null, rotation: 0, origin: new Vector2(Texture.Width / 2, Texture.Height / 2));
         }
 
         public virtual void Update(GameTime gameTime)
