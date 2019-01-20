@@ -24,6 +24,14 @@
         /// </summary>
         public float MaxYDimension { get; set; }
 
+        public float PlayerFriction { get; set; }
+
+        public float PlayerDensity { get; set; }
+
+        public float PlayerTurnTorque { get; set; }
+
+        public float PlayerImpulse { get; set; }
+
         /// <summary>
         /// starting position of player
         /// </summary>

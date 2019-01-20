@@ -222,8 +222,8 @@ namespace Game1
             crateShapeDef.VertexCount = 4;
             //crateShapeDef.SetAsBox(cratePhysicsSize.X/2, cratePhysicsSize.Y/2, new Vec2(0f,0f), 0);
             Logger.Info($"crate size = ({cratePhysicsSize.X},{cratePhysicsSize.Y})");
-            crateShapeDef.Density = 1.0f;
-            crateShapeDef.Friction = 2.6f;
+            crateShapeDef.Density = gameData.PlayerDensity;
+            crateShapeDef.Friction = gameData.PlayerFriction;
 
             var crateBodyDef = new BodyDef();
             crateBodyDef.IsBullet = true;
@@ -244,7 +244,7 @@ namespace Game1
 
             var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).TotalMilliseconds);
 
-            _alienFactory.Create("Alien1", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+           /* _alienFactory.Create("Alien1", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
             _alienFactory.Create("Alien2", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
             _alienFactory.Create("Alien3", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
             _alienFactory.Create("Alien4", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
@@ -252,6 +252,16 @@ namespace Game1
             _alienFactory.Create("Alien6", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
             _alienFactory.Create("Alien7", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
             _alienFactory.Create("Alien8", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+            */
+
+            _alienFactory.Create("Alien1", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
+            _alienFactory.Create("Alien2", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
+            _alienFactory.Create("Alien3", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
+            _alienFactory.Create("Alien4", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
+            _alienFactory.Create("Alien5", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
+            _alienFactory.Create("Alien6", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
+            _alienFactory.Create("Alien7", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
+            _alienFactory.Create("Alien8", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
         }
 
         /// <summary>
