@@ -43,7 +43,7 @@ namespace Game1
 
         private Vector2 viewport;
 
-        private Factory<AlienDefinition> _alienFactory;
+        private AlienFactory _alienFactory;
 
         public Game1(GameData data)
         {
@@ -57,7 +57,7 @@ namespace Game1
             physicsWorld = new World(aabb, new Vec2(0, 0), doSleep: true);
             Content.RootDirectory = "Content";
 
-            _alienFactory = new Factory<AlienDefinition>(physicsWorld, Content);
+            _alienFactory = new AlienFactory(physicsWorld, Content);
         }
 
         /// <summary>
@@ -254,14 +254,14 @@ namespace Game1
             _alienFactory.Create("Alien8", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
             */
 
-            _alienFactory.Create("Alien1", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
-            _alienFactory.Create("Alien2", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
-            _alienFactory.Create("Alien3", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
-            _alienFactory.Create("Alien4", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
-            _alienFactory.Create("Alien5", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
-            _alienFactory.Create("Alien6", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
-            _alienFactory.Create("Alien7", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
-            _alienFactory.Create("Alien8", new Vec2(rand.Next(40, 60), rand.Next(40, 60)));
+            _alienFactory.Create("Alien1", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            _alienFactory.Create("Alien2", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            _alienFactory.Create("Alien3", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            _alienFactory.Create("Alien4", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            _alienFactory.Create("Alien5", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            _alienFactory.Create("Alien6", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            _alienFactory.Create("Alien7", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            _alienFactory.Create("Alien8", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
         }
 
         /// <summary>

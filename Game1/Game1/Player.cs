@@ -18,14 +18,11 @@ namespace Game1
         /// </summary>
         private Logger Logger = LogManager.GetCurrentClassLogger();
 
-        /// <summary>
-        /// max impulse to apply when moving forward or backward
-        /// </summary>
-        private static float MaxImpulse = 0.0045f;
-
         private Texture2D positionTexture;
         private Texture2D upperBoundTexture;
         private Texture2D lowerBoundTexture;
+
+        public static Player Instance { get; private set; }
 
         /// <summary>
         /// ctor
@@ -44,6 +41,8 @@ namespace Game1
             this.positionTexture = positionTexture;
             this.upperBoundTexture = upperBoundTexture;
             this.lowerBoundTexture = lowerBoundTexture;
+
+            Instance = this;
         }
 
         /// <summary>
@@ -65,33 +64,35 @@ namespace Game1
                     new Vec2(cratePosition.X, cratePosition.Y));
             }
 
-            var degrees = (RigidBody.GetAngle() * 180 / System.Math.PI) % 360;
-
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
-                Logger.Info($"impulse = ({impulseVec.X},{impulseVec.Y})");
-                RigidBody.ApplyImpulse(new Vec2(impulseVec.X * GameData.Instance.PlayerImpulse, 
-                    impulseVec.Y * GameData.Instance.PlayerImpulse), 
-                    RigidBody.GetPosition());
+                if (GameUtils.DistanceFrom(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                {
+                    var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
+                    RigidBody.ApplyImpulse(new Vec2(impulseVec.X * GameData.Instance.PlayerImpulse,
+                        impulseVec.Y * GameData.Instance.PlayerImpulse),
+                        RigidBody.GetPosition());
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
-                Logger.Info($"impulse = ({impulseVec.X},{impulseVec.Y})");
-                RigidBody.ApplyImpulse(new Vec2(-impulseVec.X * GameData.Instance.PlayerImpulse, 
-                    -impulseVec.Y * GameData.Instance.PlayerImpulse), 
-                    RigidBody.GetPosition());
+                if (GameUtils.DistanceFrom(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                {
+                    var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
+                    RigidBody.ApplyImpulse(new Vec2(-impulseVec.X * GameData.Instance.PlayerImpulse,
+                        -impulseVec.Y * GameData.Instance.PlayerImpulse),
+                        RigidBody.GetPosition());
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
+                DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 0);
                 RigidBody.ApplyTorque(GameData.Instance.PlayerTurnTorque);
-                Logger.Info(RigidBody.GetAngle());
             }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
+                DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 0);
                 RigidBody.ApplyTorque(-GameData.Instance.PlayerTurnTorque);
-                Logger.Info(RigidBody.GetAngle());
             }
             if (Keyboard.GetState().IsKeyUp(Keys.A) && Keyboard.GetState().IsKeyUp(Keys.D))
             {

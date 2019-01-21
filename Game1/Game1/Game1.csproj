@@ -42,8 +42,9 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Alien.cs" />
     <Compile Include="AlienDefinition.cs" />
-    <Compile Include="Factory.cs" />
+    <Compile Include="AlienFactory.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BackgroundObject.cs" />
     <Compile Include="Drawable.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="GameObject.cs" />
     <Compile Include="GameUtils.cs" />
     <Compile Include="GameWorld.cs" />
+    <Compile Include="IAssetDefinition.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="IUpdateable.cs" />
     <Compile Include="Player.cs" />

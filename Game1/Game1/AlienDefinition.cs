@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Game1
+﻿namespace Game1
 {
     public class AlienDefinition
     {
@@ -23,5 +17,11 @@ namespace Game1
         public float Friction { get; set; }
 
         public float Density { get; set; }
+
+        public float MaxSpeed { get; set; }
+
+        public float AlienTurnVelocityDecrement { get; set; }
+
+        public float AlienMaxSpeed { get; set; }
     }
 }

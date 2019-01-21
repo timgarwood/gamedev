@@ -31,6 +31,10 @@
         public float PlayerTurnTorque { get; set; }
 
         public float PlayerImpulse { get; set; }
+        
+        public float PlayerTurnVelocityDecrement { get; set; }
+
+        public float PlayerMaxSpeed { get; set; }
 
         /// <summary>
         /// starting position of player

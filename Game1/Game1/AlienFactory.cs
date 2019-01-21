@@ -13,7 +13,7 @@ using NLog;
 
 namespace Game1
 {
-    public class Factory<T>
+    public class AlienFactory
     {
         /// <summary>
         /// logger 
@@ -30,7 +30,7 @@ namespace Game1
         /// ctor
         /// </summary>
         /// <param name="physicsWorld"></param>
-        public Factory(World physicsWorld, ContentManager contentManager)
+        public AlienFactory(World physicsWorld, ContentManager contentManager)
         {
             _physicsWorld = physicsWorld;
             _contentManager = contentManager;
@@ -62,9 +62,13 @@ namespace Game1
             if(_alienDefinitions != null)
             {
                 var definition = _alienDefinitions.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+                if(definition == null)
+                {
+                    throw new Exception($"No Alien definition found for name {name}");
+                }
                 var texture = _contentManager.Load<Texture2D>(definition.TextureName);
 
-                var physicsSize = GameUtils.PhysicsVec(new Vector2(texture.Width, texture.Height));
+                var physicsSize = GameUtils.PhysicsVec(new Vector2(texture.Width * definition.Scale, texture.Height * definition.Scale));
 
                 var shapeDef = new PolygonDef();
                 shapeDef.Vertices = new Vec2[4];
@@ -86,7 +90,7 @@ namespace Game1
 
                 body.SetMassFromShapes();
 
-                var gameObject = new GameObject(texture, shape, body);
+                var gameObject = new Alien(definition, texture, shape, body);
                 GameWorld.Instance.AddGameObject(gameObject);
                 return gameObject;
             }

@@ -21,6 +21,10 @@ namespace Game1
         {
             Shape = shape;
             RigidBody = rigidBody;
+            if (texture != null)
+            {
+                RenderOrigin = new Vector2(texture.Width / 2, texture.Height / 2);
+            }
         }
 
         /// <summary>
@@ -48,14 +52,50 @@ namespace Game1
 
         public override Vec2 GetWorldPosition()
         {
-            return Vec2.Zero;
+            return RigidBody.GetPosition();
+        }
+
+        protected Vector2 RenderOrigin { get; set; }
+
+        protected Vector2 RenderScale { get; set; }
+
+        protected float Rotation { get; set; } = 0.0f;
+
+        protected void DecreaseLinearVelocity(float step, float min)
+        {
+            var lv = RigidBody.GetLinearVelocity();
+            if (System.Math.Abs(lv.X) > min)
+            {
+                if (lv.X > 0)
+                {
+                    lv.X -= step;
+                }
+                else
+                {
+                    lv.X += step;
+                }
+            }
+
+            if (System.Math.Abs(lv.Y) > min)
+            {
+                if (lv.Y > 0)
+                {
+                    lv.Y -= step;
+                }
+                else
+                {
+                    lv.Y += step;
+                }
+            }
+
+            RigidBody.SetLinearVelocity(lv);
         }
 
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
             var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraOrigin.X) * GameData.Instance.PixelsPerMeter,
                 (RigidBody.GetPosition().Y - cameraOrigin.Y) * GameData.Instance.PixelsPerMeter);
-            spriteBatch.Draw(Texture, texturePosition, null, null, rotation: 0, origin: new Vector2(Texture.Width / 2, Texture.Height / 2));
+            spriteBatch.Draw(Texture, texturePosition, null, null, rotation: Rotation, origin: RenderOrigin, scale: RenderScale);
         }
 
         public virtual void Update(GameTime gameTime)
