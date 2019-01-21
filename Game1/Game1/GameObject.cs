@@ -74,6 +74,11 @@ namespace Game1
                 {
                     lv.X += step;
                 }
+
+                if(lv.X < min)
+                {
+                    lv.X = min;
+                }
             }
 
             if (System.Math.Abs(lv.Y) > min)
@@ -85,6 +90,11 @@ namespace Game1
                 else
                 {
                     lv.Y += step;
+                }
+
+                if (lv.Y < min)
+                {
+                    lv.Y = min;
                 }
             }
 

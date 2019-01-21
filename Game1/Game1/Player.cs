@@ -66,7 +66,7 @@ namespace Game1
 
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                if (GameUtils.DistanceFrom(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
                 {
                     var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
                     RigidBody.ApplyImpulse(new Vec2(impulseVec.X * GameData.Instance.PlayerImpulse,
@@ -76,7 +76,7 @@ namespace Game1
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                if (GameUtils.DistanceFrom(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
                 {
                     var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
                     RigidBody.ApplyImpulse(new Vec2(-impulseVec.X * GameData.Instance.PlayerImpulse,
@@ -94,6 +94,15 @@ namespace Game1
                 DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 0);
                 RigidBody.ApplyTorque(-GameData.Instance.PlayerTurnTorque);
             }
+
+            if(Keyboard.GetState().IsKeyUp(Keys.W) &&
+               Keyboard.GetState().IsKeyUp(Keys.A) &&
+               Keyboard.GetState().IsKeyUp(Keys.S) &&
+               Keyboard.GetState().IsKeyUp(Keys.D))
+            {
+                DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 0);
+            }
+
             if (Keyboard.GetState().IsKeyUp(Keys.A) && Keyboard.GetState().IsKeyUp(Keys.D))
             {
                 RigidBody.SetAngularVelocity(0);

@@ -34,7 +34,11 @@
         
         public float PlayerTurnVelocityDecrement { get; set; }
 
+        public float PlayerCoastVelocityDecrement { get; set; }
+
         public float PlayerMaxSpeed { get; set; }
+
+        public int Fps { get; set; }
 
         /// <summary>
         /// starting position of player

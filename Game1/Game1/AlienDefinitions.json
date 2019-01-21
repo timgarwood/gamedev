@@ -2,12 +2,14 @@
   {
     "name": "Alien1",
     "textureName": "sprites\\ships\\alien1-transparent",
-    "scale": ".25",
+    "scale": .25,
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
+    "moveImpulse" :  0.0075,
+    "decisionFrequencySec" :  0.1,
     "maxSpeed" :  5,
-    "alienTurnVelocityDecrment": 1,
+    "alienTurnVelocityDecrement": 1,
     "hp": 100
   },
   {
@@ -17,8 +19,10 @@
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
+    "moveImpulse" :  0.0075,
+    "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
-    "alienTurnVelocityDecrment": 1,
+    "alienTurnVelocityDecrement": 1,
     "hp" :  100
   },
   {
@@ -28,8 +32,10 @@
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
+    "moveImpulse" :  0.0075,
+    "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
-    "alienTurnVelocityDecrment": 1,
+    "alienTurnVelocityDecrement": 1,
     "hp" :  100
   },
   {
@@ -39,9 +45,11 @@
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
+    "moveImpulse" :  0.0075,
+    "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
-    "alienTurnVelocityDecrment": 1,
-    "hp": 100,
+    "alienTurnVelocityDecrement": 1,
+    "hp": 100
   },
   {
     "name" :  "Alien5",
@@ -50,8 +58,10 @@
     "mass": 1.0,
     "density": 1.0,
     "friction": 1.0,
+    "moveImpulse" :  0.0075,
+    "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
-    "alienTurnVelocityDecrment": 1,
+    "alienTurnVelocityDecrement": 1,
     "hp" :  100
   },
   {
@@ -61,8 +71,10 @@
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
+    "moveImpulse" :  0.0075,
+    "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
-    "alienTurnVelocityDecrment": 1,
+    "alienTurnVelocityDecrement": 1,
     "hp" :  100
   },
   {
@@ -72,8 +84,10 @@
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
+    "moveImpulse" :  0.0075,
+    "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
-    "alienTurnVelocityDecrment": 1,
+    "alienTurnVelocityDecrement": 1,
     "hp" :  100
   },
   {
@@ -83,8 +97,10 @@
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
+    "moveImpulse" :  0.0075,
+    "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
-    "alienTurnVelocityDecrment": 1,
+    "alienTurnVelocityDecrement": 1,
     "hp" :  100
   }
 ]

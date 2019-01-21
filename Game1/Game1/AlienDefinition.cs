@@ -18,10 +18,12 @@
 
         public float Density { get; set; }
 
-        public float MaxSpeed { get; set; }
-
         public float AlienTurnVelocityDecrement { get; set; }
 
-        public float AlienMaxSpeed { get; set; }
+        public float MaxSpeed { get; set; }
+        
+        public float MoveImpulse { get; set; }
+
+        public float DecisionFrequencySec { get; set; }
     }
 }

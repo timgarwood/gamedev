@@ -21,11 +21,6 @@ namespace Game1
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static float DistanceFrom(Vec2 a, Vec2 b)
-        {
-            return (float)System.Math.Sqrt(System.Math.Pow(a.X - b.X, 2) + System.Math.Pow(a.Y - b.Y, 2));
-        }
-
         /// <summary>
         /// converts the given vector distance into a rotation in degrees
         /// </summary>
@@ -36,20 +31,6 @@ namespace Game1
             var degrees = System.Math.Atan2(v.Y, v.X) * 180 / System.Math.PI;
             //TODO:  this amount should take into account the default rotation of the object
             degrees -= 270;
-            /*if(v.Y >= 0 && v.X >= 0)
-            {
-                degrees += 90;
-            }
-            else if(v.Y >= 0 && v.X <= 0)
-            {
-                degrees += 180;
-            }
-            else if(v.Y <= 0 && v.X <= 0)
-            {
-                degrees += 270;
-            }
-            */
-
             return (float) degrees;
         }
 

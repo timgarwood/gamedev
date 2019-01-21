@@ -56,6 +56,7 @@ namespace Game1
             aabb.UpperBound = new Vec2(gameData.MaxXDimension, gameData.MaxYDimension);
             physicsWorld = new World(aabb, new Vec2(0, 0), doSleep: true);
             Content.RootDirectory = "Content";
+            this.TargetElapsedTime = System.TimeSpan.FromSeconds(1f / gameData.Fps);
 
             _alienFactory = new AlienFactory(physicsWorld, Content);
         }
@@ -197,8 +198,6 @@ namespace Game1
             var crateTexture = Content.Load<Texture2D>("sprites/ships/ship1small");
 
 
-            var width = 1200;
-            var height = 800;
             //top wall
             topWall = Wall(new Vec2(0.1f, 0.1f), new Vec2(gameData.MaxXDimension-1,0.1f));
             //bottom wall
@@ -255,13 +254,14 @@ namespace Game1
             */
 
             _alienFactory.Create("Alien1", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
-            _alienFactory.Create("Alien2", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            /*_alienFactory.Create("Alien2", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien3", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien4", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien5", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien6", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien7", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien8", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            */
         }
 
         /// <summary>
