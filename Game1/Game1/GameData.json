@@ -8,7 +8,7 @@
   "playerDensity" :  1.0,
   "playerTurnTorque" :  0.006,
   "playerImpulse" :  0.0075,
-  "playerTurnVelocityDecrement" :  0.1,
+  "playerTurnVelocityDecrement" :  0.01,
   "playerCoastVelocityDecrement" :  0.05,
   "playerMaxSpeed" :  5.5,
   "minDistanceFromCamera" :  25,

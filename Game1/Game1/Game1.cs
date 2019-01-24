@@ -7,6 +7,7 @@ using Box2DX.Common;
 using NLog;
 using System.Collections.Generic;
 using System.IO;
+using Game1.Fonts;
 
 namespace Game1
 {
@@ -44,6 +45,7 @@ namespace Game1
         private Vector2 viewport;
 
         private AlienFactory _alienFactory;
+        private FontFactory _fontFactory;
 
         public Game1(GameData data)
         {
@@ -59,6 +61,7 @@ namespace Game1
             this.TargetElapsedTime = System.TimeSpan.FromSeconds(1f / gameData.Fps);
 
             _alienFactory = new AlienFactory(physicsWorld, Content);
+            _fontFactory = new FontFactory(Content);
         }
 
         /// <summary>
@@ -241,6 +244,12 @@ namespace Game1
                 _alienFactory.Load(stream);
             }
 
+            //load up fonts
+            using (var stream = new FileStream("./FontDefinitions.json", FileMode.Open))
+            {
+                _fontFactory.Load(stream);
+            }
+
             var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).TotalMilliseconds);
 
            /* _alienFactory.Create("Alien1", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
@@ -348,6 +357,9 @@ namespace Game1
             Background.DrawBackground(spriteBatch, cameraPosition, viewport);
 
             GameWorld.Instance.Draw(spriteBatch, cameraPosition, viewport);
+
+            var font = _fontFactory.GetFont("Default");
+            font.DrawString(spriteBatch, "space invaders", Vector2.Zero);
 
             spriteBatch.End();
 

@@ -48,6 +48,10 @@
     <Compile Include="Background.cs" />
     <Compile Include="BackgroundObject.cs" />
     <Compile Include="Drawable.cs" />
+    <Compile Include="Fonts\CharacterDefinition.cs" />
+    <Compile Include="Fonts\Font.cs" />
+    <Compile Include="Fonts\FontDefinition.cs" />
+    <Compile Include="Fonts\FontFactory.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameData.cs" />
     <Compile Include="GameObject.cs" />
@@ -86,6 +90,9 @@
     </None>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <None Include="FontDefinitions.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="GameData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
