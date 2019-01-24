@@ -45,6 +45,12 @@ namespace Game1.Fonts
                             throw new Exception($"First font character must define a pixel location");
                         }
 
+                        pixelX = fd.Characters[0].TopLeftX.Value;
+                        pixelY = fd.Characters[0].TopLeftY.Value;
+
+                        fd.Characters[0].SourceRectangle = new Rectangle(new Point((int)pixelX, (int)pixelY),
+                            new Point((int)fd.CharacterWidth, (int)fd.CharacterHeight));
+
                         for(var i = 1; i < fd.Characters.Length; ++i)
                         {
                             var cd = fd.Characters[i];
@@ -57,7 +63,7 @@ namespace Game1.Fonts
                             else
                             {
                                 pixelX = fd.Characters[i - 1].TopLeftX.Value + fd.CharacterWidth;
-                                cd.TopLeftX = pixelX;
+                                cd.TopLeftX = pixelX+1;
                                 cd.TopLeftY = pixelY;
                             }
 

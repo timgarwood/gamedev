@@ -2,7 +2,7 @@
   {
     "name": "Default",
     "textureAsset": "sprites\\fonts\\font1",
-    "characterWidth": 34,
+    "characterWidth": 35,
     "characterHeight" :  38,
     "scale": 1,
     "characters": [
