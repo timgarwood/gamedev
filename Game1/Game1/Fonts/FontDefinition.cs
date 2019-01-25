@@ -28,6 +28,11 @@
         public float Scale { get; set; }
 
         /// <summary>
+        /// whether or not this font is case sensitive
+        /// </summary>
+        public bool CaseSensitive { get; set; }
+
+        /// <summary>
         /// list of character definitions
         /// </summary>
         public CharacterDefinition[] Characters { get; set; }

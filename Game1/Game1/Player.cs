@@ -46,70 +46,6 @@ namespace Game1
         }
 
         /// <summary>
-        /// Handles input. Called every frame.
-        /// </summary>
-        public void HandleInput()
-        {
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-            {
-                var cratePosition = RigidBody.GetPosition();
-                RigidBody.ApplyImpulse(new Vec2(-GameData.Instance.PlayerImpulse, 0), 
-                    new Vec2(cratePosition.X, cratePosition.Y));
-            }
-
-            if (Mouse.GetState().RightButton == ButtonState.Pressed)
-            {
-                var cratePosition = RigidBody.GetPosition();
-                RigidBody.ApplyImpulse(new Vec2(GameData.Instance.PlayerImpulse, 0), 
-                    new Vec2(cratePosition.X, cratePosition.Y));
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
-            {
-                if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
-                {
-                    var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
-                    RigidBody.ApplyImpulse(new Vec2(impulseVec.X * GameData.Instance.PlayerImpulse,
-                        impulseVec.Y * GameData.Instance.PlayerImpulse),
-                        RigidBody.GetPosition());
-                }
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
-                {
-                    var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
-                    RigidBody.ApplyImpulse(new Vec2(-impulseVec.X * GameData.Instance.PlayerImpulse,
-                        -impulseVec.Y * GameData.Instance.PlayerImpulse),
-                        RigidBody.GetPosition());
-                }
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 0);
-                RigidBody.ApplyTorque(GameData.Instance.PlayerTurnTorque);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 0);
-                RigidBody.ApplyTorque(-GameData.Instance.PlayerTurnTorque);
-            }
-
-            if(Keyboard.GetState().IsKeyUp(Keys.W) &&
-               Keyboard.GetState().IsKeyUp(Keys.A) &&
-               Keyboard.GetState().IsKeyUp(Keys.S) &&
-               Keyboard.GetState().IsKeyUp(Keys.D))
-            {
-                DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 0);
-            }
-
-            if (Keyboard.GetState().IsKeyUp(Keys.A) && Keyboard.GetState().IsKeyUp(Keys.D))
-            {
-                RigidBody.SetAngularVelocity(0);
-            }
-        }
-
-        /// <summary>
         /// calculate camera position from players position
         /// </summary>
         /// <param name="viewport"></param>
@@ -153,6 +89,63 @@ namespace Game1
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
+            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            {
+                var cratePosition = RigidBody.GetPosition();
+                RigidBody.ApplyImpulse(new Vec2(-GameData.Instance.PlayerImpulse, 0),
+                    new Vec2(cratePosition.X, cratePosition.Y));
+            }
+
+            if (Mouse.GetState().RightButton == ButtonState.Pressed)
+            {
+                var cratePosition = RigidBody.GetPosition();
+                RigidBody.ApplyImpulse(new Vec2(GameData.Instance.PlayerImpulse, 0),
+                    new Vec2(cratePosition.X, cratePosition.Y));
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            {
+                if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                {
+                    var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
+                    RigidBody.ApplyImpulse(new Vec2(impulseVec.X * GameData.Instance.PlayerImpulse,
+                        impulseVec.Y * GameData.Instance.PlayerImpulse),
+                        RigidBody.GetPosition());
+                }
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                {
+                    var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
+                    RigidBody.ApplyImpulse(new Vec2(-impulseVec.X * GameData.Instance.PlayerImpulse,
+                        -impulseVec.Y * GameData.Instance.PlayerImpulse),
+                        RigidBody.GetPosition());
+                }
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
+                RigidBody.ApplyTorque(GameData.Instance.PlayerTurnTorque);
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
+                RigidBody.ApplyTorque(-GameData.Instance.PlayerTurnTorque);
+            }
+
+            if (Keyboard.GetState().IsKeyUp(Keys.W) &&
+               Keyboard.GetState().IsKeyUp(Keys.A) &&
+               Keyboard.GetState().IsKeyUp(Keys.S) &&
+               Keyboard.GetState().IsKeyUp(Keys.D))
+            {
+                DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 0);
+            }
+
+            if (Keyboard.GetState().IsKeyUp(Keys.A) && Keyboard.GetState().IsKeyUp(Keys.D))
+            {
+                RigidBody.SetAngularVelocity(0);
+            }
         }
     }
 }

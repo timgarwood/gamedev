@@ -245,7 +245,7 @@ namespace Game1
             }
 
             //load up fonts
-            using (var stream = new FileStream("./FontDefinitions.json", FileMode.Open))
+            using (var stream = new FileStream("./Fonts/FontDefinitions.json", FileMode.Open))
             {
                 _fontFactory.Load(stream);
             }
@@ -292,11 +292,11 @@ namespace Game1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            player.HandleInput();
+            player.Update(gameTime);
+            GameWorld.Instance.Update(gameTime);
 
             physicsWorld.Step(1.0f / 60.0f, 2,1);
 
-            GameWorld.Instance.Update(gameTime);
 
             var lVelocity = player.RigidBody.GetLinearVelocity();
             if (currentCrateVelocity != null)
@@ -358,8 +358,11 @@ namespace Game1
 
             GameWorld.Instance.Draw(spriteBatch, cameraPosition, viewport);
 
-            var font = _fontFactory.GetFont("Default");
-            font.DrawString(spriteBatch, "space invaders", Vector2.Zero);
+            var font1 = _fontFactory.GetFont("Default");
+            var font2 = _fontFactory.GetFont("Default2");
+            font1.DrawString(spriteBatch, "new game", new Vector2(400,400));
+            font2.DrawString(spriteBatch, "credits", new Vector2(400,450));
+            font2.DrawString(spriteBatch, "quit", new Vector2(400,500));
 
             spriteBatch.End();
 
