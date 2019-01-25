@@ -57,6 +57,11 @@
     <Compile Include="GameObject.cs" />
     <Compile Include="GameUtils.cs" />
     <Compile Include="GameWorld.cs" />
+    <Compile Include="Hud\HorizontalAlignment.cs" />
+    <Compile Include="Hud\HudComponentDefinition.cs" />
+    <Compile Include="Hud\Minimap.cs" />
+    <Compile Include="Hud\MinimapDefinition.cs" />
+    <Compile Include="Hud\VerticalAlignment.cs" />
     <Compile Include="IAssetDefinition.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="IUpdateable.cs" />

@@ -360,9 +360,9 @@ namespace Game1
 
             var font1 = _fontFactory.GetFont("Default");
             var font2 = _fontFactory.GetFont("Default2");
-            font1.DrawString(spriteBatch, "new game", new Vector2(400,400));
-            font2.DrawString(spriteBatch, "credits", new Vector2(400,450));
-            font2.DrawString(spriteBatch, "quit", new Vector2(400,500));
+//            font1.DrawString(spriteBatch, "new game", new Vector2(400,400));
+//            font2.DrawString(spriteBatch, "credits", new Vector2(400,450));
+//            font2.DrawString(spriteBatch, "quit", new Vector2(400,500));
 
             spriteBatch.End();
 

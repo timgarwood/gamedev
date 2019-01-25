@@ -1,0 +1,12 @@
+﻿{
+  [
+    {
+      "name": "Minimap",
+      "componentType": "Minimap",
+      "hAlignment": "Left",
+      "vAlignment": "Bottom",
+      "horizontalPercentage": 0,
+      "verticalPercentage": 0
+    }
+  ]
+}
