@@ -56,12 +56,14 @@ namespace Game1
             aabb = new AABB();
             aabb.LowerBound = new Vec2(0, 0);
             aabb.UpperBound = new Vec2(gameData.MaxXDimension, gameData.MaxYDimension);
-            physicsWorld = new World(aabb, new Vec2(0, 0), doSleep: true);
+            physicsWorld = new World(aabb, new Vec2(0, 0), doSleep: false);
             Content.RootDirectory = "Content";
             this.TargetElapsedTime = System.TimeSpan.FromSeconds(1f / gameData.Fps);
 
             _alienFactory = new AlienFactory(physicsWorld, Content);
             _fontFactory = new FontFactory(Content);
+
+            Window.ClientSizeChanged += OnResize;
         }
 
         /// <summary>
@@ -82,6 +84,16 @@ namespace Game1
             viewport = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
             base.Initialize();
+        }
+
+        /// <summary>
+        /// callback for game window being resized
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void OnResize(object sender, System.EventArgs args)
+        {
+            viewport = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
         }
 
 

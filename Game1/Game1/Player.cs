@@ -105,7 +105,7 @@ namespace Game1
 
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
-                if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
                 {
                     var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
                     RigidBody.ApplyImpulse(new Vec2(impulseVec.X * GameData.Instance.PlayerImpulse,
@@ -115,7 +115,7 @@ namespace Game1
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S))
             {
-                if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
                 {
                     var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
                     RigidBody.ApplyImpulse(new Vec2(-impulseVec.X * GameData.Instance.PlayerImpulse,

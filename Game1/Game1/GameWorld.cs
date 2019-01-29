@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Box2DX.Common;
 using Microsoft.Xna.Framework;
@@ -67,6 +68,17 @@ namespace Game1
                 _gameObjects.Remove(obj);
                 _gameObjectRemoved.ForEach(a => a.Invoke(obj));
             }
+        }
+
+        /// <summary>
+        /// Returns a list of game objects that are of type T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public IList<T> GetGameObjects<T>()
+        {
+            //TODO:  this might be super inefficient
+            return _gameObjects.OfType<T>().ToList();
         }
 
         /// <summary>
