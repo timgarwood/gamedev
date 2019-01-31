@@ -58,9 +58,10 @@
     <Compile Include="GameUtils.cs" />
     <Compile Include="GameWorld.cs" />
     <Compile Include="Hud\HorizontalAlignment.cs" />
+    <Compile Include="Hud\Hud.cs" />
+    <Compile Include="Hud\HudComponent.cs" />
     <Compile Include="Hud\HudComponentDefinition.cs" />
     <Compile Include="Hud\Minimap.cs" />
-    <Compile Include="Hud\MinimapDefinition.cs" />
     <Compile Include="Hud\VerticalAlignment.cs" />
     <Compile Include="IAssetDefinition.cs" />
     <Compile Include="IDrawable.cs" />
@@ -73,6 +74,7 @@
     <Reference Include="Box2DX, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Box2DX.2.0.2.0\lib\net40\Box2DX.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
     </Reference>
@@ -101,7 +103,9 @@
     <None Include="GameData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Hud\HudDefinition.json" />
+    <None Include="Hud\HudDefinition.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

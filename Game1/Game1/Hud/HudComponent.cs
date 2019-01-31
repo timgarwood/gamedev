@@ -71,5 +71,10 @@ namespace Game1.Hud
                 }
             }
         }
+
+        /// <summary>
+        /// type of this component (from json data)
+        /// </summary>
+        public string ComponentType { get; set; }
     }
 }

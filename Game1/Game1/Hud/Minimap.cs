@@ -1,12 +1,13 @@
 ﻿using Box2DX.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
+using System;
 
 namespace Game1.Hud
 {
     public class Minimap : HudComponent, IDrawable
     {
-        private MinimapDefinition _definition;
         private Texture2D _backgroundTexture;
         private Texture2D _alienTexture;
         private Vector2 _destPoint;
@@ -16,13 +17,56 @@ namespace Game1.Hud
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="definition"></param>
-        public Minimap(Texture2D backgroundTexture, Texture2D alienTexture, MinimapDefinition definition) :
-            base(definition)
+        private Minimap(Texture2D backgroundTexture, Texture2D alienTexture, HudComponentDefinition definition) 
+            :base(definition)
         {
             _backgroundTexture = backgroundTexture;
             _alienTexture = alienTexture;
-            _definition = definition;
             _destPoint = new Vector2();
+        }
+
+        public static Minimap CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice)
+        {
+            Texture2D backgroundTexture = null;
+            try
+            {
+                backgroundTexture = contentManager.Load<Texture2D>((string)jsonData["textureAsset"]);
+            }
+            catch(Exception e)
+            {
+                var width = (int)jsonData["width"];
+                var height = (int)jsonData["height"];
+                backgroundTexture = new Texture2D(graphicsDevice, width, height);
+                var textureData = new Color[width * height];
+                for (var i = 0; i < textureData.Length; ++i)
+                {
+                    textureData[i] = Color.Black;
+                }
+
+                backgroundTexture.SetData(textureData);
+            }
+
+            Texture2D alienTexture = null;
+            try
+            {
+                alienTexture = contentManager.Load<Texture2D>(jsonData["alienTextureAsset"]);
+            }
+            catch(Exception e)
+            {
+                var width = (int)jsonData["alienWidth"];
+                var height = (int)jsonData["alienHeight"];
+                alienTexture = new Texture2D(graphicsDevice, width, height);
+                var textureData = new Color[width * height];
+                for (var i = 0; i < textureData.Length; ++i)
+                {
+                    textureData[i] = Color.Green;
+                }
+
+                alienTexture.SetData(textureData);
+            }
+
+            var hudComponentDefinition = HudComponentDefinition.Create(jsonData);
+            return new Minimap(backgroundTexture, alienTexture, hudComponentDefinition);
         }
 
         /// <summary>

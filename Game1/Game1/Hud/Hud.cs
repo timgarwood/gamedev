@@ -1,16 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.IO;
+using Newtonsoft.Json;
+using System;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1.Hud
 {
     public class Hud
     {
-        /// <summary>
-        /// singleton
-        /// </summary>
-        private static Hud _instance = null;
-
         /// <summary>
         /// the hud components
         /// </summary>
@@ -19,26 +18,20 @@ namespace Game1.Hud
         /// <summary>
         /// oh hey, a singleton!
         /// </summary>
-        public static Hud Instance
-        {
-            get
-            {
-                if(_instance == null)
-                {
-                    _instance = new Hud();
-                }
+        public static Hud Instance { get; private set; }
 
-                return _instance;
-            }
-        }
+        private ContentManager _contentManager;
+        private GraphicsDevice _graphicsDevice;
 
         /// <summary>
         /// ctor
         /// </summary>
-        private Hud()
+        public Hud(ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
+            _contentManager = contentManager;
+            _graphicsDevice = graphicsDevice;
             _hudComponents = new List<HudComponent>();
-            _viewport = Vector2.Zero;
+            Instance = this;
         }
 
         /// <summary>
@@ -50,6 +43,34 @@ namespace Game1.Hud
             foreach(var hudComponent in _hudComponents)
             {
                 hudComponent.OnWindowResized(viewport);
+            }
+        }
+
+        /// <summary>
+        /// initializes hud components from the given json stream
+        /// </summary>
+        /// <param name="stream"></param>
+        public void Load(Stream stream)
+        {
+            using(stream)
+            {
+                using(var reader = new StreamReader(stream))
+                {
+                    var json = reader.ReadToEnd();
+                    var objects = JsonConvert.DeserializeObject<dynamic[]>(json);
+                    foreach (var o in objects)
+                    {
+                        Type type = Type.GetType((string)o["componentTypeName"], true, true);
+                        var createMethod = type.GetMethod("CreateFromData", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+                        if(createMethod == null)
+                        {
+                            throw new Exception($"No create method found for type {type}");
+                        }
+
+                        var hudComponent = createMethod.Invoke(null, new object[] { o, _contentManager, _graphicsDevice });
+                        _hudComponents.Add((HudComponent)hudComponent);
+                    }
+                }
             }
         }
     }

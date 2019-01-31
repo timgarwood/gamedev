@@ -1,12 +1,16 @@
-﻿{
-  [
+﻿[
     {
       "name": "Minimap",
-      "componentType": "Minimap",
+      "componentTypeName": "Game1.Hud.Minimap",
       "hAlignment": "Left",
       "vAlignment": "Bottom",
       "horizontalPercentage": 0,
-      "verticalPercentage": 0
+      "verticalPercentage": 0,
+      "textureAsset": "nothing",
+      "width": 100,
+      "height": 100,
+      "alienTextureAsset": "nothing",
+      "alienWidth": 5,
+      "alienHeight" :5 
     }
-  ]
-}
+]

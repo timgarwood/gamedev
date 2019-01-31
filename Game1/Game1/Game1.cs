@@ -8,6 +8,7 @@ using NLog;
 using System.Collections.Generic;
 using System.IO;
 using Game1.Fonts;
+using Game1.Hud;
 
 namespace Game1
 {
@@ -260,6 +261,15 @@ namespace Game1
             using (var stream = new FileStream("./Fonts/FontDefinitions.json", FileMode.Open))
             {
                 _fontFactory.Load(stream);
+            }
+
+            //FIXME
+            var hud = new Hud.Hud(Content, GraphicsDevice);
+
+            //load up the HUD
+            using (var stream = new FileStream("./Hud/HudDefinition.json", FileMode.Open))
+            {
+                Hud.Hud.Instance.Load(stream);
             }
 
             var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).TotalMilliseconds);
