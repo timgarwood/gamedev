@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Box2DX.Common;
 
 namespace Game1.Hud
 {
@@ -71,6 +72,14 @@ namespace Game1.Hud
                         _hudComponents.Add((HudComponent)hudComponent);
                     }
                 }
+            }
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
+        {
+            foreach(var component in _hudComponents)
+            {
+                component.Draw(spriteBatch, cameraOrigin, viewport);
             }
         }
     }

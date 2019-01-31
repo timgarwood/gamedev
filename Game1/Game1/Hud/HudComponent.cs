@@ -1,8 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Box2DX.Common;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1.Hud
 {
-    public abstract class HudComponent
+    public abstract class HudComponent : IDrawable
     {
         /// <summary>
         /// the base hub component definition
@@ -26,6 +28,10 @@ namespace Game1.Hud
         public void OnWindowResized(Vector2 viewport)
         {
             _viewport = viewport;
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
+        {
         }
 
         /// <summary>

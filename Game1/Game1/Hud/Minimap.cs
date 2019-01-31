@@ -6,7 +6,7 @@ using System;
 
 namespace Game1.Hud
 {
-    public class Minimap : HudComponent, IDrawable
+    public class Minimap : HudComponent
     {
         private Texture2D _backgroundTexture;
         private Texture2D _alienTexture;
