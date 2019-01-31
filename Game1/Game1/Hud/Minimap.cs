@@ -10,6 +10,7 @@ namespace Game1.Hud
     {
         private Texture2D _backgroundTexture;
         private Texture2D _alienTexture;
+        private Texture2D _playerTexture;
         private Vector2 _destPoint;
 
         /// <summary>
@@ -17,11 +18,12 @@ namespace Game1.Hud
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="definition"></param>
-        private Minimap(Texture2D backgroundTexture, Texture2D alienTexture, HudComponentDefinition definition) 
+        private Minimap(Texture2D backgroundTexture, Texture2D alienTexture, Texture2D playerTexture, HudComponentDefinition definition) 
             :base(definition)
         {
             _backgroundTexture = backgroundTexture;
             _alienTexture = alienTexture;
+            _playerTexture = playerTexture;
             _destPoint = new Vector2();
         }
 
@@ -65,8 +67,19 @@ namespace Game1.Hud
                 alienTexture.SetData(textureData);
             }
 
+           var playerWidth = (int)jsonData["alienWidth"];
+           var playerHeight = (int)jsonData["alienHeight"];
+           var playerTexture = new Texture2D(graphicsDevice, playerWidth, playerHeight);
+            var playerTextureData = new Color[playerWidth * playerHeight];
+            for (var i = 0; i < playerTextureData.Length; ++i)
+            {
+                playerTextureData[i] = Color.Gray;
+            }
+
+            playerTexture.SetData(playerTextureData);
+
             var hudComponentDefinition = HudComponentDefinition.Create(jsonData);
-            return new Minimap(backgroundTexture, alienTexture, hudComponentDefinition);
+            return new Minimap(backgroundTexture, alienTexture, playerTexture, hudComponentDefinition);
         }
 
         /// <summary>
@@ -84,11 +97,16 @@ namespace Game1.Hud
                 spriteBatch.Draw(_backgroundTexture, _destPoint);
             }
 
+            var playerPosition = Player.Instance.GetWorldPosition();
+            var minimapPosition = new Vector2(_destPoint.X + (playerPosition.X * _backgroundTexture.Width / GameData.Instance.MaxXDimension),
+                _destPoint.Y + (playerPosition.Y * _backgroundTexture.Height / GameData.Instance.MaxYDimension));
+            spriteBatch.Draw(_playerTexture, minimapPosition);
+
             var aliens = GameWorld.Instance.GetGameObjects<Alien>();
             foreach(var alien in aliens)
             {
                 var alienPosition = alien.GetWorldPosition();
-                var minimapPosition = new Vector2(_destPoint.X + (alienPosition.X * _backgroundTexture.Width / GameData.Instance.MaxXDimension),
+                minimapPosition = new Vector2(_destPoint.X + (alienPosition.X * _backgroundTexture.Width / GameData.Instance.MaxXDimension),
                     _destPoint.Y + (alienPosition.Y * _backgroundTexture.Height / GameData.Instance.MaxYDimension));
                 spriteBatch.Draw(_alienTexture, minimapPosition);
             }
