@@ -380,7 +380,7 @@ namespace Game1
 
             GameWorld.Instance.Draw(spriteBatch, cameraPosition, viewport);
 
-            Hud.Hud.Instance.Draw(spriteBatch, cameraPosition, viewport);
+            Hud.Hud.Instance.Draw(spriteBatch, viewport);
 
             var font1 = _fontFactory.GetFont("Default");
             var font2 = _fontFactory.GetFont("Default2");

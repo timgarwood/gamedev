@@ -1,10 +1,9 @@
-﻿using Box2DX.Common;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1.Hud
 {
-    public abstract class HudComponent : IDrawable
+    public abstract class HudComponent
     {
         /// <summary>
         /// the base hub component definition
@@ -30,10 +29,6 @@ namespace Game1.Hud
             _viewport = viewport;
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
-        {
-        }
-
         /// <summary>
         /// calculates the leftmost pixel of this hud component
         /// </summary>
@@ -41,11 +36,11 @@ namespace Game1.Hud
         {
             get
             {
-                if(_hudComponentDefinition.HorizontalAlignment == HorizontalAlignment.Left)
+                if (_hudComponentDefinition.HorizontalAlignment == HorizontalAlignment.Left)
                 {
                     return _viewport.X * _hudComponentDefinition.HorizontalPercentage;
                 }
-                else if(_hudComponentDefinition.HorizontalAlignment == HorizontalAlignment.Right)
+                else if (_hudComponentDefinition.HorizontalAlignment == HorizontalAlignment.Right)
                 {
                     return _viewport.X * (1 - _hudComponentDefinition.HorizontalPercentage);
                 }
@@ -59,11 +54,11 @@ namespace Game1.Hud
         /// <summary>
         /// calculates the top-most pixel of this hud component
         /// </summary>
-        protected float Top 
+        protected float Top
         {
             get
             {
-                if(_hudComponentDefinition.VerticalAlignment == VerticalAlignment.Top)
+                if (_hudComponentDefinition.VerticalAlignment == VerticalAlignment.Top)
                 {
                     return _viewport.Y * _hudComponentDefinition.VerticalPercentage;
                 }
@@ -82,5 +77,12 @@ namespace Game1.Hud
         /// type of this component (from json data)
         /// </summary>
         public string ComponentType { get; set; }
+
+        /// <summary>
+        /// abstract draw method
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="viewport"></param>
+        public abstract void Draw(SpriteBatch spriteBatch, Vector2 viewport);
     }
 }

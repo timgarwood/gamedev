@@ -73,9 +73,8 @@ namespace Game1.Hud
         /// 
         /// </summary>
         /// <param name="spriteBatch"></param>
-        /// <param name="cameraOrigin"></param>
         /// <param name="viewport"></param>
-        public void Draw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
+        public override void Draw(SpriteBatch spriteBatch, Vector2 viewport)
         {
             _destPoint.X = (int) Left;
             _destPoint.Y = (int) Top;
