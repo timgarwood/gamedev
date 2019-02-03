@@ -14,6 +14,8 @@ namespace Game1.Fonts
 
         private Dictionary<string, Font> _fontMap;
 
+        public static FontFactory Instance { get; private set; }
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -22,6 +24,7 @@ namespace Game1.Fonts
         {
             _contentManager = contentManager;
             _fontMap = new Dictionary<string, Font>();
+            Instance = this;
         }
 
         /// <summary>

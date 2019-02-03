@@ -95,6 +95,8 @@ namespace Game1
         private void OnResize(object sender, System.EventArgs args)
         {
             viewport = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+
+            Hud.Hud.Instance.OnWindowResized(viewport);
         }
 
 

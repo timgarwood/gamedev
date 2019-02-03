@@ -12,6 +12,7 @@ namespace Game1.Hud
         private Texture2D _alienTexture;
         private Texture2D _playerTexture;
         private Vector2 _destPoint;
+        private static int MinimapBorderThicknessPx = 5;
 
         /// <summary>
         /// ctor
@@ -38,11 +39,44 @@ namespace Game1.Hud
             {
                 var width = (int)jsonData["width"];
                 var height = (int)jsonData["height"];
-                backgroundTexture = new Texture2D(graphicsDevice, width, height);
-                var textureData = new Color[width * height];
-                for (var i = 0; i < textureData.Length; ++i)
+                backgroundTexture = new Texture2D(graphicsDevice, width + (2*MinimapBorderThicknessPx), height + (2*MinimapBorderThicknessPx));
+                var textureData = new Color[(width+(2*MinimapBorderThicknessPx)) * (height + (2*MinimapBorderThicknessPx))];
+                /*backgroundTexture = new Texture2D(graphicsDevice, width, height);
+                var textureData = new Color[width* height];
+                for(var i = 0; i < textureData.Length; ++i)
                 {
                     textureData[i] = Color.Black;
+                }
+                */
+
+                //color the top border
+                for(var i = 0; i < MinimapBorderThicknessPx * width; ++i)
+                {
+                    textureData[i] = Color.Red;
+                }
+
+                //color the bottom border
+                for(var i = (width * height); i < textureData.Length; ++i)
+                {
+                    textureData[i] = Color.Red;
+                }
+
+                for (var i = MinimapBorderThicknessPx * width; i < textureData.Length - (MinimapBorderThicknessPx * width); ++i)
+                {
+                    var col = i % (width + 2*MinimapBorderThicknessPx);
+                    if (col < MinimapBorderThicknessPx)
+                    {
+                        textureData[i] = Color.Red;
+                    }
+                    else if (col > width)
+                    {
+                        textureData[i] = Color.Red;
+                    }
+                    else
+                    {
+                        textureData[i] = Color.Black;
+                    }
+
                 }
 
                 backgroundTexture.SetData(textureData);
@@ -51,7 +85,7 @@ namespace Game1.Hud
             Texture2D alienTexture = null;
             try
             {
-                alienTexture = contentManager.Load<Texture2D>(jsonData["alienTextureAsset"]);
+                alienTexture = contentManager.Load<Texture2D>((string)jsonData["alienTextureAsset"]);
             }
             catch(Exception e)
             {

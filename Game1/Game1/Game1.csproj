@@ -62,6 +62,7 @@
     <Compile Include="Hud\HudComponent.cs" />
     <Compile Include="Hud\HudComponentDefinition.cs" />
     <Compile Include="Hud\Minimap.cs" />
+    <Compile Include="Hud\PlayerHealth.cs" />
     <Compile Include="Hud\VerticalAlignment.cs" />
     <Compile Include="IAssetDefinition.cs" />
     <Compile Include="IDrawable.cs" />

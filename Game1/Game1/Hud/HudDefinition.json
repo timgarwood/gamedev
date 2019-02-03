@@ -12,5 +12,17 @@
       "alienTextureAsset": "nothing",
       "alienWidth": 5,
       "alienHeight" :5 
+    },
+    {
+      "name": "PlayerHealth",
+      "componentTypeName": "Game1.Hud.PlayerHealth",
+      "fontName": "Default2",
+      "hAlignment": "Center",
+      "vAlignment": "Bottom",
+      "horizontalPercentage": 0,
+      "verticalPercentage": 0,
+      "textTemplate": "HP: {health}",
+      "width": 200,
+      "height": 50
     }
 ]

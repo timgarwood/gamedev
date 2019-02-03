@@ -22,9 +22,14 @@ namespace Game1.Hud
         public HudComponent(HudComponentDefinition definition)
         {
             _hudComponentDefinition = definition;
+            if(definition.Width <= 0 || definition.Height <= 0)
+            {
+                throw new System.Exception("HudComponent needs a width and height");
+            }
+
         }
 
-        public void OnWindowResized(Vector2 viewport)
+        public virtual void OnWindowResized(Vector2 viewport)
         {
             _viewport = viewport;
         }
@@ -42,11 +47,11 @@ namespace Game1.Hud
                 }
                 else if (_hudComponentDefinition.HorizontalAlignment == HorizontalAlignment.Right)
                 {
-                    return _viewport.X * (1 - _hudComponentDefinition.HorizontalPercentage);
+                    return (_viewport.X - _hudComponentDefinition.Width) * (1 - _hudComponentDefinition.HorizontalPercentage);
                 }
                 else
                 {
-                    return _viewport.X * .5f;
+                    return _viewport.X * .5f - (_hudComponentDefinition.Width / 2);
                 }
             }
         }
@@ -64,11 +69,11 @@ namespace Game1.Hud
                 }
                 else if (_hudComponentDefinition.VerticalAlignment == VerticalAlignment.Bottom)
                 {
-                    return _viewport.Y * (1 - _hudComponentDefinition.VerticalPercentage);
+                    return (_viewport.Y  - (_hudComponentDefinition.Height)) * (1 - _hudComponentDefinition.VerticalPercentage);
                 }
                 else
                 {
-                    return _viewport.Y * .5f;
+                    return _viewport.Y * .5f - (_hudComponentDefinition.Height / 2);
                 }
             }
         }

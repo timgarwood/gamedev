@@ -35,6 +35,16 @@ namespace Game1.Hud
         public float VerticalPercentage { get; set; }
 
         /// <summary>
+        /// width of the component
+        /// </summary>
+        public int Width { get; set; }
+
+        /// <summary>
+        /// height of the component
+        /// </summary>
+        public int Height { get; set; }
+
+        /// <summary>
         /// creates a HudComponentDefinition from the given dynamic object
         /// </summary>
         /// <param name="jsonData"></param>
@@ -45,6 +55,8 @@ namespace Game1.Hud
             def.VerticalPercentage = (float)d["verticalPercentage"];
             def.HAlign = (string)d["hAlignment"];
             def.VAlign = (string)d["vAlignment"];
+            def.Width = (int)d["width"];
+            def.Height = (int)d["height"];
             return def;
         }
     }
