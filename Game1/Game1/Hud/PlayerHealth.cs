@@ -35,17 +35,10 @@ namespace Game1.Hud
 
         public static PlayerHealth CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice)
         {
-            var hudComponentDefinition = new HudComponentDefinition();
+            var hudComponentDefinition = HudComponentDefinition.Create(jsonData);
 
             var font = FontFactory.Instance.GetFont((string)jsonData["fontName"]);
             var textTemplate = (string)jsonData["textTemplate"];
-
-            hudComponentDefinition.Width = (int)jsonData["width"];
-            hudComponentDefinition.Height = (int)jsonData["width"];
-            hudComponentDefinition.HAlign = (string)jsonData["hAlignment"];
-            hudComponentDefinition.VAlign = (string)jsonData["vAlignment"];
-            hudComponentDefinition.HorizontalPercentage = (float)jsonData["horizontalPercentage"];
-            hudComponentDefinition.VerticalPercentage = (float)jsonData["verticalPercentage"];
 
             return new PlayerHealth(hudComponentDefinition, font, textTemplate);
         }

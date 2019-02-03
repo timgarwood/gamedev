@@ -84,6 +84,29 @@ namespace Game1
 
             viewport = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
 
+            //load up aliens
+            using (var stream = new FileStream("./AlienDefinitions.json", FileMode.Open))
+            {
+                _alienFactory.Load(stream);
+            }
+
+            //load up fonts
+            using (var stream = new FileStream("./Fonts/FontDefinitions.json", FileMode.Open))
+            {
+                _fontFactory.Load(stream);
+            }
+
+            //FIXME
+            var hud = new Hud.Hud(Content, GraphicsDevice);
+
+            //load up the HUD
+            using (var stream = new FileStream("./Hud/HudDefinition.json", FileMode.Open))
+            {
+                Hud.Hud.Instance.Load(stream);
+            }
+
+            Hud.Hud.Instance.OnWindowResized(viewport);
+
             base.Initialize();
         }
 
@@ -253,26 +276,7 @@ namespace Game1
             player = new Player(crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody);
             GameWorld.Instance.AddGameObject(player);
 
-            //load up aliens
-            using (var stream = new FileStream("./AlienDefinitions.json", FileMode.Open))
-            {
-                _alienFactory.Load(stream);
-            }
 
-            //load up fonts
-            using (var stream = new FileStream("./Fonts/FontDefinitions.json", FileMode.Open))
-            {
-                _fontFactory.Load(stream);
-            }
-
-            //FIXME
-            var hud = new Hud.Hud(Content, GraphicsDevice);
-
-            //load up the HUD
-            using (var stream = new FileStream("./Hud/HudDefinition.json", FileMode.Open))
-            {
-                Hud.Hud.Instance.Load(stream);
-            }
 
             var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).TotalMilliseconds);
 

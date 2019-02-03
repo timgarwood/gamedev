@@ -69,7 +69,7 @@ namespace Game1.Hud
                 }
                 else if (_hudComponentDefinition.VerticalAlignment == VerticalAlignment.Bottom)
                 {
-                    return (_viewport.Y  - (_hudComponentDefinition.Height)) * (1 - _hudComponentDefinition.VerticalPercentage);
+                    return (_viewport.Y - _hudComponentDefinition.Height) * (1 - _hudComponentDefinition.VerticalPercentage);
                 }
                 else
                 {

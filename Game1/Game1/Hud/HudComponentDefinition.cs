@@ -8,6 +8,8 @@ namespace Game1.Hud
 
         public VerticalAlignment VerticalAlignment;
 
+        public string Name { get; set; }
+
         public string HAlign
         {
             set
@@ -57,6 +59,7 @@ namespace Game1.Hud
             def.VAlign = (string)d["vAlignment"];
             def.Width = (int)d["width"];
             def.Height = (int)d["height"];
+            def.Name = (string)d["name"];
             return def;
         }
     }

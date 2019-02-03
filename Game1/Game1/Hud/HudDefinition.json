@@ -23,6 +23,6 @@
       "verticalPercentage": 0,
       "textTemplate": "HP: {health}",
       "width": 200,
-      "height": 50
+      "height": 30
     }
 ]
