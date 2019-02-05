@@ -13,9 +13,13 @@ namespace Game1
         /// list of game objects
         /// </summary>
         private List<GameObject> _gameObjects;
+        private List<GameObject> _pendingAddGameObjects;
+        private List<GameObject> _pendingRemoveGameObjects;
 
         private List<Action<GameObject>> _gameObjectAdded;
         private List<Action<GameObject>> _gameObjectRemoved;
+
+        private bool Updating { get; set; }
 
         /// <summary>
         /// singleton getters
@@ -42,6 +46,8 @@ namespace Game1
             _gameObjectAdded = new List<Action<GameObject>>();
             _gameObjectRemoved = new List<Action<GameObject>>();
             _gameObjects = new List<GameObject>();
+            _pendingAddGameObjects = new List<GameObject>();
+            _pendingRemoveGameObjects = new List<GameObject>();
         }
 
         /// <summary>
@@ -50,7 +56,14 @@ namespace Game1
         /// <param name="obj"></param>
         public void AddGameObject(GameObject obj)
         {
-            if (!_gameObjects.Contains(obj))
+            if(Updating)
+            {
+                if (!_pendingAddGameObjects.Contains(obj))
+                {
+                    _pendingAddGameObjects.Add(obj);
+                }
+            }
+            else if (!_gameObjects.Contains(obj))
             {
                 _gameObjects.Add(obj);
                 _gameObjectAdded.ForEach(a => a.Invoke(obj));
@@ -121,10 +134,14 @@ namespace Game1
 
         public void Update(GameTime gameTime)
         {
+            Updating = true;
             foreach(var obj in _gameObjects)
             {
                 obj.Update(gameTime);
             }
+            Updating = false;
+
+            _gameObjects.AddRange(_pendingAddGameObjects);
         }
     }
 }

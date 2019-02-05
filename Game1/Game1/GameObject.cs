@@ -17,10 +17,11 @@ namespace Game1
         /// <param name="texture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public GameObject(Texture2D texture, Shape shape, Body rigidBody) : base(texture)
+        public GameObject(Texture2D texture, Shape shape, Body rigidBody, float rotation) : base(texture)
         {
             Shape = shape;
             RigidBody = rigidBody;
+            Rotation = rotation;
             if (texture != null)
             {
                 RenderOrigin = new Vector2(texture.Width / 2, texture.Height / 2);
@@ -36,6 +37,11 @@ namespace Game1
         /// physics shape
         /// </summary>
         public Shape Shape { get; private set; }
+
+        /// <summary>
+        /// source rectangle in the given texture
+        /// </summary>
+        public Rectangle? TextureSourceRectangle { get; set; }
 
         /// <summary>
         /// physics bounding box
@@ -105,7 +111,7 @@ namespace Game1
         {
             var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraOrigin.X) * GameData.Instance.PixelsPerMeter,
                 (RigidBody.GetPosition().Y - cameraOrigin.Y) * GameData.Instance.PixelsPerMeter);
-            spriteBatch.Draw(Texture, texturePosition, null, null, rotation: Rotation, origin: RenderOrigin, scale: RenderScale);
+            spriteBatch.Draw(Texture, texturePosition, null, TextureSourceRectangle, rotation: Rotation, origin: RenderOrigin, scale: RenderScale);
         }
 
         public virtual void Update(GameTime gameTime)

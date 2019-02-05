@@ -1,0 +1,74 @@
+﻿[
+  {
+    "name": "GreenLaser-small",
+    "spriteSheet": "sprites\\weapons\\lasers-transparent",
+    "xCoordinate": 22,
+    "yCoordinate": 42,
+    "width": 10,
+    "height": 10,
+    "velocity": 5,
+    "damage": 2,
+    "density": 0.6,
+    "friction" :  1.0
+  },
+  {
+    "name": "PurpleLaser-small",
+    "spriteSheet": "sprites\\weapons\\lasers-transparent",
+    "xCoordinate": 101,
+    "yCoordinate": 46,
+    "width": 10,
+    "height": 10,
+    "velocity": 5,
+    "damage": 2,
+    "density": 0.6,
+    "friction": 1.0
+  },
+  {
+    "name": "YellowLaser-small",
+    "spriteSheet": "sprites\\weapons\\lasers-transparent",
+    "xCoordinate": 187,
+    "yCoordinate": 43,
+    "width": 10,
+    "height": 10,
+    "velocity": 5,
+    "damage": 2,
+    "density": 0.6,
+    "friction": 1.0
+  },
+  {
+    "name": "RedLaser-small",
+    "spriteSheet": "sprites\\weapons\\lasers-transparent",
+    "xCoordinate": 21,
+    "yCoordinate": 157,
+    "width": 10,
+    "height": 10,
+    "velocity": 5,
+    "damage": 2,
+    "density": 0.6,
+    "friction": 1.0
+  },
+  {
+    "name": "TealLaser-small",
+    "spriteSheet": "sprites\\weapons\\lasers-transparent",
+    "xCoordinate": 102,
+    "yCoordinate": 152,
+    "width": 10,
+    "height": 10,
+    "velocity": 5,
+    "damage": 2,
+    "density": 0.6,
+    "friction": 1.0
+  },
+  {
+    "name": "BlueLaser-small",
+    "spriteSheet": "sprites\\weapons\\lasers-transparent",
+    "xCoordinate": 188,
+    "yCoordinate": 150,
+    "width": 10,
+    "height": 10,
+    "velocity": 5,
+    "damage": 2,
+    "density": 0.6,
+    "friction": 1.0
+  }
+]

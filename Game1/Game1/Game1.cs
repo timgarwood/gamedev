@@ -8,6 +8,7 @@ using NLog;
 using System.Collections.Generic;
 using System.IO;
 using Game1.Fonts;
+using Game1.Weapons;
 using Game1.Hud;
 
 namespace Game1
@@ -46,6 +47,7 @@ namespace Game1
         private Vector2 viewport;
 
         private AlienFactory _alienFactory;
+        private WeaponFactory _weaponsFactory;
         private FontFactory _fontFactory;
 
         public Game1(GameData data)
@@ -62,6 +64,7 @@ namespace Game1
             this.TargetElapsedTime = System.TimeSpan.FromSeconds(1f / gameData.Fps);
 
             _alienFactory = new AlienFactory(physicsWorld, Content);
+            _weaponsFactory = new WeaponFactory(physicsWorld, Content);
             _fontFactory = new FontFactory(Content);
 
             Window.ClientSizeChanged += OnResize;
@@ -88,6 +91,12 @@ namespace Game1
             using (var stream = new FileStream("./AlienDefinitions.json", FileMode.Open))
             {
                 _alienFactory.Load(stream);
+            }
+
+            //load up weapons
+            using(var stream = new FileStream("./Weapons/WeaponDefinitions.json", FileMode.Open))
+            {
+                _weaponsFactory.Load(stream);
             }
 
             //load up fonts
@@ -121,8 +130,6 @@ namespace Game1
 
             Hud.Hud.Instance.OnWindowResized(viewport);
         }
-
-
 
         /// <summary>
         /// Creates a wall
@@ -183,7 +190,7 @@ namespace Game1
            // texture2d.SetData(data);
             Logger.Info($"Wall created at ({wallBody.GetPosition().X},{wallBody.GetPosition().Y}) " + 
                 $"extends to ({wallBody.GetPosition().X + wallPhysicsSize.X},{wallBody.GetPosition().Y + wallPhysicsSize.Y})");
-            return new GameObject(null, shape, wallBody);
+            return new GameObject(null, shape, wallBody, 0);
         }
 
         /// <summary>

@@ -5,6 +5,7 @@ using Box2DX.Collision;
 using Box2DX.Dynamics;
 using Box2DX.Common;
 using NLog;
+using Game1.Weapons;
 
 namespace Game1
 {
@@ -36,7 +37,7 @@ namespace Game1
         public Player(Texture2D texture, Texture2D positionTexture, 
             Texture2D upperBoundTexture, Texture2D lowerBoundTexture, 
             Shape shape, Body rigidBody) : 
-            base(texture, shape, rigidBody)
+            base(texture, shape, rigidBody, 0)
         {
             this.positionTexture = positionTexture;
             this.upperBoundTexture = upperBoundTexture;
@@ -132,6 +133,10 @@ namespace Game1
             {
                 DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
                 RigidBody.ApplyTorque(-GameData.Instance.PlayerTurnTorque);
+            }
+            if(Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition(), Rotation);
             }
 
             if (Keyboard.GetState().IsKeyUp(Keys.W) &&
