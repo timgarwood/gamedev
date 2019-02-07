@@ -27,5 +27,7 @@ namespace Game1.Weapons
         public float Friction { get; set; }
 
         public int Damage { get; set; }
+
+        public float MaxDistance { get; set; }
     }
 }

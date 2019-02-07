@@ -3,6 +3,7 @@ using Box2DX.Dynamics;
 using Box2DX.Collision;
 using Box2DX.Common;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace Game1
 {
@@ -17,8 +18,10 @@ namespace Game1
         /// <param name="texture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public GameObject(Texture2D texture, Shape shape, Body rigidBody, float rotation) : base(texture)
+        public GameObject(World world, Texture2D texture, Shape shape, Body rigidBody, float rotation) : base(texture)
         {
+            Active = true;
+            World = world;
             Shape = shape;
             RigidBody = rigidBody;
             Rotation = rotation;
@@ -27,6 +30,23 @@ namespace Game1
                 RenderOrigin = new Vector2(texture.Width / 2, texture.Height / 2);
             }
         }
+
+        /// <summary>
+        /// dispose
+        /// </summary>
+        public void Dispose()
+        {
+            base.Dispose();
+            RigidBody.DestroyShape(Shape);
+            World.DestroyBody(RigidBody);
+            RigidBody = null;
+            Shape = null;
+        }
+
+        /// <summary>
+        /// the physics world
+        /// </summary>
+        protected World World { get; private set; }
 
         /// <summary>
         /// physics body
@@ -42,6 +62,12 @@ namespace Game1
         /// source rectangle in the given texture
         /// </summary>
         public Rectangle? TextureSourceRectangle { get; set; }
+
+        /// <summary>
+        /// whether or not the game object is available to interact
+        /// with the game
+        /// </summary>
+        public bool Active { get; set; }
 
         /// <summary>
         /// physics bounding box
@@ -116,6 +142,15 @@ namespace Game1
 
         public virtual void Update(GameTime gameTime)
         {
+        }
+
+        /// <summary>
+        /// removes this game object from the game world
+        /// </summary>
+        protected void Remove()
+        {
+            Active = false;
+            GameWorld.Instance.RemoveGameObject(this);
         }
     }
 }

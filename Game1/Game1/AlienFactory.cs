@@ -90,7 +90,7 @@ namespace Game1
 
                 body.SetMassFromShapes();
 
-                var gameObject = new Alien(definition, texture, shape, body);
+                var gameObject = new Alien(_physicsWorld, definition, texture, shape, body);
                 GameWorld.Instance.AddGameObject(gameObject);
                 return gameObject;
             }

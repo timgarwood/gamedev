@@ -76,7 +76,14 @@ namespace Game1
         /// <param name="obj"></param>
         public void RemoveGameObject(GameObject obj)
         {
-            if(_gameObjects.Contains(obj))
+            if(Updating)
+            {
+                if (!_pendingRemoveGameObjects.Contains(obj))
+                {
+                    _pendingRemoveGameObjects.Add(obj);
+                }
+            }
+            else if(_gameObjects.Contains(obj))
             {
                 _gameObjects.Remove(obj);
                 _gameObjectRemoved.ForEach(a => a.Invoke(obj));
@@ -132,6 +139,10 @@ namespace Game1
             }
         }
 
+        /// <summary>
+        /// Update all the objects in the world
+        /// </summary>
+        /// <param name="gameTime"></param>
         public void Update(GameTime gameTime)
         {
             Updating = true;
@@ -142,6 +153,14 @@ namespace Game1
             Updating = false;
 
             _gameObjects.AddRange(_pendingAddGameObjects);
+            _pendingAddGameObjects.Clear();
+            foreach(var obj in _pendingRemoveGameObjects)
+            {
+                obj.Dispose();
+            }
+
+            _gameObjects.RemoveAll(x => _pendingRemoveGameObjects.Contains(x));
+            _pendingRemoveGameObjects.Clear();
         }
     }
 }

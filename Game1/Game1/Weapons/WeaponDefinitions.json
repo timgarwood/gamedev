@@ -8,6 +8,7 @@
     "height": 10,
     "velocity": 5,
     "damage": 2,
+    "maxDistance" : 2,
     "density": 0.6,
     "friction" :  1.0
   },
@@ -20,6 +21,7 @@
     "height": 10,
     "velocity": 5,
     "damage": 2,
+    "maxDistance" : 2,
     "density": 0.6,
     "friction": 1.0
   },
@@ -32,6 +34,7 @@
     "height": 10,
     "velocity": 5,
     "damage": 2,
+    "maxDistance" : 2,
     "density": 0.6,
     "friction": 1.0
   },
@@ -44,6 +47,7 @@
     "height": 10,
     "velocity": 5,
     "damage": 2,
+    "maxDistance" : 2,
     "density": 0.6,
     "friction": 1.0
   },
@@ -56,6 +60,7 @@
     "height": 10,
     "velocity": 5,
     "damage": 2,
+    "maxDistance" : 2,
     "density": 0.6,
     "friction": 1.0
   },
@@ -68,6 +73,7 @@
     "height": 10,
     "velocity": 5,
     "damage": 2,
+    "maxDistance" : 2,
     "density": 0.6,
     "friction": 1.0
   }

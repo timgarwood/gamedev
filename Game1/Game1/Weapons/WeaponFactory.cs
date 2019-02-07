@@ -78,7 +78,7 @@ namespace Game1.Weapons
             body.SetLinearVelocity(new Vec2(definition.Velocity * (float)System.Math.Cos(rotation), 
                 definition.Velocity * (float)System.Math.Sin(rotation)));
 
-            var gameObject = new Projectile(definition, texture, shape, body, rotation);
+            var gameObject = new Projectile(_physicsWorld, definition, texture, shape, body, origin, rotation);
             gameObject.TextureSourceRectangle = new Rectangle(new Point(definition.XCoordinate, definition.YCoordinate), 
                 new Point(definition.Width, definition.Height));
             GameWorld.Instance.AddGameObject(gameObject);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Box2DX.Common;
+using System;
 
 namespace Game1
 {
@@ -8,7 +9,7 @@ namespace Game1
     /// Base class for things that can be drawn in the game
     /// Determines whether or not the object is visible through the camera
     /// </summary>
-    public abstract class Drawable : IDrawable
+    public abstract class Drawable : IDrawable, IDisposable
     {
         /// <summary>
         /// ctor
@@ -24,6 +25,14 @@ namespace Game1
         /// my texture
         /// </summary>
         public Texture2D Texture { get; private set; }
+
+        /// <summary>
+        /// dispose
+        /// </summary>
+        public void Dispose()
+        {
+            Texture = null;
+        }
 
         /// <summary>
         /// 

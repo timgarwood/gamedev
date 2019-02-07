@@ -6,6 +6,7 @@ using Box2DX.Dynamics;
 using Box2DX.Common;
 using NLog;
 using Game1.Weapons;
+using System;
 
 namespace Game1
 {
@@ -23,6 +24,8 @@ namespace Game1
         private Texture2D upperBoundTexture;
         private Texture2D lowerBoundTexture;
 
+        private DateTime _lastProjectileTime;
+
         public static Player Instance { get; private set; }
 
         /// <summary>
@@ -34,16 +37,17 @@ namespace Game1
         /// <param name="lowerBoundTexture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public Player(Texture2D texture, Texture2D positionTexture, 
+        public Player(World world, Texture2D texture, Texture2D positionTexture, 
             Texture2D upperBoundTexture, Texture2D lowerBoundTexture, 
             Shape shape, Body rigidBody) : 
-            base(texture, shape, rigidBody, 0)
+            base(world, texture, shape, rigidBody, 0)
         {
             this.positionTexture = positionTexture;
             this.upperBoundTexture = upperBoundTexture;
             this.lowerBoundTexture = lowerBoundTexture;
 
             Instance = this;
+            _lastProjectileTime = DateTime.MinValue;
         }
 
         /// <summary>
@@ -71,17 +75,17 @@ namespace Game1
             //draw player relative to camera
             var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
                 (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+            //var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+            //    (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+            //var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+            //    (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+            //var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+            //    (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
 
             spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, origin: new Vector2(Texture.Width / 2, Texture.Height / 2));
-            spriteBatch.Draw(positionTexture, bodyPosition);
-            spriteBatch.Draw(upperBoundTexture, upperBound);
-            spriteBatch.Draw(lowerBoundTexture, lowerBound);
+            ///spriteBatch.Draw(positionTexture, bodyPosition);
+            //spriteBatch.Draw(upperBoundTexture, upperBound);
+            //spriteBatch.Draw(lowerBoundTexture, lowerBound);
         }
 
         /// <summary>
@@ -136,7 +140,11 @@ namespace Game1
             }
             if(Keyboard.GetState().IsKeyDown(Keys.Space))
             {
-                WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition(), Rotation);
+                //if (DateTime.Now - _lastProjectileTime > TimeSpan.FromSeconds(.5))
+                {
+                    _lastProjectileTime = DateTime.Now;
+                    WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition(), Rotation);
+                }
             }
 
             if (Keyboard.GetState().IsKeyUp(Keys.W) &&

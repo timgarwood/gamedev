@@ -190,7 +190,7 @@ namespace Game1
            // texture2d.SetData(data);
             Logger.Info($"Wall created at ({wallBody.GetPosition().X},{wallBody.GetPosition().Y}) " + 
                 $"extends to ({wallBody.GetPosition().X + wallPhysicsSize.X},{wallBody.GetPosition().Y + wallPhysicsSize.Y})");
-            return new GameObject(null, shape, wallBody, 0);
+            return new GameObject(physicsWorld, null, shape, wallBody, 0);
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace Game1
             var crateShape = crateBody.CreateShape(crateShapeDef);
             crateBody.SetMassFromShapes();
 
-            player = new Player(crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody);
+            player = new Player(physicsWorld, crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody);
             GameWorld.Instance.AddGameObject(player);
 
 
