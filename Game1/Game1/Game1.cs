@@ -190,7 +190,7 @@ namespace Game1
            // texture2d.SetData(data);
             Logger.Info($"Wall created at ({wallBody.GetPosition().X},{wallBody.GetPosition().Y}) " + 
                 $"extends to ({wallBody.GetPosition().X + wallPhysicsSize.X},{wallBody.GetPosition().Y + wallPhysicsSize.Y})");
-            return new GameObject(physicsWorld, null, shape, wallBody, 0);
+            return new GameObject(physicsWorld, null, shape, wallBody, 0, null);
         }
 
         /// <summary>
@@ -298,14 +298,13 @@ namespace Game1
             */
 
             _alienFactory.Create("Alien1", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
-            /*_alienFactory.Create("Alien2", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            _alienFactory.Create("Alien2", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien3", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien4", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien5", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien6", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien7", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien8", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
-            */
         }
 
         /// <summary>
@@ -330,7 +329,7 @@ namespace Game1
             player.Update(gameTime);
             GameWorld.Instance.Update(gameTime);
 
-            physicsWorld.Step(1.0f / 60.0f, 2,1);
+            physicsWorld.Step(1.0f / 120.0f, 2,1);
 
 
             var lVelocity = player.RigidBody.GetLinearVelocity();

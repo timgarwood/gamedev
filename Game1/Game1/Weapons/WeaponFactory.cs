@@ -75,12 +75,22 @@ namespace Game1.Weapons
             var shape = body.CreateShape(shapeDef);
 
             body.SetMassFromShapes();
-            body.SetLinearVelocity(new Vec2(definition.Velocity * (float)System.Math.Cos(rotation), 
-                definition.Velocity * (float)System.Math.Sin(rotation)));
+            var velocityVector = GameUtils.RotationToVec2((float)(rotation * 180.0 / System.Math.PI));
+            body.SetLinearVelocity(velocityVector * definition.Velocity);
+            //body.SetLinearVelocity(new Vec2(definition.Velocity * (float)System.Math.Cos(rotation), 
+            //    definition.Velocity * (float)System.Math.Sin(rotation)));
 
-            var gameObject = new Projectile(_physicsWorld, definition, texture, shape, body, origin, rotation);
-            gameObject.TextureSourceRectangle = new Rectangle(new Point(definition.XCoordinate, definition.YCoordinate), 
-                new Point(definition.Width, definition.Height));
+            var gameObject = new Projectile(_physicsWorld
+                ,definition
+                ,texture
+                ,shape
+                ,body
+                ,origin
+                ,rotation
+                //TODO:  TextureSourceRectangle can be the same per-type of projectile, doesn't need to be created each time
+                ,new Rectangle(new Point(definition.XCoordinate, definition.YCoordinate),
+                    new Point(definition.Width, definition.Height)));
+
             GameWorld.Instance.AddGameObject(gameObject);
             return gameObject;
         }

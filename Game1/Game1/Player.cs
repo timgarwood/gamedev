@@ -40,7 +40,7 @@ namespace Game1
         public Player(World world, Texture2D texture, Texture2D positionTexture, 
             Texture2D upperBoundTexture, Texture2D lowerBoundTexture, 
             Shape shape, Body rigidBody) : 
-            base(world, texture, shape, rigidBody, 0)
+            base(world, texture, shape, rigidBody, 0, null)
         {
             this.positionTexture = positionTexture;
             this.upperBoundTexture = upperBoundTexture;
@@ -75,15 +75,15 @@ namespace Game1
             //draw player relative to camera
             var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
                 (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            //var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-            //    (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+            var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
             //var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
             //    (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
             //var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
             //    (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
 
             spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, origin: new Vector2(Texture.Width / 2, Texture.Height / 2));
-            ///spriteBatch.Draw(positionTexture, bodyPosition);
+            spriteBatch.Draw(positionTexture, bodyPosition);
             //spriteBatch.Draw(upperBoundTexture, upperBound);
             //spriteBatch.Draw(lowerBoundTexture, lowerBound);
         }
@@ -140,10 +140,10 @@ namespace Game1
             }
             if(Keyboard.GetState().IsKeyDown(Keys.Space))
             {
-                //if (DateTime.Now - _lastProjectileTime > TimeSpan.FromSeconds(.5))
+                if (DateTime.Now - _lastProjectileTime > TimeSpan.FromMilliseconds(100))
                 {
                     _lastProjectileTime = DateTime.Now;
-                    WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition(), Rotation);
+                    WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition()+new Vec2(.1f,.1f), RigidBody.GetAngle());
                 }
             }
 

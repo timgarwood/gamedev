@@ -3,7 +3,7 @@ using Box2DX.Dynamics;
 using Box2DX.Collision;
 using Box2DX.Common;
 using Microsoft.Xna.Framework;
-using System;
+using NLog;
 
 namespace Game1
 {
@@ -12,22 +12,41 @@ namespace Game1
     /// </summary>
     public class GameObject : Drawable, IUpdateable
     {
+        private static Logger Logger = LogManager.GetCurrentClassLogger();
+
+        private Vector2 TextureOffset { get; set; } = Vector2.Zero;
+
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public GameObject(World world, Texture2D texture, Shape shape, Body rigidBody, float rotation) : base(texture)
+        public GameObject(World world, Texture2D texture, Shape shape, Body rigidBody, float rotation, Rectangle? textureSourceRectangle) : base(texture)
         {
             Active = true;
             World = world;
             Shape = shape;
             RigidBody = rigidBody;
             Rotation = rotation;
+            TextureSourceRectangle = textureSourceRectangle;
+            if(TextureSourceRectangle.HasValue)
+            {
+                TextureOffset = new Vector2(
+                    Texture.Width/2 - TextureSourceRectangle.Value.Left
+                    ,Texture.Height/2 - TextureSourceRectangle.Value.Top);
+            }
+
+            /*if(TextureSourceRectangle.HasValue)
+            {
+                CenterOfRotation = new Vector2(
+                    TextureSourceRectangle.Value.Left + TextureSourceRectangle.Value.Width/2
+                    , TextureSourceRectangle.Value.Top + TextureSourceRectangle.Value.Height/2);
+            }
+            */
             if (texture != null)
             {
-                RenderOrigin = new Vector2(texture.Width / 2, texture.Height / 2);
+                CenterOfRotation = new Vector2(texture.Width / 2, texture.Height / 2);
             }
         }
 
@@ -37,7 +56,10 @@ namespace Game1
         public void Dispose()
         {
             base.Dispose();
-            RigidBody.DestroyShape(Shape);
+            if(Shape != null)
+            {
+                RigidBody.DestroyShape(Shape);
+            }
             World.DestroyBody(RigidBody);
             RigidBody = null;
             Shape = null;
@@ -87,7 +109,7 @@ namespace Game1
             return RigidBody.GetPosition();
         }
 
-        protected Vector2 RenderOrigin { get; set; }
+        protected Vector2 CenterOfRotation { get; set; }
 
         protected Vector2 RenderScale { get; set; }
 
@@ -135,9 +157,12 @@ namespace Game1
 
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
+            var rigidBodyPosition = RigidBody.GetPosition();
             var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraOrigin.X) * GameData.Instance.PixelsPerMeter,
                 (RigidBody.GetPosition().Y - cameraOrigin.Y) * GameData.Instance.PixelsPerMeter);
-            spriteBatch.Draw(Texture, texturePosition, null, TextureSourceRectangle, rotation: Rotation, origin: RenderOrigin, scale: RenderScale);
+            Logger.Info($"body position @ ({rigidBodyPosition.X},{rigidBodyPosition.Y})");
+            Logger.Info($"texture @ ({texturePosition.X},{texturePosition.Y})");
+            spriteBatch.Draw(Texture, texturePosition + TextureOffset, null, TextureSourceRectangle, rotation: 0, origin: CenterOfRotation, scale: RenderScale);
         }
 
         public virtual void Update(GameTime gameTime)
