@@ -67,6 +67,9 @@ namespace Game1.Weapons
 
             shapeDef.Density = definition.Density;
             shapeDef.Friction = definition.Friction;
+            //projectiles cannot collide with eachother
+            shapeDef.Filter.CategoryBits = 0x0001;
+            shapeDef.Filter.MaskBits = 0x0002;
 
             var bodyDef = new BodyDef();
             bodyDef.IsBullet = true;

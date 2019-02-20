@@ -81,6 +81,8 @@ namespace Game1
                 Logger.Info($"crate size = ({physicsSize.X},{physicsSize.Y})");
                 shapeDef.Density = definition.Density;
                 shapeDef.Friction = definition.Friction;
+                shapeDef.Filter.CategoryBits = 0x0002;
+                shapeDef.Filter.MaskBits = 0xFFFF;
 
                 var bodyDef = new BodyDef();
                 bodyDef.IsBullet = true;
