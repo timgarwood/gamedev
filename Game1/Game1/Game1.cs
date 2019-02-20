@@ -50,6 +50,79 @@ namespace Game1
         private WeaponFactory _weaponsFactory;
         private FontFactory _fontFactory;
 
+        public class GameContactListener : ContactListener
+        {
+            private static Logger Logger = LogManager.GetCurrentClassLogger();
+
+            public override void Add(ContactPoint point)
+            {
+                base.Add(point);
+            }
+
+            public override void Persist(ContactPoint point)
+            {
+                base.Persist(point);
+            }
+
+            public override void Remove(ContactPoint point)
+            {
+                base.Remove(point);
+            }
+
+            private void ExtractCollisionData(ContactResult point, out Projectile proj, out Alien alien, out Player player)
+            {
+                proj = null;
+                alien = null;
+                player = null;
+                var shapes = new Shape[] { point.Shape1, point.Shape2 };
+                foreach(var shape in shapes)
+                {
+                    if(shape.UserData is Projectile && proj == null)
+                    {
+                        proj = shape.UserData as Projectile;
+                    }
+                    else if(shape.UserData is Alien)
+                    {
+                        alien = shape.UserData as Alien;
+                    }
+                    else if(shape.UserData is Player)
+                    {
+                        player = shape.UserData as Player;
+                    }
+                }
+            }
+
+            public override void Result(ContactResult point)
+            {
+                Projectile proj = null;
+                Alien alien = null;
+                Player player = null;
+                ExtractCollisionData(point, out proj, out alien, out player);
+
+                if (proj != null)
+                {
+                    if (proj.Active)
+                    {
+                        if (alien != null)
+                        {
+                            Logger.Info("projectile collided with alien");
+                            GameWorld.Instance.RemoveGameObject(proj);
+                        }
+                        else if (player != null)
+                        {
+                            Logger.Info("projectile collided with player");
+                            GameWorld.Instance.RemoveGameObject(proj);
+                        }
+                    }
+                }
+                else
+                {
+                    base.Result(point);
+                }
+            }
+        }
+
+
         public Game1(GameData data)
         {
             gameData = data;
@@ -60,6 +133,7 @@ namespace Game1
             aabb.LowerBound = new Vec2(0, 0);
             aabb.UpperBound = new Vec2(gameData.MaxXDimension, gameData.MaxYDimension);
             physicsWorld = new World(aabb, new Vec2(0, 0), doSleep: false);
+            physicsWorld.SetContactListener(new GameContactListener());
             Content.RootDirectory = "Content";
             this.TargetElapsedTime = System.TimeSpan.FromSeconds(1f / gameData.Fps);
 
@@ -298,13 +372,14 @@ namespace Game1
             */
 
             _alienFactory.Create("Alien1", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
-            _alienFactory.Create("Alien2", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            /*_alienFactory.Create("Alien2", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien3", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien4", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien5", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien6", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien7", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien8", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            */
         }
 
         /// <summary>

@@ -116,6 +116,7 @@ namespace Game1
             }
 
             return new Vec2((float)x * xSign, (float)y * ySign);
+            //return new Vec2((float)System.Math.Cos(r), (float)System.Math.Sin(r));
         }
 
         /// <summary>

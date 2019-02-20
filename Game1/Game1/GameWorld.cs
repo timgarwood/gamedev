@@ -76,6 +76,7 @@ namespace Game1
         /// <param name="obj"></param>
         public void RemoveGameObject(GameObject obj)
         {
+            obj.Active = false;
             if(Updating)
             {
                 if (!_pendingRemoveGameObjects.Contains(obj))

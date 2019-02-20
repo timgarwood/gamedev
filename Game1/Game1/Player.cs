@@ -77,15 +77,15 @@ namespace Game1
                 (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
             var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
                 (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            //var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-            //    (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            //var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-            //    (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+            var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+            var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
 
             spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, origin: new Vector2(Texture.Width / 2, Texture.Height / 2));
             spriteBatch.Draw(positionTexture, bodyPosition);
-            //spriteBatch.Draw(upperBoundTexture, upperBound);
-            //spriteBatch.Draw(lowerBoundTexture, lowerBound);
+            spriteBatch.Draw(upperBoundTexture, upperBound);
+            spriteBatch.Draw(lowerBoundTexture, lowerBound);
         }
 
         /// <summary>
@@ -113,9 +113,8 @@ namespace Game1
                 //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
                 {
                     var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
-                    RigidBody.ApplyImpulse(new Vec2(impulseVec.X * GameData.Instance.PlayerImpulse,
-                        impulseVec.Y * GameData.Instance.PlayerImpulse),
-                        RigidBody.GetPosition());
+                    RigidBody.ApplyImpulse(impulseVec * GameData.Instance.PlayerImpulse
+                        ,RigidBody.GetPosition());
                 }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.S))
@@ -123,9 +122,8 @@ namespace Game1
                 //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
                 {
                     var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
-                    RigidBody.ApplyImpulse(new Vec2(-impulseVec.X * GameData.Instance.PlayerImpulse,
-                        -impulseVec.Y * GameData.Instance.PlayerImpulse),
-                        RigidBody.GetPosition());
+                    RigidBody.ApplyImpulse(impulseVec * -GameData.Instance.PlayerImpulse
+                        ,RigidBody.GetPosition());
                 }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.D))
@@ -140,10 +138,16 @@ namespace Game1
             }
             if(Keyboard.GetState().IsKeyDown(Keys.Space))
             {
-                if (DateTime.Now - _lastProjectileTime > TimeSpan.FromMilliseconds(100))
+                if (DateTime.Now - _lastProjectileTime > TimeSpan.FromMilliseconds(1000))
                 {
                     _lastProjectileTime = DateTime.Now;
-                    WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition()+new Vec2(.1f,.1f), RigidBody.GetAngle());
+
+                    //spawn the projectile just outside the players bounding box in the direction the player is facing.
+                    var offset = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
+                    var offsetLength = GameUtils.PhysicsVec(new Vector2(Texture.Width / 2, Texture.Height / 2));
+                    offset = offset * offsetLength.Length();
+
+                    WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition() + offset, RigidBody.GetAngle());
                 }
             }
 

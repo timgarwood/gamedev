@@ -4,6 +4,7 @@ using Box2DX.Collision;
 using Box2DX.Common;
 using Box2DX.Dynamics;
 using NLog;
+using System;
 
 namespace Game1.Weapons
 {
@@ -14,6 +15,7 @@ namespace Game1.Weapons
     {
         private WeaponDefinition _definition;
         private Vec2 _origin;
+        private DateTime _spawnTime = DateTime.MinValue;
         private Logger Logger = LogManager.GetCurrentClassLogger();
 
         public Projectile(World world
@@ -28,14 +30,20 @@ namespace Game1.Weapons
         {
             _origin = origin;
             _definition = definition;
+            _spawnTime = DateTime.UtcNow;
 
             //TODO: move this into json
             RenderScale = new Vector2(1.0f,1.0f);
+
         }
 
         public override void Update(GameTime gameTime)
         {
-            if(Vec2.Distance(_origin, RigidBody.GetPosition()) >= _definition.MaxDistance)
+            if(DateTime.UtcNow - _spawnTime >= TimeSpan.FromSeconds(3))
+            {
+                Remove();
+            }
+            else if(Vec2.Distance(_origin, RigidBody.GetPosition()) >= _definition.MaxDistance)
             {
                 Remove();
             }

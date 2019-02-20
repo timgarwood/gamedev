@@ -29,6 +29,7 @@ namespace Game1
             Shape = shape;
             RigidBody = rigidBody;
             Rotation = rotation;
+            Shape.UserData = this;
             TextureSourceRectangle = textureSourceRectangle;
             if(TextureSourceRectangle.HasValue)
             {
@@ -160,9 +161,17 @@ namespace Game1
             var rigidBodyPosition = RigidBody.GetPosition();
             var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraOrigin.X) * GameData.Instance.PixelsPerMeter,
                 (RigidBody.GetPosition().Y - cameraOrigin.Y) * GameData.Instance.PixelsPerMeter);
-            Logger.Info($"body position @ ({rigidBodyPosition.X},{rigidBodyPosition.Y})");
-            Logger.Info($"texture @ ({texturePosition.X},{texturePosition.Y})");
-            spriteBatch.Draw(Texture, texturePosition + TextureOffset, null, TextureSourceRectangle, rotation: 0, origin: CenterOfRotation, scale: RenderScale);
+            //Logger.Info($"body position @ ({rigidBodyPosition.X},{rigidBodyPosition.Y})");
+            //Logger.Info($"texture @ ({texturePosition.X},{texturePosition.Y})");
+            if (TextureSourceRectangle.HasValue)
+            {
+                spriteBatch.Draw(Texture, texturePosition + TextureOffset, null, TextureSourceRectangle, rotation: 0, origin: CenterOfRotation, scale: RenderScale);
+            }
+            else
+            {
+                spriteBatch.Draw(Texture, texturePosition, null, null, rotation: Rotation, origin: CenterOfRotation, scale: RenderScale);
+            }
+
         }
 
         public virtual void Update(GameTime gameTime)
