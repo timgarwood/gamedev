@@ -56,11 +56,11 @@ namespace Game1.Animations
                             };
 
                             x += def.FrameWidth;
-                            y += def.FrameHeight;
 
                             if (x >= def.Texture.Width)
                             {
                                 x = 0;
+                                y += def.FrameHeight;
                             }
 
                             if (y >= def.Texture.Height)

@@ -1,12 +1,12 @@
 [
   {
     "name": "LaserExplosion",
-    "spriteSheet": "sprites\\animations\\explosion1",
+    "spriteSheet": "sprites\\animations\\explosion3",
     "frameWidth": 64,
     "frameHeight": 64,
     "numFrames": 25,
     "repeat": false,
-    "frameDurationSecs": 0.2,
+    "frameDurationSecs": 0.05,
     "scale": 0.5
   },
   {
@@ -16,7 +16,17 @@
     "frameHeight": 64,
     "numFrames": 25,
     "repeat": false,
-    "frameDurationSecs": 0.2,
+    "frameDurationSecs": 0.05,
     "scale": 2.0
+  },
+  {
+    "name": "LaserExplosion2",
+    "spriteSheet": "sprites\\animations\\explosion3",
+    "frameWidth": 34,
+    "frameHeight": 34,
+    "numFrames": 42,
+    "repeat": false,
+    "frameDurationSecs": 0.05,
+    "scale": 1.0
   }
 ]
