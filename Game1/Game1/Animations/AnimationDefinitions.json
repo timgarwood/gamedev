@@ -1,0 +1,22 @@
+[
+  {
+    "name": "LaserExplosion",
+    "spriteSheet": "sprites\\animations\\explosion1",
+    "frameWidth": 64,
+    "frameHeight": 64,
+    "numFrames": 25,
+    "repeat": false,
+    "frameDurationSecs": 0.2,
+    "scale": 0.5
+  },
+  {
+    "name": "AlienExplosion",
+    "spriteSheet": "sprites\\animations\\explosion1",
+    "frameWidth": 64,
+    "frameHeight": 64,
+    "numFrames": 25,
+    "repeat": false,
+    "frameDurationSecs": 0.2,
+    "scale": 2.0
+  }
+]

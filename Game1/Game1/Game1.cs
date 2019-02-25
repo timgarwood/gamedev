@@ -10,6 +10,7 @@ using System.IO;
 using Game1.Fonts;
 using Game1.Weapons;
 using Game1.Hud;
+using Game1.Animations;
 
 namespace Game1
 {
@@ -49,6 +50,7 @@ namespace Game1
         private AlienFactory _alienFactory;
         private WeaponFactory _weaponsFactory;
         private FontFactory _fontFactory;
+        private AnimationFactory _animationFactory;
 
         public class GameContactListener : ContactListener
         {
@@ -107,6 +109,7 @@ namespace Game1
                         {
                             Logger.Info("projectile collided with alien");
                             GameWorld.Instance.RemoveGameObject(proj);
+                            GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(point.Position, "LaserExplosion"));
                         }
                         else if (player != null)
                         {
@@ -140,6 +143,7 @@ namespace Game1
             _alienFactory = new AlienFactory(physicsWorld, Content);
             _weaponsFactory = new WeaponFactory(physicsWorld, Content);
             _fontFactory = new FontFactory(Content);
+            _animationFactory = new AnimationFactory(Content);
 
             Window.ClientSizeChanged += OnResize;
         }
@@ -177,6 +181,12 @@ namespace Game1
             using (var stream = new FileStream("./Fonts/FontDefinitions.json", FileMode.Open))
             {
                 _fontFactory.Load(stream);
+            }
+
+            //load up animations
+            using (var stream = new FileStream("./Animations/AnimationDefinitions.json", FileMode.Open))
+            {
+                _animationFactory.Load(stream);
             }
 
             //FIXME

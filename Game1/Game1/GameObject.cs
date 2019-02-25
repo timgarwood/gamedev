@@ -29,7 +29,10 @@ namespace Game1
             Shape = shape;
             RigidBody = rigidBody;
             Rotation = rotation;
-            Shape.UserData = this;
+            if (Shape != null)
+            {
+                Shape.UserData = this;
+            }
             TextureSourceRectangle = textureSourceRectangle;
             if(TextureSourceRectangle.HasValue)
             {
@@ -57,11 +60,15 @@ namespace Game1
         public void Dispose()
         {
             base.Dispose();
-            if(Shape != null)
+            if(RigidBody != null && Shape != null)
             {
                 RigidBody.DestroyShape(Shape);
             }
-            World.DestroyBody(RigidBody);
+            if(World != null && RigidBody != null)
+            {
+               World.DestroyBody(RigidBody);
+            }
+
             RigidBody = null;
             Shape = null;
         }

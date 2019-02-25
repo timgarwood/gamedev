@@ -138,7 +138,7 @@ namespace Game1
             }
             if(Keyboard.GetState().IsKeyDown(Keys.Space))
             {
-                if (DateTime.Now - _lastProjectileTime > TimeSpan.FromMilliseconds(1000))
+                if (DateTime.Now - _lastProjectileTime > TimeSpan.FromMilliseconds(100))
                 {
                     _lastProjectileTime = DateTime.Now;
 

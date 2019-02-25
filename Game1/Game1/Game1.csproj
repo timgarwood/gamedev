@@ -45,6 +45,9 @@
     <Compile Include="Alien.cs" />
     <Compile Include="AlienDefinition.cs" />
     <Compile Include="AlienFactory.cs" />
+    <Compile Include="Animations\Animation.cs" />
+    <Compile Include="Animations\AnimationDefinition.cs" />
+    <Compile Include="Animations\AnimationFactory.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="BackgroundObject.cs" />
     <Compile Include="Drawable.cs" />
@@ -97,6 +100,9 @@
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
     <None Include="AlienDefinitions.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Animations\AnimationDefinitions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
