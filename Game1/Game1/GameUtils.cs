@@ -35,6 +35,16 @@ namespace Game1
         }
 
         /// <summary>
+        /// Takes an angle in radians and converts to x,y distance vector
+        /// </summary>
+        /// <param name="r"></param>
+        /// <returns></returns>
+        public static Vec2 RotationToVec2_2(float r)
+        {
+            return new Vec2((float)System.Math.Cos(r), (float)System.Math.Sin(r));
+        }
+
+        /// <summary>
         /// Takes an angle in degrees and converts to a x,y distance vector
         /// </summary>
         /// <param name="r"></param>

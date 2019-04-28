@@ -57,7 +57,7 @@ namespace Game1
         /// creates an instance of the given alien definition name
         /// </summary>
         /// <param name="name"></param>
-        public GameObject Create(string name, Vec2 location)
+        public GameObject Create(string name, Vec2 location, Texture2D position, Texture2D upperBound, Texture2D lowerBound)
         {
             if(_alienDefinitions != null)
             {
@@ -92,7 +92,7 @@ namespace Game1
 
                 body.SetMassFromShapes();
 
-                var gameObject = new Alien(_physicsWorld, definition, texture, shape, body);
+                var gameObject = new Alien(_physicsWorld, definition, texture, shape, body, position, upperBound, lowerBound);
                 GameWorld.Instance.AddGameObject(gameObject);
                 return gameObject;
             }

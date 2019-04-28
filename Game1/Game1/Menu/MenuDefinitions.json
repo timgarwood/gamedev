@@ -1,0 +1,48 @@
+[
+  {
+    "name": "root",
+    "title": "MENU",
+    "fontName" :  "Default",
+    "menuItems": [
+      {
+        "text": "New Game",
+        "action": "newGame",
+        "height": 20
+
+      },
+      {
+        "text": "Sound",
+        "action": "Next",
+        "menuName": "sound",
+      },
+      {
+        "text": "Quit",
+        "action": "Quit",
+        "height": 20
+      }
+    ]
+  },
+  {
+    "name": "sound",
+    "title": "SOUND MENU",
+    "fontName" :  "Default",
+    "menuItems": [
+      {
+        "text": "New Game",
+        "action": "newGame",
+        "height": 20
+
+      },
+      {
+        "text": "Sound",
+        "action": "Next",
+        "height": 20
+      },
+      {
+        "text": "Quit",
+        "action": "Quit",
+        "height": 20
+      }
+    ]
+  }
+]

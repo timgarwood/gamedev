@@ -78,7 +78,7 @@ namespace Game1.Weapons
             var shape = body.CreateShape(shapeDef);
 
             body.SetMassFromShapes();
-            var velocityVector = GameUtils.RotationToVec2((float)(rotation * 180.0 / System.Math.PI));
+            var velocityVector = GameUtils.RotationToVec2((float)(rotation * 180.0f / System.Math.PI));
             body.SetLinearVelocity(velocityVector * definition.Velocity);
 
             var gameObject = new Projectile(_physicsWorld

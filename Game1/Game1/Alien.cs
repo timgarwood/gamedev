@@ -30,6 +30,10 @@ namespace Game1
 
         private MoveState _moveState { get; set; }
 
+        private Texture2D _upperBoundTexture;
+        private Texture2D _lowerBoundTexture;
+        private Texture2D _positionTexture;
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -37,10 +41,13 @@ namespace Game1
         /// <param name="texture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public Alien(World world, AlienDefinition def, Texture2D texture, Shape shape, Body rigidBody) :
+        public Alien(World world, AlienDefinition def, Texture2D texture, Shape shape, Body rigidBody, Texture2D position, Texture2D upperBound, Texture2D lowerBound) :
             base(world, texture, shape, rigidBody, 0, null)
         {
             _moveState = MoveState.Stopped;
+            _upperBoundTexture = upperBound;
+            _lowerBoundTexture = lowerBound;
+            _positionTexture = position;
 
             _definition = def;
             RenderScale = new Vector2(def.Scale, def.Scale);
@@ -82,7 +89,7 @@ namespace Game1
 
             var rot = GameUtils.Vec2ToRotation(toTarget);
 
-            RigidBody.SetXForm(RigidBody.GetPosition(), (float)(rot * System.Math.PI / 180.0f));
+//            RigidBody.SetXForm(RigidBody.GetPosition(), (float)(rot * System.Math.PI / 180.0f));
             Rotation = (float)(rot * System.Math.PI / 180.0f);
 
             toTarget.Normalize();
@@ -103,7 +110,7 @@ namespace Game1
             //}
 
             //getting further away?
-            if(_lastDistanceToTarget < distToTarget)
+            /*if(_lastDistanceToTarget < distToTarget)
             {
                 if (myVelocity.Length() > 1)
                 {
@@ -195,6 +202,26 @@ namespace Game1
 
             _lastDistanceToTarget = distToTarget;
             base.Update(gameTime);
+        }
+
+        public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraPosition, Vector2 viewport)
+        {
+            var angle = RigidBody.GetAngle();
+
+            //draw player relative to camera
+            var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+            var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+            var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+            var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+
+            spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, scale: RenderScale, origin: RenderScale * new Vector2(Texture.Width / 2, Texture.Height / 2));
+            //spriteBatch.Draw(_positionTexture, bodyPosition);
+            //spriteBatch.Draw(_upperBoundTexture, upperBound);
+            //spriteBatch.Draw(_lowerBoundTexture, lowerBound);
         }
     }
 }

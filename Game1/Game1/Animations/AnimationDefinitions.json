@@ -1,7 +1,7 @@
 [
   {
     "name": "LaserExplosion",
-    "spriteSheet": "sprites\\animations\\explosion3",
+    "spriteSheet": "sprites\\animations\\explosion1",
     "frameWidth": 64,
     "frameHeight": 64,
     "numFrames": 25,

@@ -6,7 +6,7 @@
     "yCoordinate": 42,
     "width": 10,
     "height": 10,
-    "velocity": 15,
+    "velocity": 10,
     "damage": 2,
     "maxDistance" : 2,
     "density": 0.6,

@@ -11,6 +11,7 @@ using Game1.Fonts;
 using Game1.Weapons;
 using Game1.Hud;
 using Game1.Animations;
+using Game1.Menu;
 
 namespace Game1
 {
@@ -51,6 +52,7 @@ namespace Game1
         private WeaponFactory _weaponsFactory;
         private FontFactory _fontFactory;
         private AnimationFactory _animationFactory;
+        private MenuFactory _menuFactory;
 
         public class GameContactListener : ContactListener
         {
@@ -115,6 +117,7 @@ namespace Game1
                         {
                             Logger.Info("projectile collided with player");
                             GameWorld.Instance.RemoveGameObject(proj);
+                            GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(point.Position, "LaserExplosion"));
                         }
                     }
                 }
@@ -144,6 +147,7 @@ namespace Game1
             _weaponsFactory = new WeaponFactory(physicsWorld, Content);
             _fontFactory = new FontFactory(Content);
             _animationFactory = new AnimationFactory(Content);
+            _menuFactory = new MenuFactory(_fontFactory);
 
             Window.ClientSizeChanged += OnResize;
         }
@@ -187,6 +191,12 @@ namespace Game1
             using (var stream = new FileStream("./Animations/AnimationDefinitions.json", FileMode.Open))
             {
                 _animationFactory.Load(stream);
+            }
+
+            //load up menus
+            using (var stream = new FileStream("./Menu/MenuDefinitions.json", FileMode.Open))
+            {
+                _menuFactory.Load(stream);
             }
 
             //FIXME
@@ -369,21 +379,22 @@ namespace Game1
             player = new Player(physicsWorld, crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody);
             GameWorld.Instance.AddGameObject(player);
 
-
-
             var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).TotalMilliseconds);
 
-           /* _alienFactory.Create("Alien1", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
-            _alienFactory.Create("Alien2", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
-            _alienFactory.Create("Alien3", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
-            _alienFactory.Create("Alien4", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
-            _alienFactory.Create("Alien5", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
-            _alienFactory.Create("Alien6", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
-            _alienFactory.Create("Alien7", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
-            _alienFactory.Create("Alien8", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
-            */
+            /* _alienFactory.Create("Alien1", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+             _alienFactory.Create("Alien2", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+             _alienFactory.Create("Alien3", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+             _alienFactory.Create("Alien4", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+             _alienFactory.Create("Alien5", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+             _alienFactory.Create("Alien6", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+             _alienFactory.Create("Alien7", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+             _alienFactory.Create("Alien8", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
+             */
 
-            _alienFactory.Create("Alien1", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
+            //TODO:  add this back in when pixels per meter is at 250
+            _alienFactory.Create("Alien1", new Vec2(rand.Next(40, 45), rand.Next(40, 45)), positionTexture, upperBoundTexture, lowerBoundTexture);
+            
+            
             /*_alienFactory.Create("Alien2", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien3", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien4", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));

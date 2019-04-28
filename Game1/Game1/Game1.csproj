@@ -70,6 +70,10 @@
     <Compile Include="IAssetDefinition.cs" />
     <Compile Include="IDrawable.cs" />
     <Compile Include="IUpdateable.cs" />
+    <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Menu\MenuFactory.cs" />
+    <Compile Include="Menu\MenuDefinition.cs" />
+    <Compile Include="Menu\MenuItemDefinition.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -114,6 +118,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Hud\HudDefinition.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Menu\MenuDefinitions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="NLog.config">

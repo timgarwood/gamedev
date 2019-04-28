@@ -51,7 +51,10 @@ namespace Game1.Weapons
 
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
-            base.OnDraw(spriteBatch, cameraOrigin, viewport);
+            if(Active)
+            {
+                base.OnDraw(spriteBatch, cameraOrigin, viewport);
+            }
         }
     }
 }

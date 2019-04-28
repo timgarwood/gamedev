@@ -20,9 +20,9 @@ namespace Game1
         /// </summary>
         private Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private Texture2D positionTexture;
-        private Texture2D upperBoundTexture;
-        private Texture2D lowerBoundTexture;
+        private Texture2D _positionTexture;
+        private Texture2D _upperBoundTexture;
+        private Texture2D _lowerBoundTexture;
 
         private DateTime _lastProjectileTime;
 
@@ -42,9 +42,9 @@ namespace Game1
             Shape shape, Body rigidBody) : 
             base(world, texture, shape, rigidBody, 0, null)
         {
-            this.positionTexture = positionTexture;
-            this.upperBoundTexture = upperBoundTexture;
-            this.lowerBoundTexture = lowerBoundTexture;
+            _positionTexture = positionTexture;
+            _upperBoundTexture = upperBoundTexture;
+            _lowerBoundTexture = lowerBoundTexture;
 
             Instance = this;
             _lastProjectileTime = DateTime.MinValue;
@@ -83,9 +83,9 @@ namespace Game1
                 (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
 
             spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, origin: new Vector2(Texture.Width / 2, Texture.Height / 2));
-            spriteBatch.Draw(positionTexture, bodyPosition);
-            spriteBatch.Draw(upperBoundTexture, upperBound);
-            spriteBatch.Draw(lowerBoundTexture, lowerBound);
+            spriteBatch.Draw(_positionTexture, bodyPosition);
+            spriteBatch.Draw(_upperBoundTexture, upperBound);
+            spriteBatch.Draw(_lowerBoundTexture, lowerBound);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Game1
 
                     //spawn the projectile just outside the players bounding box in the direction the player is facing.
                     var offset = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
-                    var offsetLength = GameUtils.PhysicsVec(new Vector2(Texture.Width / 2, Texture.Height / 2));
+                    var offsetLength = GameUtils.PhysicsVec(new Vector2(Texture.Width/2, Texture.Height / 2));
                     offset = offset * offsetLength.Length();
 
                     WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition() + offset, RigidBody.GetAngle());

@@ -25,7 +25,6 @@ namespace Game1
         /// <param name="gameData"></param>
         public static void GenerateBackground(Texture2D[] backgroundTextures, GameData gameData)
         {
-            _backgroundObjects.Clear();
             var textureRandom = new Random((int)(DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds);
             var positionRandom = new Random((int)(DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds);
             var distanceRandom = new Random((int)(DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds);
