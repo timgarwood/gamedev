@@ -82,15 +82,12 @@ namespace Game1.Weapons
             body.SetLinearVelocity(velocityVector * definition.Velocity);
 
             var gameObject = new Projectile(_physicsWorld
-                ,definition
-                ,texture
-                ,shape
-                ,body
-                ,origin
-                ,rotation
-                //TODO:  TextureSourceRectangle can be the same per-type of projectile, doesn't need to be created each time
-                ,new Rectangle(new Point(definition.XCoordinate, definition.YCoordinate),
-                    new Point(definition.Width, definition.Height)));
+                , definition
+                , texture
+                , shape
+                , body
+                , origin
+                , rotation);
 
             GameWorld.Instance.AddGameObject(gameObject);
             return gameObject;

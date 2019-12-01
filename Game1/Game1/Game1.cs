@@ -284,7 +284,7 @@ namespace Game1
            // texture2d.SetData(data);
             Logger.Info($"Wall created at ({wallBody.GetPosition().X},{wallBody.GetPosition().Y}) " + 
                 $"extends to ({wallBody.GetPosition().X + wallPhysicsSize.X},{wallBody.GetPosition().Y + wallPhysicsSize.Y})");
-            return new GameObject(physicsWorld, null, shape, wallBody, 0, null);
+            return new GameObject(physicsWorld, null, shape, wallBody, 0);
         }
 
         /// <summary>

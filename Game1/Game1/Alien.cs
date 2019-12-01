@@ -42,7 +42,7 @@ namespace Game1
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
         public Alien(World world, AlienDefinition def, Texture2D texture, Shape shape, Body rigidBody, Texture2D position, Texture2D upperBound, Texture2D lowerBound) :
-            base(world, texture, shape, rigidBody, 0, null)
+            base(world, texture, shape, rigidBody, 0)
         {
             _moveState = MoveState.Stopped;
             _upperBoundTexture = upperBound;

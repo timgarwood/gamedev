@@ -22,7 +22,7 @@ namespace Game1
         /// <param name="texture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public GameObject(World world, Texture2D texture, Shape shape, Body rigidBody, float rotation, Rectangle? textureSourceRectangle) : base(texture)
+        public GameObject(World world, Texture2D texture, Shape shape, Body rigidBody, float rotation) : base(texture)
         {
             Active = true;
             World = world;
@@ -32,13 +32,6 @@ namespace Game1
             if (Shape != null)
             {
                 Shape.UserData = this;
-            }
-            TextureSourceRectangle = textureSourceRectangle;
-            if(TextureSourceRectangle.HasValue)
-            {
-                TextureOffset = new Vector2(
-                    Texture.Width/2 - TextureSourceRectangle.Value.Left
-                    ,Texture.Height/2 - TextureSourceRectangle.Value.Top);
             }
 
             /*if(TextureSourceRectangle.HasValue)
@@ -87,11 +80,6 @@ namespace Game1
         /// physics shape
         /// </summary>
         public Shape Shape { get; private set; }
-
-        /// <summary>
-        /// source rectangle in the given texture
-        /// </summary>
-        public Rectangle? TextureSourceRectangle { get; set; }
 
         /// <summary>
         /// whether or not the game object is available to interact
@@ -170,14 +158,7 @@ namespace Game1
                 (RigidBody.GetPosition().Y - cameraOrigin.Y) * GameData.Instance.PixelsPerMeter);
             //Logger.Info($"body position @ ({rigidBodyPosition.X},{rigidBodyPosition.Y})");
             //Logger.Info($"texture @ ({texturePosition.X},{texturePosition.Y})");
-            if (TextureSourceRectangle.HasValue)
-            {
-                spriteBatch.Draw(Texture, texturePosition + TextureOffset, null, TextureSourceRectangle, rotation: 0, origin: CenterOfRotation, scale: RenderScale);
-            }
-            else
-            {
-                spriteBatch.Draw(Texture, texturePosition, null, null, rotation: Rotation, origin: CenterOfRotation, scale: RenderScale);
-            }
+            spriteBatch.Draw(Texture, texturePosition, null, null, rotation: Rotation, origin: CenterOfRotation, scale: RenderScale);
 
         }
 

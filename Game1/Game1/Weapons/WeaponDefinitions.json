@@ -1,12 +1,12 @@
 ﻿[
   {
     "name": "GreenLaser-small",
-    "spriteSheet": "sprites\\weapons\\lasers-transparent",
-    "xCoordinate": 22,
-    "yCoordinate": 42,
+    "spriteSheet": "sprites\\weapons\\green-laser-transparent",
+    "xCoordinate": 0,
+    "yCoordinate": 0,
     "width": 10,
     "height": 10,
-    "velocity": 10,
+    "velocity": 1,
     "damage": 2,
     "maxDistance" : 2,
     "density": 0.6,

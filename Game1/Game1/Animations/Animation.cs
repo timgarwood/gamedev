@@ -15,7 +15,7 @@ namespace Game1.Animations
         public Animation(Vec2 position, AnimationDefinition definition) :
             // animations don't participate in the physics world
             // they are GameObjects so that they can be drawn
-            base(null, null, null, null, 0, null)
+            base(null, null, null, null, 0)
         {
             _position = position;
             _definition = definition;

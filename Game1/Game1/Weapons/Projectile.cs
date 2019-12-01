@@ -24,9 +24,8 @@ namespace Game1.Weapons
             ,Shape shape
             ,Body rigidBody
             ,Vec2 origin
-            ,float rotation
-            ,Rectangle textureSourceRectangle):
-            base(world, texture, shape, rigidBody, rotation, textureSourceRectangle)
+            ,float rotation) :
+            base(world, texture, shape, rigidBody, rotation)
         {
             _origin = origin;
             _definition = definition;

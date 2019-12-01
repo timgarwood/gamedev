@@ -40,7 +40,7 @@ namespace Game1
         public Player(World world, Texture2D texture, Texture2D positionTexture, 
             Texture2D upperBoundTexture, Texture2D lowerBoundTexture, 
             Shape shape, Body rigidBody) : 
-            base(world, texture, shape, rigidBody, 0, null)
+            base(world, texture, shape, rigidBody, 0)
         {
             _positionTexture = positionTexture;
             _upperBoundTexture = upperBoundTexture;
@@ -142,9 +142,10 @@ namespace Game1
                 {
                     _lastProjectileTime = DateTime.Now;
 
+                    var slop = 20;
                     //spawn the projectile just outside the players bounding box in the direction the player is facing.
                     var offset = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
-                    var offsetLength = GameUtils.PhysicsVec(new Vector2(Texture.Width/2, Texture.Height / 2));
+                    var offsetLength = GameUtils.PhysicsVec(new Vector2(0, (Texture.Height + slop)/ 2));
                     offset = offset * offsetLength.Length();
 
                     WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition() + offset, RigidBody.GetAngle());
