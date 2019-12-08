@@ -4,9 +4,15 @@ using Box2DX.Dynamics;
 using Box2DX.Collision;
 using Box2DX.Common;
 using System;
+using Game1.Weapons;
 
 namespace Game1
 {
+    public class AlienDeathEventArgs : EventArgs
+    {
+        public Vec2 Location;
+    }
+
     public class Alien : GameObject
     {
         /// <summary>
@@ -30,9 +36,7 @@ namespace Game1
 
         private MoveState _moveState { get; set; }
 
-        private Texture2D _upperBoundTexture;
-        private Texture2D _lowerBoundTexture;
-        private Texture2D _positionTexture;
+        private int Hp { get; set; }
 
         /// <summary>
         /// ctor
@@ -41,13 +45,12 @@ namespace Game1
         /// <param name="texture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public Alien(World world, AlienDefinition def, Texture2D texture, Shape shape, Body rigidBody, Texture2D position, Texture2D upperBound, Texture2D lowerBound) :
+        public Alien(World world, AlienDefinition def, Texture2D texture, Shape shape, Body rigidBody) :
             base(world, texture, shape, rigidBody, 0)
         {
+            Hp = def.Hp;
+
             _moveState = MoveState.Stopped;
-            _upperBoundTexture = upperBound;
-            _lowerBoundTexture = lowerBound;
-            _positionTexture = position;
 
             _definition = def;
             RenderScale = new Vector2(def.Scale, def.Scale);
@@ -74,6 +77,21 @@ namespace Game1
                 if (RigidBody.GetLinearVelocity().Length() < _definition.MaxSpeed)
                 {
                     RigidBody.ApplyImpulse(toTarget * _definition.MoveImpulse, RigidBody.GetPosition());
+                }
+            }
+        }
+
+        public override void OnCollision(GameObject other)
+        {
+            if(other is Projectile)
+            {
+                var proj = other as Projectile;
+                Hp -= proj.Defintion.Damage;
+                if(Hp <= 0)
+                {
+                    var args = new AlienDeathEventArgs();
+                    args.Location = RigidBody.GetPosition();
+                    Death?.Invoke(this, args);
                 }
             }
         }
@@ -110,7 +128,7 @@ namespace Game1
             //}
 
             //getting further away?
-            /*if(_lastDistanceToTarget < distToTarget)
+            if(_lastDistanceToTarget < distToTarget)
             {
                 if (myVelocity.Length() > 1)
                 {
@@ -219,9 +237,10 @@ namespace Game1
                 (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
 
             spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, scale: RenderScale, origin: RenderScale * new Vector2(Texture.Width / 2, Texture.Height / 2));
-            //spriteBatch.Draw(_positionTexture, bodyPosition);
-            //spriteBatch.Draw(_upperBoundTexture, upperBound);
-            //spriteBatch.Draw(_lowerBoundTexture, lowerBound);
         }
+
+        public delegate void AlienDeathDelegate(object sender, AlienDeathEventArgs args);
+
+        public event AlienDeathDelegate Death;
     }
 }

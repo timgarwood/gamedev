@@ -2,6 +2,12 @@
 {
     public class AlienDefinition
     {
+        public class Vertice
+        {
+            public int X { get; set; }
+            public int Y {get; set;}
+        }
+
         public AlienDefinition()
         {
         }
@@ -25,5 +31,7 @@
         public float MoveImpulse { get; set; }
 
         public float DecisionFrequencySec { get; set; }
+
+        public Vertice[] Vertices { get; set; }
     }
 }

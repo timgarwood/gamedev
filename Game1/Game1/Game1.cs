@@ -12,6 +12,8 @@ using Game1.Weapons;
 using Game1.Hud;
 using Game1.Animations;
 using Game1.Menu;
+using Game1.GameMode;
+using Game1.Physics;
 
 namespace Game1
 {
@@ -29,7 +31,6 @@ namespace Game1
         private GameObject bottomWall;
         private GameObject leftWall;
         private GameObject rightWall;
-        private Vec2 currentCrateVelocity;
         private Logger Logger = LogManager.GetCurrentClassLogger();
 
         private GameData gameData;
@@ -54,79 +55,8 @@ namespace Game1
         private AnimationFactory _animationFactory;
         private MenuFactory _menuFactory;
 
-        public class GameContactListener : ContactListener
-        {
-            private static Logger Logger = LogManager.GetCurrentClassLogger();
+        private GameMode.GameMode CurrentGameMode { get; set; }
 
-            public override void Add(ContactPoint point)
-            {
-                base.Add(point);
-            }
-
-            public override void Persist(ContactPoint point)
-            {
-                base.Persist(point);
-            }
-
-            public override void Remove(ContactPoint point)
-            {
-                base.Remove(point);
-            }
-
-            private void ExtractCollisionData(ContactResult point, out Projectile proj, out Alien alien, out Player player)
-            {
-                proj = null;
-                alien = null;
-                player = null;
-                var shapes = new Shape[] { point.Shape1, point.Shape2 };
-                foreach(var shape in shapes)
-                {
-                    if(shape.UserData is Projectile && proj == null)
-                    {
-                        proj = shape.UserData as Projectile;
-                    }
-                    else if(shape.UserData is Alien)
-                    {
-                        alien = shape.UserData as Alien;
-                    }
-                    else if(shape.UserData is Player)
-                    {
-                        player = shape.UserData as Player;
-                    }
-                }
-            }
-
-            public override void Result(ContactResult point)
-            {
-                Projectile proj = null;
-                Alien alien = null;
-                Player player = null;
-                ExtractCollisionData(point, out proj, out alien, out player);
-
-                if (proj != null)
-                {
-                    if (proj.Active)
-                    {
-                        if (alien != null)
-                        {
-                            Logger.Info("projectile collided with alien");
-                            GameWorld.Instance.RemoveGameObject(proj);
-                            GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(point.Position, "LaserExplosion"));
-                        }
-                        else if (player != null)
-                        {
-                            Logger.Info("projectile collided with player");
-                            GameWorld.Instance.RemoveGameObject(proj);
-                            GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(point.Position, "LaserExplosion"));
-                        }
-                    }
-                }
-                else
-                {
-                    base.Result(point);
-                }
-            }
-        }
 
 
         public Game1(GameData data)
@@ -209,6 +139,7 @@ namespace Game1
             }
 
             Hud.Hud.Instance.OnWindowResized(viewport);
+
 
             base.Initialize();
         }
@@ -379,7 +310,6 @@ namespace Game1
             player = new Player(physicsWorld, crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody);
             GameWorld.Instance.AddGameObject(player);
 
-            var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).TotalMilliseconds);
 
             /* _alienFactory.Create("Alien1", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
              _alienFactory.Create("Alien2", new Vec2(rand.Next(0, (int)gameData.MaxXDimension), rand.Next(0, (int)gameData.MaxYDimension)));
@@ -392,7 +322,6 @@ namespace Game1
              */
 
             //TODO:  add this back in when pixels per meter is at 250
-            _alienFactory.Create("Alien1", new Vec2(rand.Next(40, 45), rand.Next(40, 45)), positionTexture, upperBoundTexture, lowerBoundTexture);
             
             
             /*_alienFactory.Create("Alien2", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
@@ -403,6 +332,9 @@ namespace Game1
             _alienFactory.Create("Alien7", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             _alienFactory.Create("Alien8", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             */
+            
+            CurrentGameMode = new GameMode.BasicGameMode(GameWorld.Instance, _animationFactory, _alienFactory, player);
+            CurrentGameMode.Initialize();
         }
 
         /// <summary>
@@ -424,25 +356,10 @@ namespace Game1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            player.Update(gameTime);
-            GameWorld.Instance.Update(gameTime);
+            var state = CurrentGameMode.Update(gameTime);
 
-            physicsWorld.Step(1.0f / 120.0f, 2,1);
+            physicsWorld.Step(1.0f / 120.0f, 1,1);
 
-
-            var lVelocity = player.RigidBody.GetLinearVelocity();
-            if (currentCrateVelocity != null)
-            {
-                if (Math.Abs(lVelocity.X) <= 0 && Math.Abs(lVelocity.Y) <= 0 && 
-                    (Math.Abs(currentCrateVelocity.X) > 0 || Math.Abs(currentCrateVelocity.Y) > 0))
-                {
-                    //we came to a stop, log the position
-                    var position = player.RigidBody.GetPosition();
-                    Logger.Info($"Crate stopped at ({position.X},{position.Y})");
-                }
-            }
-
-            currentCrateVelocity = lVelocity;
             base.Update(gameTime);
         }
 

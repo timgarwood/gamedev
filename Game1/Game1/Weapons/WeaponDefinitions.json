@@ -6,8 +6,8 @@
     "yCoordinate": 0,
     "width": 10,
     "height": 10,
-    "velocity": 1,
-    "damage": 2,
+    "velocity": 10,
+    "damage": 20,
     "maxDistance" : 2,
     "density": 0.6,
     "friction" :  1.0

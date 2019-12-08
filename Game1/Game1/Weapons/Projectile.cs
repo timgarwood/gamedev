@@ -55,5 +55,13 @@ namespace Game1.Weapons
                 base.OnDraw(spriteBatch, cameraOrigin, viewport);
             }
         }
+
+        public WeaponDefinition Defintion
+        {
+            get
+            {
+                return _definition;
+            }
+        }
     }
 }

@@ -68,6 +68,7 @@ namespace Game1
         /// <param name="spriteBatch"></param>
         /// <param name="cameraPosition"></param>
         /// <param name="viewport"></param>
+        [Obsolete]
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraPosition, Vector2 viewport)
         {
             var angle = RigidBody.GetAngle();
@@ -94,19 +95,21 @@ namespace Game1
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            //if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+            /*if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
                 var cratePosition = RigidBody.GetPosition();
                 RigidBody.ApplyImpulse(new Vec2(-GameData.Instance.PlayerImpulse, 0),
                     new Vec2(cratePosition.X, cratePosition.Y));
             }
 
-            if (Mouse.GetState().RightButton == ButtonState.Pressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
                 var cratePosition = RigidBody.GetPosition();
                 RigidBody.ApplyImpulse(new Vec2(GameData.Instance.PlayerImpulse, 0),
                     new Vec2(cratePosition.X, cratePosition.Y));
             }
+            */
 
             if (Keyboard.GetState().IsKeyDown(Keys.W))
             {
@@ -126,7 +129,7 @@ namespace Game1
                         ,RigidBody.GetPosition());
                 }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
                 RigidBody.ApplyTorque(GameData.Instance.PlayerTurnTorque);

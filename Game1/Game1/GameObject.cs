@@ -166,6 +166,11 @@ namespace Game1
         {
         }
 
+        public virtual void OnCollision(GameObject other)
+        {
+        }
+
+
         /// <summary>
         /// removes this game object from the game world
         /// </summary>

@@ -57,7 +57,7 @@ namespace Game1
         /// creates an instance of the given alien definition name
         /// </summary>
         /// <param name="name"></param>
-        public GameObject Create(string name, Vec2 location, Texture2D position, Texture2D upperBound, Texture2D lowerBound)
+        public Alien Create(string name, Vec2 location)
         {
             if(_alienDefinitions != null)
             {
@@ -71,14 +71,16 @@ namespace Game1
                 var physicsSize = GameUtils.PhysicsVec(new Vector2(texture.Width * definition.Scale, texture.Height * definition.Scale));
 
                 var shapeDef = new PolygonDef();
-                shapeDef.Vertices = new Vec2[4];
-                shapeDef.Vertices[0] = new Vec2(-(physicsSize.X / 2), -(physicsSize.Y / 2));
-                shapeDef.Vertices[1] = new Vec2((physicsSize.X / 2), -(physicsSize.Y / 2));
-                shapeDef.Vertices[2] = new Vec2((physicsSize.X / 2), (physicsSize.Y / 2));
-                shapeDef.Vertices[3] = new Vec2(-(physicsSize.X / 2), (physicsSize.Y / 2));
-                shapeDef.VertexCount = 4;
+                shapeDef.Vertices = new Vec2[definition.Vertices.Length];
+                for(var i = 0; i < definition.Vertices.Length; ++i)
+                {
+                    var x = definition.Vertices[i].X;
+                    var y = definition.Vertices[i].Y;
+                    shapeDef.Vertices[i] = GameUtils.PhysicsVec(new Vector2(x, y));
+                }
 
-                Logger.Info($"crate size = ({physicsSize.X},{physicsSize.Y})");
+                shapeDef.VertexCount = shapeDef.Vertices.Length;
+
                 shapeDef.Density = definition.Density;
                 shapeDef.Friction = definition.Friction;
                 shapeDef.Filter.CategoryBits = 0x0002;
@@ -92,7 +94,7 @@ namespace Game1
 
                 body.SetMassFromShapes();
 
-                var gameObject = new Alien(_physicsWorld, definition, texture, shape, body, position, upperBound, lowerBound);
+                var gameObject = new Alien(_physicsWorld, definition, texture, shape, body);
                 GameWorld.Instance.AddGameObject(gameObject);
                 return gameObject;
             }

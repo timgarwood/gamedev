@@ -57,6 +57,8 @@
     <Compile Include="Fonts\FontFactory.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameData.cs" />
+    <Compile Include="GameMode\BasicGameMode.cs" />
+    <Compile Include="GameMode\GameMode.cs" />
     <Compile Include="GameObject.cs" />
     <Compile Include="GameUtils.cs" />
     <Compile Include="GameWorld.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Menu\MenuFactory.cs" />
     <Compile Include="Menu\MenuDefinition.cs" />
     <Compile Include="Menu\MenuItemDefinition.cs" />
+    <Compile Include="Physics\GameContactListener.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
