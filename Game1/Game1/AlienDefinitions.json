@@ -1,8 +1,8 @@
 ﻿[
   {
     "name": "Alien1",
-    "textureName": "sprites\\ships\\alien1-transparent",
-    "scale": 0.25,
+    "textureName": "sprites\\ships\\alien1-transparent-2",
+    "scale":1, 
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
@@ -10,7 +10,37 @@
     "decisionFrequencySec" :  0.1,
     "maxSpeed" :  5,
     "alienTurnVelocityDecrement": 1,
-    "hp": 100
+    "hp": 100,
+    "vertices": [
+      {
+        "X": 0,
+        "Y": -148
+      },
+      {
+        "X": 54,
+        "Y": -97
+      },
+      {
+        "X": 61,
+        "Y": -29
+      },
+      {
+        "X": 24,
+        "Y": 148
+      },
+      {
+        "X": -22,
+        "Y": 148
+      },
+      {
+        "X": -59,
+        "Y": -29
+      },
+      {
+        "X": -52,
+        "Y": -97
+      }
+    ]
   },
   {
     "name" :  "Alien2",
