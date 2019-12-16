@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using NLog;
 using Game1.Animations;
+using Game1.Physics;
 
 namespace Game1
 {
@@ -87,8 +88,8 @@ namespace Game1
 
                 shapeDef.Density = definition.Density;
                 shapeDef.Friction = definition.Friction;
-                shapeDef.Filter.CategoryBits = 0x0002;
-                shapeDef.Filter.MaskBits = 0xFFFF;
+                shapeDef.Filter.CategoryBits = CollisionCategory.Alien;
+                shapeDef.Filter.MaskBits = (ushort)(CollisionCategory.Player | CollisionCategory.PlayerProjectile | CollisionCategory.Alien);
 
                 var bodyDef = new BodyDef();
                 bodyDef.IsBullet = true;

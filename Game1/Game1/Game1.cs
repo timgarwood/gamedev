@@ -287,17 +287,13 @@ namespace Game1
             crateShapeDef.Vertices[1] = new Vec2((cratePhysicsSize.X / 2),  -(cratePhysicsSize.Y / 2));
             crateShapeDef.Vertices[2] = new Vec2((cratePhysicsSize.X / 2), (cratePhysicsSize.Y / 2));
             crateShapeDef.Vertices[3] = new Vec2(-(cratePhysicsSize.X / 2), (cratePhysicsSize.Y / 2));
-            //crateShapeDef.Vertices[0] = new Vec2(-cratePhysicsSize.X,-cratePhysicsSize.Y);
-            //crateShapeDef.Vertices[1] = new Vec2(0,  -cratePhysicsSize.Y);
-            //crateShapeDef.Vertices[2] = new Vec2(0, 0);
-            //crateShapeDef.Vertices[3] = new Vec2(-cratePhysicsSize.X, 0);
             crateShapeDef.VertexCount = 4;
-            //crateShapeDef.SetAsBox(cratePhysicsSize.X/2, cratePhysicsSize.Y/2, new Vec2(0f,0f), 0);
+
             Logger.Info($"crate size = ({cratePhysicsSize.X},{cratePhysicsSize.Y})");
             crateShapeDef.Density = gameData.PlayerDensity;
             crateShapeDef.Friction = gameData.PlayerFriction;
-            crateShapeDef.Filter.CategoryBits = 0x0002;
-            crateShapeDef.Filter.MaskBits = 0xFFFF;
+            crateShapeDef.Filter.CategoryBits = CollisionCategory.Player;
+            crateShapeDef.Filter.MaskBits = (ushort) (CollisionCategory.Alien | CollisionCategory.AlienProjectile);
 
             var crateBodyDef = new BodyDef();
             crateBodyDef.IsBullet = true;
@@ -361,33 +357,6 @@ namespace Game1
             physicsWorld.Step(1.0f / 120.0f, 1,1);
 
             base.Update(gameTime);
-        }
-
-        private void DrawWalls(SpriteBatch spriteBatch)
-        {
-            /*var planetLocation = new Vector2(0, 0);
-            var scale = .75f;
-            var vscale = new Vector2(scale,scale);
-            foreach(var planet in planets)
-            {
-                spriteBatch.Draw(planet, planetLocation, null, null, null, 0, vscale);
-                planetLocation.X += (planet.Width * scale);
-                if(planetLocation.X > 800)
-                {
-                    planetLocation.X = 0;
-                    planetLocation.Y += 250 * scale;
-                }
-            }
-            */
-            /*var texturePosition = GraphicsVec(topWall.RigidBody.GetPosition());
-            spriteBatch.Draw(topWall.Texture, texturePosition);
-            texturePosition = GraphicsVec(bottomWall.RigidBody.GetPosition());
-            spriteBatch.Draw(bottomWall.Texture, texturePosition);
-            texturePosition = GraphicsVec(leftWall.RigidBody.GetPosition());
-            spriteBatch.Draw(leftWall.Texture, texturePosition);
-            texturePosition = GraphicsVec(rightWall.RigidBody.GetPosition());
-            spriteBatch.Draw(rightWall.Texture, texturePosition);
-            */
         }
 
         /// <summary>

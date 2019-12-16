@@ -175,7 +175,7 @@ namespace Game1
         {
         }
 
-        protected void SpawnProjectile(string projectileName)
+        protected void SpawnProjectile(string projectileName, ProjectileSource source)
         {
             var slop = 20;
             //spawn the projectile just outside the players bounding box in the direction the player is facing.
@@ -183,7 +183,7 @@ namespace Game1
             var offsetLength = GameUtils.PhysicsVec(new Vector2(0, (Texture.Height + slop) / 2));
             offset = offset * offsetLength.Length();
 
-            WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition() + offset, RigidBody.GetAngle());
+            WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition() + offset, RigidBody.GetAngle(), source);
         }
     }
 }

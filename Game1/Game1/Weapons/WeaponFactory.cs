@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using Box2DX.Common;
 using Box2DX.Collision;
 using Box2DX.Dynamics;
+using Game1.Physics;
 
 namespace Game1.Weapons
 {
@@ -47,7 +48,7 @@ namespace Game1.Weapons
         /// <param name="origin"></param>
         /// <param name="rotation"></param>
         /// <returns></returns>
-        public Projectile CreateProjectile(string name, Vec2 origin, float rotation)
+        public Projectile CreateProjectile(string name, Vec2 origin, float rotation, ProjectileSource source)
         {
             var definition = _weaponDefinitions.FirstOrDefault(x => x.Name.ToLower().Equals(name.ToLower()));
             if(definition == null)
@@ -68,8 +69,16 @@ namespace Game1.Weapons
             shapeDef.Density = definition.Density;
             shapeDef.Friction = definition.Friction;
             //projectiles cannot collide with eachother
-            shapeDef.Filter.CategoryBits = 0x0001;
-            shapeDef.Filter.MaskBits = 0x0002;
+            if (source == ProjectileSource.Player)
+            {
+                shapeDef.Filter.CategoryBits = CollisionCategory.PlayerProjectile;
+                shapeDef.Filter.MaskBits = (ushort)(CollisionCategory.Alien | CollisionCategory.AlienProjectile);
+            }
+            else
+            {
+                shapeDef.Filter.CategoryBits = CollisionCategory.AlienProjectile;
+                shapeDef.Filter.MaskBits = (ushort)(CollisionCategory.Player | CollisionCategory.PlayerProjectile);
+            }
 
             var bodyDef = new BodyDef();
             bodyDef.IsBullet = true;

@@ -144,7 +144,7 @@ namespace Game1
                 if (DateTime.Now - _lastProjectileTime > TimeSpan.FromMilliseconds(100))
                 {
                     _lastProjectileTime = DateTime.Now;
-                    SpawnProjectile("GreenLaser-small");
+                    SpawnProjectile("GreenLaser-small", ProjectileSource.Player);
                 }
             }
 

@@ -197,7 +197,7 @@ namespace Game1
                 if(attackDiff.TotalMilliseconds >= 3000)
                 {
                     LastAttackTime = DateTime.UtcNow;
-                    SpawnProjectile("GreenLaser-small");
+                    SpawnProjectile("GreenLaser-small", ProjectileSource.Alien);
                 }
             }
 

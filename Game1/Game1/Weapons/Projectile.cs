@@ -8,6 +8,12 @@ using System;
 
 namespace Game1.Weapons
 {
+    public enum ProjectileSource
+    {
+        Player,
+        Alien
+    }
+
     /// <summary>
     /// A projectile flying through the game world
     /// </summary>
