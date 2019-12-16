@@ -33,22 +33,38 @@ namespace Game1.Animations
         {
             if(!_definition.Repeat && _nextFrame >= _definition.NumFrames)
             {
-                Remove();
+                PendingDispose = true;
             }
         }
 
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
-            var srcRect = _definition.FrameRectangles[_nextFrame];
-
-            var texturePosition = new Vector2((_position.X - cameraOrigin.X) * GameData.Instance.PixelsPerMeter,
-                (_position.Y - cameraOrigin.Y) * GameData.Instance.PixelsPerMeter);
-            spriteBatch.Draw(_definition.Texture, texturePosition, null, srcRect, rotation: 0, scale: RenderScale);
-
-            if (DateTime.Now - _lastFrameTime > TimeSpan.FromSeconds(_definition.FrameDurationSecs))
+            if (!PendingDispose)
             {
-                ++_nextFrame;
-                _lastFrameTime = DateTime.Now;
+                var srcRect = _definition.FrameRectangles[_nextFrame];
+
+                var texturePosition = new Vector2((_position.X - cameraOrigin.X) * GameData.Instance.PixelsPerMeter,
+                    (_position.Y - cameraOrigin.Y) * GameData.Instance.PixelsPerMeter);
+                spriteBatch.Draw(_definition.Texture, texturePosition, null, srcRect, rotation: 0, scale: RenderScale);
+
+                if (DateTime.Now - _lastFrameTime > TimeSpan.FromSeconds(_definition.FrameDurationSecs))
+                {
+                    CycleFrame();
+                    _lastFrameTime = DateTime.Now;
+                }
+            }
+        }
+
+        private void CycleFrame()
+        {
+            ++_nextFrame;
+            if (_nextFrame >= _definition.FrameRectangles.Length)
+            {
+                if(!_definition.Repeat)
+                {
+                    PendingDispose = true;
+                    _nextFrame = 0;
+                }
             }
         }
     }

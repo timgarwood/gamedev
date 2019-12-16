@@ -5,14 +5,10 @@ using Box2DX.Collision;
 using Box2DX.Common;
 using System;
 using Game1.Weapons;
+using Game1.Animations;
 
 namespace Game1
 {
-    public class AlienDeathEventArgs : EventArgs
-    {
-        public Vec2 Location;
-    }
-
     public class Alien : GameObject
     {
         /// <summary>
@@ -27,16 +23,34 @@ namespace Game1
 
         private float _lastDistanceToTarget;
 
-        private enum MoveState
+        private enum MoveStates
         {
             Moving,
             Stopping,
             Stopped
         }
 
-        private MoveState _moveState { get; set; }
+        private MoveStates MoveState { get; set; } = MoveStates.Stopped;
 
+        /// <summary>
+        /// my remaining health
+        /// </summary>
         private int Hp { get; set; }
+
+        /// <summary>
+        /// animation factory
+        /// </summary>
+        private AnimationFactory AnimationFactory { get; set; }
+
+        /// <summary>
+        /// where i died
+        /// </summary>
+        private Vec2 DeathLocation { get; set; }
+
+        /// <summary>
+        /// the last time i attacked the player
+        /// </summary>
+        private DateTime LastAttackTime { get; set; } = DateTime.MinValue;
 
         /// <summary>
         /// ctor
@@ -45,12 +59,12 @@ namespace Game1
         /// <param name="texture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public Alien(World world, AlienDefinition def, Texture2D texture, Shape shape, Body rigidBody) :
+        public Alien(World world, AlienDefinition def, AnimationFactory animationFactory, Texture2D texture, Shape shape, Body rigidBody) :
             base(world, texture, shape, rigidBody, 0)
         {
             Hp = def.Hp;
 
-            _moveState = MoveState.Stopped;
+            AnimationFactory = animationFactory;
 
             _definition = def;
             RenderScale = new Vector2(def.Scale, def.Scale);
@@ -59,13 +73,19 @@ namespace Game1
             _lastDistanceToTarget = Vec2.Distance(Vec2.Zero, new Vec2(GameData.Instance.MaxXDimension, GameData.Instance.MaxYDimension));
         }
 
+        public override void Dispose()
+        {
+            base.Dispose();
+            AnimationFactory.Create(DeathLocation, "AlienExplosion");
+        }
+
         private void GoToStopping()
         {
-            _moveState = MoveState.Stopping;
+            MoveState = MoveStates.Stopping;
             DecreaseLinearVelocity(RigidBody.GetLinearVelocity().Length() / 5, 0);
             if(RigidBody.GetLinearVelocity().Length() <= 0.05)
             {
-                _moveState = MoveState.Stopped;
+                MoveState = MoveStates.Stopped;
             }
         }
 
@@ -73,7 +93,7 @@ namespace Game1
         {
             if (distToTarget > 1)
             {
-                _moveState = MoveState.Moving;
+                MoveState = MoveStates.Moving;
                 if (RigidBody.GetLinearVelocity().Length() < _definition.MaxSpeed)
                 {
                     RigidBody.ApplyImpulse(toTarget * _definition.MoveImpulse, RigidBody.GetPosition());
@@ -83,15 +103,17 @@ namespace Game1
 
         public override void OnCollision(GameObject other)
         {
-            if(other is Projectile)
+            if (!PendingDispose)
             {
-                var proj = other as Projectile;
-                Hp -= proj.Defintion.Damage;
-                if(Hp <= 0)
+                if (other is Projectile)
                 {
-                    var args = new AlienDeathEventArgs();
-                    args.Location = RigidBody.GetPosition();
-                    Death?.Invoke(this, args);
+                    var proj = other as Projectile;
+                    Hp -= proj.Defintion.Damage;
+                    if (Hp <= 0)
+                    {
+                        PendingDispose = true;
+                        DeathLocation = RigidBody.GetPosition();
+                    }
                 }
             }
         }
@@ -104,17 +126,24 @@ namespace Game1
         {
             // track the player, just for now.
             var toTarget = Player.Instance.GetWorldPosition() - RigidBody.GetPosition();
+            var distToTarget = Vec2.Distance(Player.Instance.GetWorldPosition(), RigidBody.GetPosition());
+
+            if(distToTarget > 10 && !Active)
+            {
+                return;
+            }
+
+            Active = true;
 
             var rot = GameUtils.Vec2ToRotation(toTarget);
 
-//            RigidBody.SetXForm(RigidBody.GetPosition(), (float)(rot * System.Math.PI / 180.0f));
+            RigidBody.SetXForm(RigidBody.GetPosition(), (float)(rot * System.Math.PI / 180.0f));
             Rotation = (float)(rot * System.Math.PI / 180.0f);
 
             toTarget.Normalize();
 
             _lastDecision = DateTime.UtcNow;
 
-            var distToTarget = Vec2.Distance(Player.Instance.GetWorldPosition(), RigidBody.GetPosition());
             var targetVelocity = Player.Instance.RigidBody.GetLinearVelocity();
             var myVelocity = RigidBody.GetLinearVelocity();
 
@@ -159,6 +188,16 @@ namespace Game1
                 else
                 {
                     GoToStopping();
+                }
+            }
+
+            if(distToTarget <= 5)
+            {
+                var attackDiff = DateTime.UtcNow - LastAttackTime;
+                if(attackDiff.TotalMilliseconds >= 3000)
+                {
+                    LastAttackTime = DateTime.UtcNow;
+                    SpawnProjectile("GreenLaser-small");
                 }
             }
 
@@ -238,9 +277,5 @@ namespace Game1
 
             spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, scale: RenderScale, origin: RenderScale * new Vector2(Texture.Width / 2, Texture.Height / 2));
         }
-
-        public delegate void AlienDeathDelegate(object sender, AlienDeathEventArgs args);
-
-        public event AlienDeathDelegate Death;
     }
 }

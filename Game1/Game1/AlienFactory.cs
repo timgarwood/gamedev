@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using NLog;
+using Game1.Animations;
 
 namespace Game1
 {
@@ -26,14 +27,17 @@ namespace Game1
 
         private ContentManager _contentManager;
 
+        private AnimationFactory _animationFactory;
+
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="physicsWorld"></param>
-        public AlienFactory(World physicsWorld, ContentManager contentManager)
+        public AlienFactory(World physicsWorld, ContentManager contentManager, AnimationFactory animationFactory)
         {
             _physicsWorld = physicsWorld;
             _contentManager = contentManager;
+            _animationFactory = animationFactory;
         }
 
         /// <summary>
@@ -94,7 +98,7 @@ namespace Game1
 
                 body.SetMassFromShapes();
 
-                var gameObject = new Alien(_physicsWorld, definition, texture, shape, body);
+                var gameObject = new Alien(_physicsWorld, definition, _animationFactory, texture, shape, body);
                 GameWorld.Instance.AddGameObject(gameObject);
                 return gameObject;
             }

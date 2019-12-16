@@ -4,6 +4,7 @@ using Box2DX.Collision;
 using Box2DX.Common;
 using Microsoft.Xna.Framework;
 using NLog;
+using Game1.Weapons;
 
 namespace Game1
 {
@@ -17,6 +18,11 @@ namespace Game1
         private Vector2 TextureOffset { get; set; } = Vector2.Zero;
 
         /// <summary>
+        /// does this game object need to be removed on the next frame?
+        /// </summary>
+        public bool PendingDispose { get; protected set; }
+
+        /// <summary>
         /// ctor
         /// </summary>
         /// <param name="texture"></param>
@@ -24,7 +30,6 @@ namespace Game1
         /// <param name="rigidBody"></param>
         public GameObject(World world, Texture2D texture, Shape shape, Body rigidBody, float rotation) : base(texture)
         {
-            Active = true;
             World = world;
             Shape = shape;
             RigidBody = rigidBody;
@@ -50,7 +55,7 @@ namespace Game1
         /// <summary>
         /// dispose
         /// </summary>
-        public void Dispose()
+        public override void Dispose()
         {
             base.Dispose();
             if(RigidBody != null && Shape != null)
@@ -85,7 +90,7 @@ namespace Game1
         /// whether or not the game object is available to interact
         /// with the game
         /// </summary>
-        public bool Active { get; set; }
+        public bool Active { get; set; } = false;
 
         /// <summary>
         /// physics bounding box
@@ -170,14 +175,15 @@ namespace Game1
         {
         }
 
-
-        /// <summary>
-        /// removes this game object from the game world
-        /// </summary>
-        protected void Remove()
+        protected void SpawnProjectile(string projectileName)
         {
-            Active = false;
-            GameWorld.Instance.RemoveGameObject(this);
+            var slop = 20;
+            //spawn the projectile just outside the players bounding box in the direction the player is facing.
+            var offset = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
+            var offsetLength = GameUtils.PhysicsVec(new Vector2(0, (Texture.Height + slop) / 2));
+            offset = offset * offsetLength.Length();
+
+            WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition() + offset, RigidBody.GetAngle());
         }
     }
 }

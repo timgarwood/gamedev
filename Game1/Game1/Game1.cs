@@ -73,10 +73,10 @@ namespace Game1
             Content.RootDirectory = "Content";
             this.TargetElapsedTime = System.TimeSpan.FromSeconds(1f / gameData.Fps);
 
-            _alienFactory = new AlienFactory(physicsWorld, Content);
+            _animationFactory = new AnimationFactory(Content);
+            _alienFactory = new AlienFactory(physicsWorld, Content, _animationFactory);
             _weaponsFactory = new WeaponFactory(physicsWorld, Content);
             _fontFactory = new FontFactory(Content);
-            _animationFactory = new AnimationFactory(Content);
             _menuFactory = new MenuFactory(_fontFactory);
 
             Window.ClientSizeChanged += OnResize;

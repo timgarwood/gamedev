@@ -1,6 +1,7 @@
 ﻿using Box2DX.Common;
 using Game1.Animations;
 using Microsoft.Xna.Framework;
+using System.Threading;
 
 namespace Game1.GameMode
 {
@@ -17,25 +18,33 @@ namespace Game1.GameMode
 
         public override void Initialize()
         {
-            var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).TotalMilliseconds);
-            var alien = AlienFactory.Create("Alien1", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
-            alien.Death += OnAlienDeath;
+            Spawn();
         }
 
         public override GameModeStatus Update(GameTime gameTime)
         {
+            var disposed = GameWorld.GetAll(x => x.PendingDispose);
+            foreach(var d in disposed)
+            {
+                GameWorld.RemoveGameObject(d);
+            }
+
             Player.Update(gameTime);
             GameWorld.Update(gameTime);
 
             return GameModeStatus.Continue;
         }
 
-        public void OnAlienDeath(object sender, AlienDeathEventArgs args)
+        private void Spawn()
         {
-            var alien = sender as Alien;
-            alien.Dispose();
-            GameWorld.RemoveGameObject(alien);
-            AnimationFactory.Create(args.Location, "AlienExplosion");
+            var numAliens = GameWorld.GetGameObjects<Alien>().Count;
+            var diff = 75- numAliens;
+            for (var i = 0; i < diff; ++i)
+            {
+                var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).Ticks);
+                AlienFactory.Create("Alien1", new Vec2(rand.Next(0, (int)GameData.Instance.MaxXDimension), rand.Next(0, (int)GameData.Instance.MaxYDimension)));
+                Thread.Sleep(100);
+            }
         }
     }
 }

@@ -27,6 +27,7 @@ namespace Game1.Weapons
             ,float rotation) :
             base(world, texture, shape, rigidBody, rotation)
         {
+            Active = true;
             _origin = origin;
             _definition = definition;
             _spawnTime = DateTime.UtcNow;
@@ -40,11 +41,11 @@ namespace Game1.Weapons
         {
             if(DateTime.UtcNow - _spawnTime >= TimeSpan.FromSeconds(3))
             {
-                Remove();
+                PendingDispose = true;
             }
             else if(Vec2.Distance(_origin, RigidBody.GetPosition()) >= _definition.MaxDistance)
             {
-                Remove();
+                PendingDispose = true;
             }
         }
 

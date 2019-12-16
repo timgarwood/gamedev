@@ -29,7 +29,7 @@ namespace Game1
         /// <summary>
         /// dispose
         /// </summary>
-        public void Dispose()
+        public virtual void Dispose()
         {
             Texture = null;
         }

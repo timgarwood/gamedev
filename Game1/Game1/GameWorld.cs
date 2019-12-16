@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Box2DX.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Linq.Expressions;
 
 namespace Game1
 {
@@ -87,6 +88,7 @@ namespace Game1
             else if(_gameObjects.Contains(obj))
             {
                 _gameObjects.Remove(obj);
+                obj.Dispose();
                 _gameObjectRemoved.ForEach(a => a.Invoke(obj));
             }
         }
@@ -100,6 +102,16 @@ namespace Game1
         {
             //TODO:  this might be super inefficient
             return _gameObjects.OfType<T>().ToList();
+        }
+
+        /// <summary>
+        /// get all objects that satisfy a condition
+        /// </summary>
+        /// <param name="expr"></param>
+        /// <returns></returns>
+        public ICollection<GameObject> GetAll(Func<GameObject, bool> expr)
+        {
+            return _gameObjects.Where(expr).ToList();
         }
 
         /// <summary>
