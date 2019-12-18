@@ -7,7 +7,7 @@
     "width": 10,
     "height": 10,
     "velocity": 10,
-    "damage": 0,
+    "damage": 10,
     "maxDistance" : 2,
     "density": 0.6,
     "friction" :  1.0

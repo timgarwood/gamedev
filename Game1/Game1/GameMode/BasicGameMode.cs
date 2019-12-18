@@ -29,6 +29,17 @@ namespace Game1.GameMode
                 GameWorld.RemoveGameObject(d);
             }
 
+            var remainingAliens = GameWorld.GetGameObjects<Alien>();
+            if(remainingAliens.Count <= 0)
+            {
+                return GameModeStatus.Success;
+            }
+
+            if(Player.Hp <= 0)
+            {
+                return GameModeStatus.Failed;
+            }
+
             Player.Update(gameTime);
             GameWorld.Update(gameTime);
 

@@ -14,6 +14,8 @@ using Game1.Animations;
 using Game1.Menu;
 using Game1.GameMode;
 using Game1.Physics;
+using System;
+using Math = System.Math;
 
 namespace Game1
 {
@@ -22,6 +24,17 @@ namespace Game1
     /// </summary>
     public class Game1 : Game
     {
+        /// <summary>
+        /// game states
+        /// </summary>
+        private enum GameStates
+        {
+            Normal,
+            Paused,
+            WaitingForRespawn,
+            GameOver
+        }
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Player player;
@@ -57,7 +70,11 @@ namespace Game1
 
         private GameMode.GameMode CurrentGameMode { get; set; }
 
+        private GameStates GameState { get; set; }
 
+        private TimeSpan RespawnWaitTime { get; set; } = TimeSpan.FromSeconds(3);
+
+        private TimeSpan LastRespawnTime { get; set; }
 
         public Game1(GameData data)
         {
@@ -303,7 +320,7 @@ namespace Game1
             var crateShape = crateBody.CreateShape(crateShapeDef);
             crateBody.SetMassFromShapes();
 
-            player = new Player(physicsWorld, crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody);
+            player = new Player(physicsWorld, crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody, _animationFactory);
             GameWorld.Instance.AddGameObject(player);
 
 
@@ -352,9 +369,26 @@ namespace Game1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            var state = CurrentGameMode.Update(gameTime);
-
-            physicsWorld.Step(1.0f / 120.0f, 1,1);
+            if (GameState == GameStates.Normal)
+            {
+                var modeState = CurrentGameMode.Update(gameTime);
+                physicsWorld.Step(1.0f / 120.0f, 1,1);
+                if(modeState != GameModeStatus.Continue)
+                {
+                    LastRespawnTime = gameTime.TotalGameTime;
+                    GameState = GameStates.WaitingForRespawn;
+                }
+            }
+            else if (GameState == GameStates.WaitingForRespawn)
+            {
+                var timeWaited = gameTime.TotalGameTime - LastRespawnTime;
+                if(timeWaited >= RespawnWaitTime)
+                {
+                    GameState = GameStates.Normal;
+                    Player.Instance.Reset();
+                    CurrentGameMode.Initialize();
+                }
+            }
 
             base.Update(gameTime);
         }

@@ -29,14 +29,6 @@ namespace Game1.Animations
             return _position;
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            if(!_definition.Repeat && _nextFrame >= _definition.NumFrames)
-            {
-                PendingDispose = true;
-            }
-        }
-
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
             if (!PendingDispose)
@@ -63,8 +55,9 @@ namespace Game1.Animations
                 if(!_definition.Repeat)
                 {
                     PendingDispose = true;
-                    _nextFrame = 0;
                 }
+                    
+                _nextFrame = 0;
             }
         }
     }

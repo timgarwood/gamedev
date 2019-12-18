@@ -7,6 +7,7 @@ using Box2DX.Common;
 using NLog;
 using Game1.Weapons;
 using System;
+using Game1.Animations;
 
 namespace Game1
 {
@@ -26,7 +27,13 @@ namespace Game1
 
         private DateTime _lastProjectileTime;
 
+        public int Hp { get; private set; }
+
         public static Player Instance { get; private set; }
+
+        private static int MaxHp { get; set; } = 100;
+
+        private AnimationFactory AnimationFactory { get; set; }
 
         /// <summary>
         /// ctor
@@ -39,12 +46,18 @@ namespace Game1
         /// <param name="rigidBody"></param>
         public Player(World world, Texture2D texture, Texture2D positionTexture, 
             Texture2D upperBoundTexture, Texture2D lowerBoundTexture, 
-            Shape shape, Body rigidBody) : 
+            Shape shape, Body rigidBody, AnimationFactory animationFactory) : 
             base(world, texture, shape, rigidBody, 0)
         {
+            Active = true;
+
             _positionTexture = positionTexture;
             _upperBoundTexture = upperBoundTexture;
             _lowerBoundTexture = lowerBoundTexture;
+
+            AnimationFactory = animationFactory;
+
+            Hp = MaxHp;
 
             Instance = this;
             _lastProjectileTime = DateTime.MinValue;
@@ -71,22 +84,25 @@ namespace Game1
         [Obsolete]
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraPosition, Vector2 viewport)
         {
-            var angle = RigidBody.GetAngle();
+            if (Active)
+            {
+                var angle = RigidBody.GetAngle();
 
-            //draw player relative to camera
-            var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+                //draw player relative to camera
+                var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                    (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+                var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                    (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+                var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                    (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+                var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
+                    (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
 
-            spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, origin: new Vector2(Texture.Width / 2, Texture.Height / 2));
-            spriteBatch.Draw(_positionTexture, bodyPosition);
-            spriteBatch.Draw(_upperBoundTexture, upperBound);
-            spriteBatch.Draw(_lowerBoundTexture, lowerBound);
+                spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, origin: new Vector2(Texture.Width / 2, Texture.Height / 2));
+                spriteBatch.Draw(_positionTexture, bodyPosition);
+                spriteBatch.Draw(_upperBoundTexture, upperBound);
+                spriteBatch.Draw(_lowerBoundTexture, lowerBound);
+            }
         }
 
         /// <summary>
@@ -95,71 +111,99 @@ namespace Game1
         /// <param name="gameTime"></param>
         public override void Update(GameTime gameTime)
         {
-            //if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-            /*if (Keyboard.GetState().IsKeyDown(Keys.A))
+            if (Active)
             {
-                var cratePosition = RigidBody.GetPosition();
-                RigidBody.ApplyImpulse(new Vec2(-GameData.Instance.PlayerImpulse, 0),
-                    new Vec2(cratePosition.X, cratePosition.Y));
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-            {
-                var cratePosition = RigidBody.GetPosition();
-                RigidBody.ApplyImpulse(new Vec2(GameData.Instance.PlayerImpulse, 0),
-                    new Vec2(cratePosition.X, cratePosition.Y));
-            }
-            */
-
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
-            {
-                //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                //if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                /*if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
-                    var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
-                    RigidBody.ApplyImpulse(impulseVec * GameData.Instance.PlayerImpulse
-                        ,RigidBody.GetPosition());
+                    var cratePosition = RigidBody.GetPosition();
+                    RigidBody.ApplyImpulse(new Vec2(-GameData.Instance.PlayerImpulse, 0),
+                        new Vec2(cratePosition.X, cratePosition.Y));
+                }
+
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                {
+                    var cratePosition = RigidBody.GetPosition();
+                    RigidBody.ApplyImpulse(new Vec2(GameData.Instance.PlayerImpulse, 0),
+                        new Vec2(cratePosition.X, cratePosition.Y));
+                }
+                */
+
+                if (Keyboard.GetState().IsKeyDown(Keys.W))
+                {
+                    //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                    {
+                        var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
+                        RigidBody.ApplyImpulse(impulseVec * GameData.Instance.PlayerImpulse
+                            , RigidBody.GetPosition());
+                    }
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.S))
+                {
+                    //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                    {
+                        var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
+                        RigidBody.ApplyImpulse(impulseVec * -GameData.Instance.PlayerImpulse
+                            , RigidBody.GetPosition());
+                    }
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                {
+                    DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
+                    RigidBody.ApplyTorque(GameData.Instance.PlayerTurnTorque);
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.A))
+                {
+                    DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
+                    RigidBody.ApplyTorque(-GameData.Instance.PlayerTurnTorque);
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.Space))
+                {
+                    if (DateTime.Now - _lastProjectileTime > TimeSpan.FromMilliseconds(100))
+                    {
+                        _lastProjectileTime = DateTime.Now;
+                        SpawnProjectile("GreenLaser-small", ProjectileSource.Player);
+                    }
+                }
+
+                if (Keyboard.GetState().IsKeyUp(Keys.W) &&
+                   Keyboard.GetState().IsKeyUp(Keys.A) &&
+                   Keyboard.GetState().IsKeyUp(Keys.S) &&
+                   Keyboard.GetState().IsKeyUp(Keys.D))
+                {
+                    DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 0);
+                }
+
+                if (Keyboard.GetState().IsKeyUp(Keys.A) && Keyboard.GetState().IsKeyUp(Keys.D))
+                {
+                    RigidBody.SetAngularVelocity(0);
                 }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
+        }
+
+        public override void OnCollision(GameObject other)
+        {
+            if(other is Projectile)
             {
-                //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                var proj = other as Projectile;
+                Hp -= proj.Defintion.Damage;
+                if(Hp <= 0)
                 {
-                    var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
-                    RigidBody.ApplyImpulse(impulseVec * -GameData.Instance.PlayerImpulse
-                        ,RigidBody.GetPosition());
+                    Hp = 0;
+                    if(Active)
+                    {
+                        AnimationFactory.Create(RigidBody.GetPosition(), "AlienExplosion");
+                    }
+
+                    Active = false;
                 }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Right))
-            {
-                DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
-                RigidBody.ApplyTorque(GameData.Instance.PlayerTurnTorque);
-            }
-            if (Keyboard.GetState().IsKeyDown(Keys.A))
-            {
-                DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
-                RigidBody.ApplyTorque(-GameData.Instance.PlayerTurnTorque);
-            }
-            if(Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
-                if (DateTime.Now - _lastProjectileTime > TimeSpan.FromMilliseconds(100))
-                {
-                    _lastProjectileTime = DateTime.Now;
-                    SpawnProjectile("GreenLaser-small", ProjectileSource.Player);
-                }
-            }
+        }
 
-            if (Keyboard.GetState().IsKeyUp(Keys.W) &&
-               Keyboard.GetState().IsKeyUp(Keys.A) &&
-               Keyboard.GetState().IsKeyUp(Keys.S) &&
-               Keyboard.GetState().IsKeyUp(Keys.D))
-            {
-                DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 0);
-            }
-
-            if (Keyboard.GetState().IsKeyUp(Keys.A) && Keyboard.GetState().IsKeyUp(Keys.D))
-            {
-                RigidBody.SetAngularVelocity(0);
-            }
+        public void Reset()
+        {
+            Active = true;
+            Hp = MaxHp;
         }
     }
 }

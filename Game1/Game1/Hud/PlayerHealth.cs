@@ -29,7 +29,7 @@ namespace Game1.Hud
 
         public override void Draw(SpriteBatch spriteBatch, Vector2 viewport)
         {
-            var text = _textTemplate.Replace("{health}", "100");
+            var text = _textTemplate.Replace("{health}", Player.Instance.Hp.ToString());
             _font.DrawString(spriteBatch, text, _location);
         }
 
