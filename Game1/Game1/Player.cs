@@ -129,11 +129,34 @@ namespace Game1
                 }
                 */
 
+                var rotationDegrees = RigidBody.GetAngle() * 180 / System.Math.PI;
+
+                if(Mouse.GetState().LeftButton == ButtonState.Pressed)
+                {
+                    //apply impulse to push the player to left
+                    var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees - 90);
+                    RigidBody.ApplyImpulse(impulseVec * GameData.Instance.PlayerLateralImpulse
+                        , RigidBody.GetPosition());
+                }
+
+                if(Mouse.GetState().RightButton == ButtonState.Pressed)
+                {
+                    //apply impulse to push the player to right 
+                    var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees + 90);
+
+                    RigidBody.ApplyImpulse(impulseVec * GameData.Instance.PlayerLateralImpulse
+                        , RigidBody.GetPosition());
+                }
+
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
                     //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
                     {
-                        var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
+                        var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees);
+                        if(Vec2.Dot(impulseVec, RigidBody.GetLinearVelocity()) == 0)
+                        {
+                            RigidBody.SetLinearVelocity(Vec2.Zero);
+                        }
                         RigidBody.ApplyImpulse(impulseVec * GameData.Instance.PlayerImpulse
                             , RigidBody.GetPosition());
                     }
@@ -142,19 +165,19 @@ namespace Game1
                 {
                     //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
                     {
-                        var impulseVec = GameUtils.RotationToVec2((float)(RigidBody.GetAngle() * 180 / System.Math.PI));
+                        var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees);
                         RigidBody.ApplyImpulse(impulseVec * -GameData.Instance.PlayerImpulse
                             , RigidBody.GetPosition());
                     }
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.Right))
+                if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
-                    DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
+                    //DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
                     RigidBody.ApplyTorque(GameData.Instance.PlayerTurnTorque);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
-                    DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
+                    //DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
                     RigidBody.ApplyTorque(-GameData.Instance.PlayerTurnTorque);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Space))

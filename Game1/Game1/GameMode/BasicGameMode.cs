@@ -49,7 +49,7 @@ namespace Game1.GameMode
         private void Spawn()
         {
             var numAliens = GameWorld.GetGameObjects<Alien>().Count;
-            var diff = 75- numAliens;
+            var diff = 75 - numAliens;
             for (var i = 0; i < diff; ++i)
             {
                 var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).Ticks);

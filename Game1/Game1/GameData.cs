@@ -31,6 +31,7 @@
         public float PlayerTurnTorque { get; set; }
 
         public float PlayerImpulse { get; set; }
+        public float PlayerLateralImpulse { get; set; }
         
         public float PlayerTurnVelocityDecrement { get; set; }
 
