@@ -78,6 +78,9 @@
     <Compile Include="Menu\MenuItemDefinition.cs" />
     <Compile Include="Physics\CollisionCategory.cs" />
     <Compile Include="Physics\GameContactListener.cs" />
+    <Compile Include="Pickups\Health.cs" />
+    <Compile Include="Pickups\PickupDefinition.cs" />
+    <Compile Include="Pickups\PickupFactory.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <MonoGameContentReference Include="Content\Content.mgcb" />
+    <None Include=".editorconfig" />
     <None Include="AlienDefinitions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -122,6 +126,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Hud\HudDefinition.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Pickups\PickupDefinitions.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Menu\MenuDefinitions.json">

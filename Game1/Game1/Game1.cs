@@ -16,6 +16,7 @@ using Game1.GameMode;
 using Game1.Physics;
 using System;
 using Math = System.Math;
+using Game1.Pickups;
 
 namespace Game1
 {
@@ -64,6 +65,7 @@ namespace Game1
 
         private AlienFactory _alienFactory;
         private WeaponFactory _weaponsFactory;
+        private PickupFactory _pickupFactory;
         private FontFactory _fontFactory;
         private AnimationFactory _animationFactory;
         private MenuFactory _menuFactory;
@@ -93,6 +95,7 @@ namespace Game1
             _animationFactory = new AnimationFactory(Content);
             _alienFactory = new AlienFactory(physicsWorld, Content, _animationFactory);
             _weaponsFactory = new WeaponFactory(physicsWorld, Content);
+            _pickupFactory = new PickupFactory(physicsWorld, Content);
             _fontFactory = new FontFactory(Content);
             _menuFactory = new MenuFactory(_fontFactory);
 
@@ -126,6 +129,12 @@ namespace Game1
             using(var stream = new FileStream("./Weapons/WeaponDefinitions.json", FileMode.Open))
             {
                 _weaponsFactory.Load(stream);
+            }
+
+            //load up pickups
+            using(var stream = new FileStream("./Pickups/PickupDefinitions.json", FileMode.Open))
+            {
+                _pickupFactory.Load(stream);
             }
 
             //load up fonts
@@ -310,7 +319,7 @@ namespace Game1
             crateShapeDef.Density = gameData.PlayerDensity;
             crateShapeDef.Friction = gameData.PlayerFriction;
             crateShapeDef.Filter.CategoryBits = CollisionCategory.Player;
-            crateShapeDef.Filter.MaskBits = (ushort) (CollisionCategory.Alien | CollisionCategory.AlienProjectile);
+            crateShapeDef.Filter.MaskBits = (ushort) (CollisionCategory.Alien | CollisionCategory.AlienProjectile | CollisionCategory.Pickup);
 
             var crateBodyDef = new BodyDef();
             crateBodyDef.IsBullet = true;
@@ -346,7 +355,7 @@ namespace Game1
             _alienFactory.Create("Alien8", new Vec2(rand.Next(40, 45), rand.Next(40, 45)));
             */
             
-            CurrentGameMode = new GameMode.BasicGameMode(GameWorld.Instance, _animationFactory, _alienFactory, player);
+            CurrentGameMode = new GameMode.BasicGameMode(GameWorld.Instance, _animationFactory, _alienFactory, _pickupFactory, player);
             CurrentGameMode.Initialize();
         }
 

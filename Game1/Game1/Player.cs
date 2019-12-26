@@ -8,6 +8,7 @@ using NLog;
 using Game1.Weapons;
 using System;
 using Game1.Animations;
+using Game1.Pickups;
 
 namespace Game1
 {
@@ -204,21 +205,32 @@ namespace Game1
             }
         }
 
-        public override void OnCollision(GameObject other)
+        public override void OnCollision(GameObject other, Vec2 position)
         {
-            if(other is Projectile)
+            if (other is Projectile)
             {
+                GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(position, "LaserExplosion"));
+
                 var proj = other as Projectile;
-                Hp -= proj.Defintion.Damage;
-                if(Hp <= 0)
+                Hp -= 1;// proj.Defintion.Damage;
+                if (Hp <= 0)
                 {
                     Hp = 0;
-                    if(Active)
+                    if (Active)
                     {
                         AnimationFactory.Create(RigidBody.GetPosition(), "AlienExplosion");
                     }
 
                     Active = false;
+                }
+            }
+            else if (other is Health)
+            {
+                var health = other as Health;
+                Hp += health.Hp;
+                if (Hp >= MaxHp)
+                {
+                    Hp = MaxHp;
                 }
             }
         }

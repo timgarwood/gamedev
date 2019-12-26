@@ -1,5 +1,6 @@
 ﻿using Box2DX.Common;
 using Game1.Animations;
+using Game1.Pickups;
 using Microsoft.Xna.Framework;
 using System.Threading;
 
@@ -10,8 +11,9 @@ namespace Game1.GameMode
         public BasicGameMode(GameWorld gameWorld,
             AnimationFactory animationFactory,
             AlienFactory alienFactory, 
+            PickupFactory pickupFactory, 
             Player player) : 
-            base(gameWorld, animationFactory, alienFactory, player)
+            base(gameWorld, animationFactory, alienFactory, pickupFactory, player)
         {
 
         }
@@ -48,12 +50,20 @@ namespace Game1.GameMode
 
         private void Spawn()
         {
-            var numAliens = GameWorld.GetGameObjects<Alien>().Count;
-            var diff = 75 - numAliens;
-            for (var i = 0; i < diff; ++i)
+            var numAliens = 10;
+            for (var i = 0; i < numAliens; ++i)
             {
                 var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).Ticks);
                 AlienFactory.Create("Alien1", new Vec2(rand.Next(0, (int)GameData.Instance.MaxXDimension), rand.Next(0, (int)GameData.Instance.MaxYDimension)));
+                Thread.Sleep(100);
+            }
+
+            var numHealths = 10;
+
+            for(var i = 0; i < numHealths; ++i)
+            {
+                var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).Ticks);
+                PickupFactory.CreateHealthPickup(new Vec2(rand.Next(0, (int)GameData.Instance.MaxXDimension), rand.Next(0, (int)GameData.Instance.MaxYDimension)), "SmallHealth");
                 Thread.Sleep(100);
             }
         }

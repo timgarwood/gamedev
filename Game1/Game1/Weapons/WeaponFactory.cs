@@ -81,8 +81,7 @@ namespace Game1.Weapons
             }
 
             var bodyDef = new BodyDef();
-            bodyDef.IsBullet = true;
-            bodyDef.Position.Set(origin.X, origin.Y);
+            bodyDef.IsBullet = true; bodyDef.Position.Set(origin.X, origin.Y);
             var body = _physicsWorld.CreateBody(bodyDef);
             var shape = body.CreateShape(shapeDef);
 

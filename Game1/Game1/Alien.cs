@@ -101,16 +101,19 @@ namespace Game1
             }
         }
 
-        public override void OnCollision(GameObject other)
+        public override void OnCollision(GameObject other, Vec2 position)
         {
             if (!PendingDispose)
             {
                 if (other is Projectile)
                 {
+                    GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(position, "LaserExplosion"));
+
                     var proj = other as Projectile;
                     Hp -= proj.Defintion.Damage;
                     if (Hp <= 0)
                     {
+
                         PendingDispose = true;
                         DeathLocation = RigidBody.GetPosition();
                     }

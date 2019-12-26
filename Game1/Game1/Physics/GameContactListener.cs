@@ -1,6 +1,6 @@
 ﻿using Box2DX.Collision;
 using Box2DX.Dynamics;
-using Game1.Animations;
+using Game1.Pickups;
 using Game1.Weapons;
 using NLog;
 
@@ -25,11 +25,12 @@ namespace Game1.Physics
             base.Remove(point);
         }
 
-        private void ExtractCollisionData(ContactResult point, out Projectile proj, out Alien alien, out Player player)
+        private void ExtractCollisionData(ContactResult point, out Projectile proj, out Alien alien, out Player player, out Health health)
         {
             proj = null;
             alien = null;
             player = null;
+            health = null;
             var shapes = new Shape[] { point.Shape1, point.Shape2 };
             foreach (var shape in shapes)
             {
@@ -45,6 +46,10 @@ namespace Game1.Physics
                 {
                     player = shape.UserData as Player;
                 }
+                else if(shape.UserData is Health)
+                {
+                    health = shape.UserData as Health;
+                }
             }
         }
 
@@ -53,7 +58,8 @@ namespace Game1.Physics
             Projectile proj = null;
             Alien alien = null;
             Player player = null;
-            ExtractCollisionData(point, out proj, out alien, out player);
+            Health health = null;
+            ExtractCollisionData(point, out proj, out alien, out player, out health);
 
             if (proj != null)
             {
@@ -62,20 +68,19 @@ namespace Game1.Physics
                     if (alien != null)
                     {
                         Logger.Info("projectile collided with alien");
-                        GameWorld.Instance.RemoveGameObject(proj);
-                        GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(point.Position, "LaserExplosion"));
-
-                        alien.OnCollision(proj);
+                        alien.OnCollision(proj, point.Position);
                     }
                     else if (player != null)
                     {
                         Logger.Info("projectile collided with player");
-                        GameWorld.Instance.RemoveGameObject(proj);
-                        GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(point.Position, "LaserExplosion"));
-
-                        player.OnCollision(proj);
+                        player.OnCollision(proj, point.Position);
                     }
                 }
+            }
+            else if(health != null && player != null)
+            {
+                health.OnCollision(player, point.Position);
+                player.OnCollision(health, point.Position);
             }
             else
             {

@@ -12,5 +12,6 @@ namespace Game1.Physics
         public static ushort Alien { get; private set; } = 0x0002;
         public static ushort PlayerProjectile { get; private set; } = 0x0004;
         public static ushort AlienProjectile { get; private set; } = 0x0008;
+        public static ushort Pickup { get; private set; } = 0x0010;
     }
 }

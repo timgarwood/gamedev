@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using System;
+using Game1.Pickups;
 
 namespace Game1.Hud
 {
@@ -9,6 +10,7 @@ namespace Game1.Hud
     {
         private Texture2D _backgroundTexture;
         private Texture2D _alienTexture;
+        private Texture2D _pickupTexture;
         private Texture2D _playerTexture;
         private Vector2 _destPoint;
         private static int MinimapBorderThicknessPx = 5;
@@ -18,11 +20,12 @@ namespace Game1.Hud
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="definition"></param>
-        private Minimap(Texture2D backgroundTexture, Texture2D alienTexture, Texture2D playerTexture, HudComponentDefinition definition) 
+        private Minimap(Texture2D backgroundTexture, Texture2D alienTexture, Texture2D pickupTexture, Texture2D playerTexture, HudComponentDefinition definition) 
             :base(definition)
         {
             _backgroundTexture = backgroundTexture;
             _alienTexture = alienTexture;
+            _pickupTexture = pickupTexture;
             _playerTexture = playerTexture;
             _destPoint = new Vector2();
         }
@@ -36,10 +39,10 @@ namespace Game1.Hud
             }
             catch(Exception e)
             {
-                var width = (int)jsonData["width"];
-                var height = (int)jsonData["height"];
-                backgroundTexture = new Texture2D(graphicsDevice, width + (2*MinimapBorderThicknessPx), height + (2*MinimapBorderThicknessPx));
-                var textureData = new Color[(width+(2*MinimapBorderThicknessPx)) * (height + (2*MinimapBorderThicknessPx))];
+                var mapWidth = (int)jsonData["width"];
+                var mapHeight = (int)jsonData["height"];
+                backgroundTexture = new Texture2D(graphicsDevice, mapWidth + (2*MinimapBorderThicknessPx), mapHeight + (2*MinimapBorderThicknessPx));
+                var textureData = new Color[(mapWidth+(2*MinimapBorderThicknessPx)) * (mapHeight + (2*MinimapBorderThicknessPx))];
                 /*backgroundTexture = new Texture2D(graphicsDevice, width, height);
                 var textureData = new Color[width* height];
                 for(var i = 0; i < textureData.Length; ++i)
@@ -49,25 +52,25 @@ namespace Game1.Hud
                 */
 
                 //color the top border
-                for(var i = 0; i < MinimapBorderThicknessPx * width; ++i)
+                for(var i = 0; i < MinimapBorderThicknessPx * mapWidth; ++i)
                 {
                     textureData[i] = Color.Red;
                 }
 
                 //color the bottom border
-                for(var i = (width * height); i < textureData.Length; ++i)
+                for(var i = (mapWidth* mapHeight); i < textureData.Length; ++i)
                 {
                     textureData[i] = Color.Red;
                 }
 
-                for (var i = MinimapBorderThicknessPx * width; i < textureData.Length - (MinimapBorderThicknessPx * width); ++i)
+                for (var i = MinimapBorderThicknessPx * mapWidth; i < textureData.Length - (MinimapBorderThicknessPx * mapWidth); ++i)
                 {
-                    var col = i % (width + 2*MinimapBorderThicknessPx);
+                    var col = i % (mapWidth+ 2*MinimapBorderThicknessPx);
                     if (col < MinimapBorderThicknessPx)
                     {
                         textureData[i] = Color.Red;
                     }
-                    else if (col > width)
+                    else if (col > mapWidth)
                     {
                         textureData[i] = Color.Red;
                     }
@@ -81,6 +84,9 @@ namespace Game1.Hud
                 backgroundTexture.SetData(textureData);
             }
 
+            var width = (int)jsonData["alienWidth"];
+            var height = (int)jsonData["alienHeight"];
+
             Texture2D alienTexture = null;
             try
             {
@@ -88,8 +94,6 @@ namespace Game1.Hud
             }
             catch(Exception e)
             {
-                var width = (int)jsonData["alienWidth"];
-                var height = (int)jsonData["alienHeight"];
                 alienTexture = new Texture2D(graphicsDevice, width, height);
                 var textureData = new Color[width * height];
                 for (var i = 0; i < textureData.Length; ++i)
@@ -100,9 +104,18 @@ namespace Game1.Hud
                 alienTexture.SetData(textureData);
             }
 
-           var playerWidth = (int)jsonData["alienWidth"];
-           var playerHeight = (int)jsonData["alienHeight"];
-           var playerTexture = new Texture2D(graphicsDevice, playerWidth, playerHeight);
+            var pickupTexture = new Texture2D(graphicsDevice, width, height);
+            var pickupTextureData = new Color[width * height];
+            for (var i = 0; i < pickupTextureData.Length; ++i)
+            {
+                pickupTextureData[i] = Color.AliceBlue;
+            }
+
+            pickupTexture.SetData(pickupTextureData);
+
+            var playerWidth = (int)jsonData["alienWidth"];
+            var playerHeight = (int)jsonData["alienHeight"];
+            var playerTexture = new Texture2D(graphicsDevice, playerWidth, playerHeight);
             var playerTextureData = new Color[playerWidth * playerHeight];
             for (var i = 0; i < playerTextureData.Length; ++i)
             {
@@ -112,7 +125,25 @@ namespace Game1.Hud
             playerTexture.SetData(playerTextureData);
 
             var hudComponentDefinition = HudComponentDefinition.Create(jsonData);
-            return new Minimap(backgroundTexture, alienTexture, playerTexture, hudComponentDefinition);
+            return new Minimap(backgroundTexture, alienTexture, pickupTexture, playerTexture, hudComponentDefinition);
+        }
+
+        /// <summary>
+        /// Draw minimap objects of type T
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="spriteBatch"></param>
+        /// <param name="texture"></param>
+        private void Draw<T>(SpriteBatch spriteBatch, Texture2D texture) where T : GameObject
+        {
+            var objects = GameWorld.Instance.GetGameObjects<T>();
+            foreach(var obj in objects)
+            {
+                var alienPosition = obj.GetWorldPosition();
+                var minimapPosition = new Vector2(_destPoint.X + (alienPosition.X * _backgroundTexture.Width / GameData.Instance.MaxXDimension),
+                    _destPoint.Y + (alienPosition.Y * _backgroundTexture.Height / GameData.Instance.MaxYDimension));
+                spriteBatch.Draw(texture, minimapPosition);
+            }
         }
 
         /// <summary>
@@ -135,14 +166,8 @@ namespace Game1.Hud
                 _destPoint.Y + (playerPosition.Y * _backgroundTexture.Height / GameData.Instance.MaxYDimension));
             spriteBatch.Draw(_playerTexture, minimapPosition);
 
-            var aliens = GameWorld.Instance.GetGameObjects<Alien>();
-            foreach(var alien in aliens)
-            {
-                var alienPosition = alien.GetWorldPosition();
-                minimapPosition = new Vector2(_destPoint.X + (alienPosition.X * _backgroundTexture.Width / GameData.Instance.MaxXDimension),
-                    _destPoint.Y + (alienPosition.Y * _backgroundTexture.Height / GameData.Instance.MaxYDimension));
-                spriteBatch.Draw(_alienTexture, minimapPosition);
-            }
+            Draw<Alien>(spriteBatch, _alienTexture);
+            Draw<Health>(spriteBatch, _pickupTexture);
         }
     }
 }

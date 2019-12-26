@@ -167,11 +167,31 @@ namespace Game1
 
         }
 
+        private void ClipRotation()
+        {
+            if (Rotation >= 2 * System.Math.PI)
+            {
+                Rotation = (Rotation - (float)(2 * System.Math.PI));
+            }
+        }
+
+        public virtual void RotateByRadians(float radians)
+        {
+            Rotation += radians;
+            ClipRotation();
+        }
+
+        public virtual void RotateByDegrees(int degrees)
+        {
+            Rotation += (float)(degrees * System.Math.PI / 180);
+            ClipRotation();
+        }
+
         public virtual void Update(GameTime gameTime)
         {
         }
 
-        public virtual void OnCollision(GameObject other)
+        public virtual void OnCollision(GameObject other, Vec2 position)
         {
         }
 

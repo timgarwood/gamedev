@@ -1,0 +1,12 @@
+[
+  {
+    "Name": "SmallHealth",
+    "Values": {
+      "TextureName": "sprites\\pickups\\Health",
+      "Density": 0.0,
+      "Friction": 0.0,
+      "Scale": 0.1,
+      "Hp": 10
+    }
+  }
+]
