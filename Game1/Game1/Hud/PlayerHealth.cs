@@ -9,7 +9,6 @@ namespace Game1.Hud
     {
         private Font _font;
         private string _textTemplate;
-        private Vector2 _location;
 
         private PlayerHealth(HudComponentDefinition hudComponentDefinition,
             Font font,
@@ -18,22 +17,15 @@ namespace Game1.Hud
         {
             _font = font;
             _textTemplate = template;
-            _location = new Vector2(Left, Top);
-        }
-
-        public override void OnWindowResized(Vector2 viewport)
-        {
-            base.OnWindowResized(viewport);
-            _location = new Vector2(Left, Top);
         }
 
         public override void Draw(SpriteBatch spriteBatch, Vector2 viewport)
         {
             var text = _textTemplate.Replace("{health}", Player.Instance.Hp.ToString());
-            _font.DrawString(spriteBatch, text, _location);
+            _font.DrawString(spriteBatch, text, Location);
         }
 
-        public static PlayerHealth CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice)
+        public static PlayerHealth CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice, WeaponInventory weaponInventory)
         {
             var hudComponentDefinition = HudComponentDefinition.Create(jsonData);
 

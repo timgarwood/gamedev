@@ -63,12 +63,17 @@ namespace Game1.Weapons
             }
         }
 
-        public WeaponDefinition Defintion
+        public WeaponDefinition Definition
         {
             get
             {
                 return _definition;
             }
+        }
+
+        public override void OnCollision(GameObject other, Vec2 position)
+        {
+            PendingDispose = true;
         }
     }
 }

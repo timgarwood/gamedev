@@ -36,6 +36,8 @@ namespace Game1
 
         private AnimationFactory AnimationFactory { get; set; }
 
+        private WeaponInventory WeaponInventory { get; set; }
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -47,7 +49,7 @@ namespace Game1
         /// <param name="rigidBody"></param>
         public Player(World world, Texture2D texture, Texture2D positionTexture, 
             Texture2D upperBoundTexture, Texture2D lowerBoundTexture, 
-            Shape shape, Body rigidBody, AnimationFactory animationFactory) : 
+            Shape shape, Body rigidBody, AnimationFactory animationFactory, WeaponInventory weaponInventory) : 
             base(world, texture, shape, rigidBody, 0)
         {
             Active = true;
@@ -62,6 +64,8 @@ namespace Game1
 
             Instance = this;
             _lastProjectileTime = DateTime.MinValue;
+
+            WeaponInventory = weaponInventory;
         }
 
         /// <summary>
@@ -149,6 +153,16 @@ namespace Game1
                         , RigidBody.GetPosition());
                 }
 
+                if(Keyboard.GetState().IsKeyDown(Keys.OemOpenBrackets))
+                {
+                    WeaponInventory.SelectPreviousWeapon();
+                }
+
+                if(Keyboard.GetState().IsKeyDown(Keys.OemCloseBrackets))
+                {
+                    WeaponInventory.SelectNextWeapon();
+                }
+
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
                     //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
@@ -183,10 +197,15 @@ namespace Game1
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 {
-                    if (DateTime.Now - _lastProjectileTime > TimeSpan.FromMilliseconds(100))
+                    var weapon = WeaponInventory.GetSelectedWeapon();
+                    if (weapon != null && weapon.RemainingAmmo > 0)
                     {
-                        _lastProjectileTime = DateTime.Now;
-                        SpawnProjectile("GreenLaser-small", ProjectileSource.Player);
+                        if (DateTime.Now - _lastProjectileTime > TimeSpan.FromMilliseconds(100))
+                        {
+                            _lastProjectileTime = DateTime.Now;
+                            WeaponInventory.DecreaseAmmo(1);
+                            SpawnProjectile(weapon.ProjectileName, ProjectileSource.Player);
+                        }
                     }
                 }
 
@@ -209,19 +228,21 @@ namespace Game1
         {
             if (other is Projectile)
             {
-                GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(position, "LaserExplosion"));
-
                 var proj = other as Projectile;
-                Hp -= 1;// proj.Defintion.Damage;
-                if (Hp <= 0)
+                if (!proj.PendingDispose)
                 {
-                    Hp = 0;
-                    if (Active)
+                    GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(position, "LaserExplosion"));
+                    Hp -= proj.Definition.Damage;
+                    if (Hp <= 0)
                     {
-                        AnimationFactory.Create(RigidBody.GetPosition(), "AlienExplosion");
-                    }
+                        Hp = 0;
+                        if (Active)
+                        {
+                            AnimationFactory.Create(RigidBody.GetPosition(), "AlienExplosion");
+                        }
 
-                    Active = false;
+                        Active = false;
+                    }
                 }
             }
             else if (other is Health)
@@ -232,6 +253,11 @@ namespace Game1
                 {
                     Hp = MaxHp;
                 }
+            }
+            else if(other is Laser)
+            {
+                var laser = other as Laser;
+                WeaponInventory.AddToInventory(laser);
             }
         }
 

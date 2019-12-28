@@ -8,5 +8,60 @@
       "Scale": 0.1,
       "Hp": 10
     }
+  },
+  {
+    "Name": "RedLaser",
+    "Values": {
+      "TextureName": "sprites\\pickups\\red-laser-pickup",
+      "Density": 0.0,
+      "Friction": 0.0,
+      "Scale": 0.1,
+      "ProjectileName": "RedLaser-small",
+      "StartingAmmo": 20
+    }
+  },
+  {
+    "Name": "YellowLaser",
+    "Values": {
+      "TextureName": "sprites\\pickups\\yellow-laser-pickup",
+      "Density": 0.0,
+      "Friction": 0.0,
+      "Scale": 0.1,
+      "ProjectileName": "YellowLaser-small",
+      "StartingAmmo": 20
+    }
+  },
+  {
+    "Name": "PurpleLaser",
+    "Values": {
+      "TextureName": "sprites\\pickups\\purple-laser-pickup",
+      "Density": 0.0,
+      "Friction": 0.0,
+      "Scale": 0.1,
+      "ProjectileName": "PurpleLaser-small",
+      "StartingAmmo": 20
+    }
+  },
+  {
+    "Name": "TealLaser",
+    "Values": {
+      "TextureName": "sprites\\pickups\\teal-laser-pickup",
+      "Density": 0.0,
+      "Friction": 0.0,
+      "Scale": 0.1,
+      "ProjectileName": "TealLaser-small",
+      "StartingAmmo": 20
+    }
+  },
+  {
+    "Name": "BlueLaser",
+    "Values": {
+      "TextureName": "sprites\\pickups\\blue-laser-pickup",
+      "Density": 0.0,
+      "Friction": 0.0,
+      "Scale": 0.1,
+      "ProjectileName": "BlueLaser-small",
+      "StartingAmmo": 20
+    }
   }
 ]

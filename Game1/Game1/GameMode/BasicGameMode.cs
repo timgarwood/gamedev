@@ -66,6 +66,22 @@ namespace Game1.GameMode
                 PickupFactory.CreateHealthPickup(new Vec2(rand.Next(0, (int)GameData.Instance.MaxXDimension), rand.Next(0, (int)GameData.Instance.MaxYDimension)), "SmallHealth");
                 Thread.Sleep(100);
             }
+
+            SpawnLaserPickup(2, "RedLaser");
+            SpawnLaserPickup(2, "YellowLaser");
+            SpawnLaserPickup(2, "TealLaser");
+            SpawnLaserPickup(2, "PurpleLaser");
+            SpawnLaserPickup(2, "BlueLaser");
+        }
+
+        private void SpawnLaserPickup(int numLasers, string definitionName)
+        {
+            for(var i = 0; i < numLasers; ++i)
+            {
+                var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).Ticks);
+                PickupFactory.CreateLaserPickup(new Vec2(rand.Next(0, (int)GameData.Instance.MaxXDimension), rand.Next(0, (int)GameData.Instance.MaxYDimension)), definitionName);
+                Thread.Sleep(100);
+            }
         }
     }
 }

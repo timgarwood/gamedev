@@ -68,6 +68,8 @@
     <Compile Include="Hud\HudComponentDefinition.cs" />
     <Compile Include="Hud\Minimap.cs" />
     <Compile Include="Hud\PlayerHealth.cs" />
+    <Compile Include="Hud\RemainingAmmo.cs" />
+    <Compile Include="Hud\SelectedWeapon.cs" />
     <Compile Include="Hud\VerticalAlignment.cs" />
     <Compile Include="IAssetDefinition.cs" />
     <Compile Include="IDrawable.cs" />
@@ -79,11 +81,14 @@
     <Compile Include="Physics\CollisionCategory.cs" />
     <Compile Include="Physics\GameContactListener.cs" />
     <Compile Include="Pickups\Health.cs" />
+    <Compile Include="Pickups\Laser.cs" />
+    <Compile Include="Pickups\Pickup.cs" />
     <Compile Include="Pickups\PickupDefinition.cs" />
     <Compile Include="Pickups\PickupFactory.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WeaponInventory.cs" />
     <Compile Include="Weapons\Projectile.cs" />
     <Compile Include="Weapons\WeaponDefinition.cs" />
     <Compile Include="Weapons\WeaponFactory.cs" />

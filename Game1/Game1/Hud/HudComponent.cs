@@ -15,6 +15,8 @@ namespace Game1.Hud
         /// </summary>
         public Vector2 _viewport;
 
+        private Vector2 _location;
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -27,11 +29,14 @@ namespace Game1.Hud
                 throw new System.Exception("HudComponent needs a width and height");
             }
 
+            _location = new Vector2(Left, Top);
         }
 
         public virtual void OnWindowResized(Vector2 viewport)
         {
             _viewport = viewport;
+            _location.X = Left;
+            _location.Y = Top;
         }
 
         /// <summary>
@@ -75,6 +80,14 @@ namespace Game1.Hud
                 {
                     return _viewport.Y * .5f - (_hudComponentDefinition.Height / 2);
                 }
+            }
+        }
+
+        protected Vector2 Location
+        {
+            get
+            {
+                return _location;
             }
         }
 

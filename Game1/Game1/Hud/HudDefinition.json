@@ -24,5 +24,29 @@
       "textTemplate": "HP: {health}",
       "width": 200,
       "height": 30
-    }
+    },
+  {
+    "name": "SelectedWeapon",
+    "componentTypeName": "Game1.Hud.SelectedWeapon",
+    "fontName": "Default2",
+    "hAlignment": "Right",
+    "vAlignment": "Bottom",
+    "horizontalPercentage": 0.1,
+    "verticalPercentage": 0.1,
+    "scale": 0.1,
+    "width": 200,
+    "height": 30
+  },
+  {
+    "name": "RemainingAmmo",
+    "componentTypeName": "Game1.Hud.RemainingAmmo",
+    "fontName": "Default2",
+    "hAlignment": "Right",
+    "vAlignment": "Bottom",
+    "horizontalPercentage": 0,
+    "verticalPercentage": 0,
+    "textTemplate": "Ammo: {remainingAmmo}",
+    "width": 200,
+    "height": 30
+  }
 ]

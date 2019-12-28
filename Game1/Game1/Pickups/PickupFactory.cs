@@ -17,6 +17,14 @@ namespace Game1.Pickups
 {
     public class PickupFactory
     {
+        private struct PickupTemplate
+        {
+            public Texture2D Texture { get; set; }
+            public Body RigidBody { get; set;}
+            public Shape Shape { get; set; }
+            public float Scale { get; set; }
+        }
+
         private PickupDefinition[] Definitions { get; set; }
 
         private ContentManager ContentManager { get; set; }
@@ -50,14 +58,8 @@ namespace Game1.Pickups
             }
         }
 
-        public void CreateHealthPickup(Vec2 origin, string definitionName)
+        private PickupTemplate CreatePickupTemplate(Vec2 origin, PickupDefinition definition)
         {
-            var definition = Definitions.FirstOrDefault(d => d.Name.ToLower().Equals(definitionName.ToLower()));
-            if(definition == null)
-            {
-                throw new Exception($"No such pickup definition {definitionName}");
-            }
-
             var kvp = definition.Values;
 
             var texture = ContentManager.Load<Texture2D>(kvp["TextureName"]);
@@ -87,11 +89,48 @@ namespace Game1.Pickups
             {
                 Mass = 0
             });
-            
-            var hp = int.Parse(kvp["Hp"]);
 
-            var healthPickup = new Health(PhysicsWorld, texture, shape, body, hp, scale);
+            return new PickupTemplate
+            {
+                Texture = texture,
+                RigidBody = body,
+                Shape = shape,
+                Scale = scale
+            };
+        }
+
+        public void CreateHealthPickup(Vec2 origin, string definitionName)
+        {
+            var definition = Definitions.FirstOrDefault(d => d.Name.ToLower().Equals(definitionName.ToLower()));
+            if(definition == null)
+            {
+                throw new Exception($"No such pickup definition {definitionName}");
+            }
+
+            var template = CreatePickupTemplate(origin, definition);
+
+            var hp = int.Parse(definition.Values["Hp"]);
+
+            var healthPickup = new Health(PhysicsWorld, template.Texture, template.Shape, template.RigidBody, hp, template.Scale);
             GameWorld.Instance.AddGameObject(healthPickup);
         }
+
+        public void CreateLaserPickup(Vec2 origin, string definitionName)
+        {
+            var definition = Definitions.FirstOrDefault(d => d.Name.ToLower().Equals(definitionName.ToLower()));
+            if(definition == null)
+            {
+                throw new Exception($"No such pickup definition {definitionName}");
+            }
+
+            var projectileName = definition.Values["ProjectileName"];
+            var startingAmmo = int.Parse(definition.Values["StartingAmmo"]);
+            
+            var template = CreatePickupTemplate(origin, definition);
+
+            var laserPickup = new Laser(PhysicsWorld, template.Texture, template.Shape, template.RigidBody, projectileName, startingAmmo, definitionName, template.Scale);
+            GameWorld.Instance.AddGameObject(laserPickup);
+        }
+
     }
 }

@@ -1,5 +1,5 @@
 ﻿{
-  "numBackgroundObjects": 3000,
+  "numBackgroundObjects": 1000,
   "maxXDimension" :  100,
   "maxYDimension" :  100,
   "playerStartX" :  40,

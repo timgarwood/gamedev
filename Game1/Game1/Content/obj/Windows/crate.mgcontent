@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/code/Game1/Game1/Content/crate.jpg</SourceFile>
+  <SourceFile>C:/code/gamedev/Game1/Game1/Content/crate.jpg</SourceFile>
   <SourceTime>2018-12-18T20:19:08.5564906-05:00</SourceTime>
-  <DestFile>C:/code/Game1/Game1/Content/bin/Windows/crate.xnb</DestFile>
-  <DestTime>2018-12-18T20:20:12.2045416-05:00</DestTime>
+  <DestFile>C:/code/gamedev/Game1/Game1/Content/bin/Windows/crate.xnb</DestFile>
+  <DestTime>2019-12-01T22:38:30.3056308-05:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-12-08T11:35:54-05:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

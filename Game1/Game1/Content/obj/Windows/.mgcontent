@@ -4,9 +4,121 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/code/Game1/Game1/Content/crate.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/crate.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/cratesmall.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion1.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion2.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion3.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion4.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion5.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/fonts/font1.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/pickups/blue-laser-pickup.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/pickups/Health.PNG</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/pickups/purple-laser-pickup.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/pickups/red-laser-pickup.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/pickups/teal-laser-pickup.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/pickups/yellow-laser-pickup.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/blue-star.PNG</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/blue-star-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/bright-moon.PNG</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/bright-moon-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/bright-star.PNG</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/bright-star-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/dirt-planet.PNG</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/dirt-planet-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/fire-planet.PNG</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/fire-planet-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/venus-planet.PNG</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/venus-planet-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/yellow-planet.PNG</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/planets/yellow-planet-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien1.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien1-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien1-transparent-2.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien2.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien2-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien3.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien3-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien4.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien4-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien5.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien5-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien6.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien6-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien7.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien7-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien8.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/alien8-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/ship1.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/ships/ship1small.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/weapons/blue-laser-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/weapons/green-laser-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/weapons/lasers.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/weapons/lasers2.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/weapons/lasers3.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/weapons/lasers-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/weapons/purple-laser-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/weapons/red-laser-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/weapons/teal-laser-transparent.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/weapons/yellow-laser-transparent.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

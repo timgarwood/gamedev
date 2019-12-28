@@ -107,15 +107,18 @@ namespace Game1
             {
                 if (other is Projectile)
                 {
-                    GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(position, "LaserExplosion"));
-
                     var proj = other as Projectile;
-                    Hp -= proj.Defintion.Damage;
-                    if (Hp <= 0)
+                    if (!proj.PendingDispose)
                     {
+                        GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(position, "LaserExplosion"));
 
-                        PendingDispose = true;
-                        DeathLocation = RigidBody.GetPosition();
+                        Hp -= proj.Definition.Damage;
+                        if (Hp <= 0)
+                        {
+
+                            PendingDispose = true;
+                            DeathLocation = RigidBody.GetPosition();
+                        }
                     }
                 }
             }

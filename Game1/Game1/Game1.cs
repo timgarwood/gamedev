@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.IO;
 using Game1.Fonts;
 using Game1.Weapons;
-using Game1.Hud;
 using Game1.Animations;
 using Game1.Menu;
 using Game1.GameMode;
@@ -69,6 +68,7 @@ namespace Game1
         private FontFactory _fontFactory;
         private AnimationFactory _animationFactory;
         private MenuFactory _menuFactory;
+        private WeaponInventory _weaponInventory;
 
         private GameMode.GameMode CurrentGameMode { get; set; }
 
@@ -98,6 +98,7 @@ namespace Game1
             _pickupFactory = new PickupFactory(physicsWorld, Content);
             _fontFactory = new FontFactory(Content);
             _menuFactory = new MenuFactory(_fontFactory);
+            _weaponInventory = new WeaponInventory();
 
             Window.ClientSizeChanged += OnResize;
         }
@@ -156,7 +157,7 @@ namespace Game1
             }
 
             //FIXME
-            var hud = new Hud.Hud(Content, GraphicsDevice);
+            var hud = new Hud.Hud(Content, GraphicsDevice, _weaponInventory);
 
             //load up the HUD
             using (var stream = new FileStream("./Hud/HudDefinition.json", FileMode.Open))
@@ -329,7 +330,7 @@ namespace Game1
             var crateShape = crateBody.CreateShape(crateShapeDef);
             crateBody.SetMassFromShapes();
 
-            player = new Player(physicsWorld, crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody, _animationFactory);
+            player = new Player(physicsWorld, crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody, _animationFactory, _weaponInventory);
             GameWorld.Instance.AddGameObject(player);
 
 

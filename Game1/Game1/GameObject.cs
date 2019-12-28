@@ -203,7 +203,7 @@ namespace Game1
             var offsetLength = GameUtils.PhysicsVec(new Vector2(0, (Texture.Height + slop) / 2));
             offset = offset * offsetLength.Length();
 
-            WeaponFactory.Instance.CreateProjectile("GreenLaser-small", RigidBody.GetPosition() + offset, RigidBody.GetAngle(), source);
+            WeaponFactory.Instance.CreateProjectile(projectileName, RigidBody.GetPosition() + offset, RigidBody.GetAngle(), source);
         }
     }
 }

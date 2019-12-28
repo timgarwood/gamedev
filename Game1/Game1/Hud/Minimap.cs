@@ -30,7 +30,7 @@ namespace Game1.Hud
             _destPoint = new Vector2();
         }
 
-        public static Minimap CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice)
+        public static Minimap CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice, WeaponInventory weaponInventory)
         {
             Texture2D backgroundTexture = null;
             try
@@ -168,6 +168,7 @@ namespace Game1.Hud
 
             Draw<Alien>(spriteBatch, _alienTexture);
             Draw<Health>(spriteBatch, _pickupTexture);
+            Draw<Laser>(spriteBatch, _pickupTexture);
         }
     }
 }

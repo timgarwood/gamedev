@@ -17,7 +17,7 @@
     "numFrames": 25,
     "repeat": false,
     "frameDurationSecs": 0.05,
-    "scale": 2.0
+    "scale": 5.0
   },
   {
     "name": "LaserExplosion2",
