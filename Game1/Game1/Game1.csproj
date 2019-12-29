@@ -51,6 +51,7 @@
     <Compile Include="Background.cs" />
     <Compile Include="BackgroundObject.cs" />
     <Compile Include="Drawable.cs" />
+    <Compile Include="FilteredKeyListener.cs" />
     <Compile Include="Fonts\CharacterDefinition.cs" />
     <Compile Include="Fonts\Font.cs" />
     <Compile Include="Fonts\FontDefinition.cs" />

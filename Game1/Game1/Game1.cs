@@ -16,6 +16,7 @@ using Game1.Physics;
 using System;
 using Math = System.Math;
 using Game1.Pickups;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Game1
 {
@@ -330,7 +331,7 @@ namespace Game1
             var crateShape = crateBody.CreateShape(crateShapeDef);
             crateBody.SetMassFromShapes();
 
-            player = new Player(physicsWorld, crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody, _animationFactory, _weaponInventory);
+            player = new Player(physicsWorld, crateTexture, positionTexture, upperBoundTexture, lowerBoundTexture, crateShape, crateBody, _animationFactory, _weaponInventory, new FilteredKeyListener());
             GameWorld.Instance.AddGameObject(player);
 
 

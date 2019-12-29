@@ -38,6 +38,8 @@ namespace Game1
 
         private WeaponInventory WeaponInventory { get; set; }
 
+        private FilteredKeyListener FilteredInputListener { get; set; }
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -49,7 +51,7 @@ namespace Game1
         /// <param name="rigidBody"></param>
         public Player(World world, Texture2D texture, Texture2D positionTexture, 
             Texture2D upperBoundTexture, Texture2D lowerBoundTexture, 
-            Shape shape, Body rigidBody, AnimationFactory animationFactory, WeaponInventory weaponInventory) : 
+            Shape shape, Body rigidBody, AnimationFactory animationFactory, WeaponInventory weaponInventory, FilteredKeyListener filteredInputListener) : 
             base(world, texture, shape, rigidBody, 0)
         {
             Active = true;
@@ -66,6 +68,8 @@ namespace Game1
             _lastProjectileTime = DateTime.MinValue;
 
             WeaponInventory = weaponInventory;
+
+            FilteredInputListener = filteredInputListener;
         }
 
         /// <summary>
@@ -118,6 +122,8 @@ namespace Game1
         {
             if (Active)
             {
+                FilteredInputListener.Update(gameTime);
+
                 //if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 /*if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
@@ -153,14 +159,16 @@ namespace Game1
                         , RigidBody.GetPosition());
                 }
 
-                if(Keyboard.GetState().IsKeyDown(Keys.OemOpenBrackets))
+                if(FilteredInputListener.WasKeyPressed(Keys.OemOpenBrackets))
                 {
                     WeaponInventory.SelectPreviousWeapon();
+                    FilteredInputListener.ResetKey(Keys.OemOpenBrackets);
                 }
 
-                if(Keyboard.GetState().IsKeyDown(Keys.OemCloseBrackets))
+                if(FilteredInputListener.WasKeyPressed(Keys.OemCloseBrackets))
                 {
                     WeaponInventory.SelectNextWeapon();
+                    FilteredInputListener.ResetKey(Keys.OemCloseBrackets);
                 }
 
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
