@@ -89,7 +89,7 @@ namespace Game1
                 shapeDef.Density = definition.Density;
                 shapeDef.Friction = definition.Friction;
                 shapeDef.Filter.CategoryBits = CollisionCategory.Alien;
-                shapeDef.Filter.MaskBits = (ushort)(CollisionCategory.Player | CollisionCategory.PlayerProjectile | CollisionCategory.Alien);
+                shapeDef.Filter.MaskBits = (ushort)(CollisionCategory.Wall | CollisionCategory.Player | CollisionCategory.PlayerProjectile | CollisionCategory.Alien);
 
                 var bodyDef = new BodyDef();
                 bodyDef.IsBullet = true;

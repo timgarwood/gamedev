@@ -1,5 +1,9 @@
-fix player not centered when game resized
 fix player controls
 enemy ai
 menus
 texture wall boundaries
+add sound effects
+add background music
+new background
+Shadows have to be drawn before all real GameObjects
+

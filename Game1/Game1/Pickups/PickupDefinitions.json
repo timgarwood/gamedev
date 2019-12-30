@@ -28,7 +28,7 @@
       "Friction": 0.0,
       "Scale": 0.1,
       "ProjectileName": "YellowLaser-small",
-      "StartingAmmo": 20
+      "StartingAmmo": 40
     }
   },
   {
@@ -39,7 +39,7 @@
       "Friction": 0.0,
       "Scale": 0.1,
       "ProjectileName": "PurpleLaser-small",
-      "StartingAmmo": 20
+      "StartingAmmo": 40
     }
   },
   {
@@ -50,7 +50,7 @@
       "Friction": 0.0,
       "Scale": 0.1,
       "ProjectileName": "TealLaser-small",
-      "StartingAmmo": 20
+      "StartingAmmo": 40
     }
   },
   {
@@ -61,7 +61,7 @@
       "Friction": 0.0,
       "Scale": 0.1,
       "ProjectileName": "BlueLaser-small",
-      "StartingAmmo": 20
+      "StartingAmmo": 40
     }
   }
 ]

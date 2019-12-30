@@ -1,11 +1,11 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/code/gamedev/Game1/Game1/Content/crate.jpg","C:/code/gamedev/Game1/Game1/Content/bin/Windows/crate.xnb","TextureProcessor","Texture2DContent",6773,202585,0.1591899
-"C:/code/gamedev/Game1/Game1/Content/cratesmall.jpg","C:/code/gamedev/Game1/Game1/Content/bin/Windows/cratesmall.xnb","TextureProcessor","Texture2DContent",2399,13081,0.0101974
 "C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion1.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sprites/animations/explosion1.xnb","TextureProcessor","Texture2DContent",99408,409685,0.0209442
 "C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion2.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sprites/animations/explosion2.xnb","TextureProcessor","Texture2DContent",20130,202585,0.0129344
 "C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion3.jpg","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sprites/animations/explosion3.xnb","TextureProcessor","Texture2DContent",14790,202261,0.0139621
 "C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion4.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sprites/animations/explosion4.xnb","TextureProcessor","Texture2DContent",13457,201677,0.0109713
 "C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion5.jpg","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sprites/animations/explosion5.xnb","TextureProcessor","Texture2DContent",10691,200789,0.0129336
+"C:/code/gamedev/Game1/Game1/Content/sprites/backgrounds/bk_water2.jpg","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sprites/backgrounds/bk_water2.xnb","TextureProcessor","Texture2DContent",190764,4194389,0.4985293
+"C:/code/gamedev/Game1/Game1/Content/sprites/backgrounds/water2.jpg","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sprites/backgrounds/water2.xnb","TextureProcessor","Texture2DContent",148064,2800085,0.1237868
 "C:/code/gamedev/Game1/Game1/Content/sprites/fonts/font1.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sprites/fonts/font1.xnb","TextureProcessor","Texture2DContent",162979,796789,0.0304063
 "C:/code/gamedev/Game1/Game1/Content/sprites/pickups/blue-laser-pickup.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sprites/pickups/blue-laser-pickup.xnb","TextureProcessor","Texture2DContent",54552,2244565,0.2467371
 "C:/code/gamedev/Game1/Game1/Content/sprites/pickups/Health.PNG","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sprites/pickups/Health.xnb","TextureProcessor","Texture2DContent",71351,594301,0.7236751

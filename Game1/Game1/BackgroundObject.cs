@@ -59,11 +59,14 @@ namespace Game1
         {
             //parallax calculation
             //we can use Scale.X and Scale.Y here because they are derived from distance-from-camera
-            var diffx = (WorldPosition.X + ((1 - Scale.X) * cameraOrigin.X)) - cameraOrigin.X;
+            /*var diffx = (WorldPosition.X + ((1 - Scale.X) * cameraOrigin.X)) - cameraOrigin.X;
             var diffy = (WorldPosition.Y + ((1 - Scale.Y) * cameraOrigin.Y)) - cameraOrigin.Y;
 
             var location = new Vector2(diffx * GameData.Instance.PixelsPerMeter, diffy * GameData.Instance.PixelsPerMeter);
             spriteBatch.Draw(Texture, location, null, null, null, 0, Scale);
+            */
+            var location = GameUtils.GraphicsVec(WorldPosition - cameraOrigin);
+            spriteBatch.Draw(Texture, location);
         }
     }
 }

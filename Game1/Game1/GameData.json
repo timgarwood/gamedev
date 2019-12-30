@@ -10,7 +10,7 @@
   "playerLateralImpulse" :  0.0150,
   "playerImpulse" :  0.0075,
   "playerTurnVelocityDecrement" :  0.1,
-  "playerCoastVelocityDecrement" :  0.05,
+  "playerCoastVelocityDecrement" :  0.25,
   "playerMaxSpeed" :  3.5,
   "minDistanceFromCamera" :  25,
   "maxDistanceFromCamera" :  10,

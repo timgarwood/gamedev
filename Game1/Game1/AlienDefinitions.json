@@ -6,7 +6,7 @@
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
-    "moveImpulse" :  0.0075,
+    "moveImpulse" :  0.075,
     "decisionFrequencySec" :  0.1,
     "maxSpeed" :  5,
     "alienTurnVelocityDecrement": 1,

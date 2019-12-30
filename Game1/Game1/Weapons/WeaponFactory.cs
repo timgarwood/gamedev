@@ -72,12 +72,12 @@ namespace Game1.Weapons
             if (source == ProjectileSource.Player)
             {
                 shapeDef.Filter.CategoryBits = CollisionCategory.PlayerProjectile;
-                shapeDef.Filter.MaskBits = (ushort)(CollisionCategory.Alien | CollisionCategory.AlienProjectile);
+                shapeDef.Filter.MaskBits = (ushort)(CollisionCategory.Alien | CollisionCategory.AlienProjectile | CollisionCategory.Wall);
             }
             else
             {
                 shapeDef.Filter.CategoryBits = CollisionCategory.AlienProjectile;
-                shapeDef.Filter.MaskBits = (ushort)(CollisionCategory.Player | CollisionCategory.PlayerProjectile);
+                shapeDef.Filter.MaskBits = (ushort)(CollisionCategory.Player | CollisionCategory.PlayerProjectile | CollisionCategory.Wall);
             }
 
             var bodyDef = new BodyDef();

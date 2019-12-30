@@ -4,13 +4,13 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/code/gamedev/Game1/Game1/Content/crate.jpg</File>
-    <File>C:/code/gamedev/Game1/Game1/Content/cratesmall.jpg</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion1.png</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion2.png</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion3.jpg</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion4.png</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion5.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/backgrounds/bk_water2.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/backgrounds/water2.jpg</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/fonts/font1.png</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/pickups/blue-laser-pickup.png</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/pickups/Health.PNG</File>

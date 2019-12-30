@@ -12,12 +12,10 @@ namespace Game1
     /// </summary>
     public static class Background
     {
-        static Background()
-        {
-            _backgroundObjects = new List<BackgroundObject>();
-        }
 
-        private static List<BackgroundObject> _backgroundObjects;
+        private static Texture2D Texture { get; set; }
+
+        private static List<BackgroundObject> BackgroundObjects { get; set; } = new List<BackgroundObject>();
 
         /// <summary>
         /// 
@@ -25,7 +23,34 @@ namespace Game1
         /// <param name="gameData"></param>
         public static void GenerateBackground(Texture2D[] backgroundTextures, GameData gameData)
         {
-            var textureRandom = new Random((int)(DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds);
+            Texture = backgroundTextures[0];
+
+            var xPixelTotal = gameData.MaxXDimension * gameData.PixelsPerMeter;
+            var yPixelTotal = gameData.MaxYDimension * gameData.PixelsPerMeter;
+
+            var cols = xPixelTotal / Texture.Width;
+            if(xPixelTotal % Texture.Width != 0)
+            {
+                cols++;
+            }
+
+            var rows = yPixelTotal / Texture.Height;
+            if(yPixelTotal % Texture.Height != 0)
+            {
+                rows++;
+            }
+
+            for(var i = 0; i < cols; ++i)
+            {
+                for(var j = 0; j < rows; ++j)
+                {
+                    var v = GameUtils.PhysicsVec(new Vector2(i * Texture.Width, j * Texture.Height));
+                    BackgroundObjects.Add(new BackgroundObject(Texture, v, GameData.Instance.MaxDistanceFromCamera));
+                }
+            }
+
+
+            /*var textureRandom = new Random((int)(DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds);
             var positionRandom = new Random((int)(DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds);
             var distanceRandom = new Random((int)(DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds);
             for(var i = 0; i < gameData.NumBackgroundObjects; ++i)
@@ -42,6 +67,7 @@ namespace Game1
             }
 
             _backgroundObjects.OrderBy(x => x.DistanceFromCamera).Reverse();
+            */
         }
 
         /// <summary>
@@ -50,7 +76,7 @@ namespace Game1
         /// <param name="spriteBatch"></param>
         public static void DrawBackground(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
-            foreach (var bgo in _backgroundObjects)
+            foreach (var bgo in BackgroundObjects)
             {
                 bgo.Draw(spriteBatch, cameraOrigin, viewport);
             }

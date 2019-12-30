@@ -5,6 +5,7 @@ using Box2DX.Common;
 using Microsoft.Xna.Framework;
 using NLog;
 using Game1.Weapons;
+using Color = Microsoft.Xna.Framework.Color;
 
 namespace Game1
 {
@@ -14,6 +15,9 @@ namespace Game1
     public class GameObject : Drawable, IUpdateable
     {
         private static Logger Logger = LogManager.GetCurrentClassLogger();
+
+        private Vector2 ShadowOffset { get; set; } = new Vector2(0, 0);
+        private static Vector2 ShadowScale { get; set; } = new Vector2(.4f, .4f);
 
         private Vector2 TextureOffset { get; set; } = Vector2.Zero;
 
@@ -49,6 +53,11 @@ namespace Game1
             if (texture != null)
             {
                 CenterOfRotation = new Vector2(texture.Width / 2, texture.Height / 2);
+            }
+
+            if (Texture != null)
+            {
+                ShadowOffset = new Vector2(-20, 20);
             }
         }
 
@@ -156,6 +165,12 @@ namespace Game1
             RigidBody.SetLinearVelocity(lv);
         }
 
+        protected void DrawShadow(SpriteBatch spriteBatch, Vector2 texturePosition)
+        {
+            var shadowLocation = new Vector2(texturePosition.X + ShadowOffset.X, texturePosition.Y + (Texture.Height * RenderScale.Y) + ShadowOffset.Y);
+            spriteBatch.Draw(Texture, shadowLocation, null, null, rotation: Rotation, color: Color.Black, origin: CenterOfRotation, scale: ShadowScale * RenderScale);
+        }
+
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
             var rigidBodyPosition = RigidBody.GetPosition();
@@ -164,7 +179,7 @@ namespace Game1
             //Logger.Info($"body position @ ({rigidBodyPosition.X},{rigidBodyPosition.Y})");
             //Logger.Info($"texture @ ({texturePosition.X},{texturePosition.Y})");
             spriteBatch.Draw(Texture, texturePosition, null, null, rotation: Rotation, origin: CenterOfRotation, scale: RenderScale);
-
+            DrawShadow(spriteBatch, texturePosition);
         }
 
         private void ClipRotation()

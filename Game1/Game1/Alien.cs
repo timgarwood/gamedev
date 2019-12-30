@@ -200,7 +200,7 @@ namespace Game1
             if(distToTarget <= 5)
             {
                 var attackDiff = DateTime.UtcNow - LastAttackTime;
-                if(attackDiff.TotalMilliseconds >= 3000)
+                if(attackDiff.TotalMilliseconds >= 500)
                 {
                     LastAttackTime = DateTime.UtcNow;
                     SpawnProjectile("GreenLaser-small", ProjectileSource.Alien);
@@ -282,6 +282,7 @@ namespace Game1
                 (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
 
             spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, scale: RenderScale, origin: RenderScale * new Vector2(Texture.Width / 2, Texture.Height / 2));
+            DrawShadow(spriteBatch, texturePosition);
         }
     }
 }

@@ -70,6 +70,8 @@ namespace Game1
             WeaponInventory = weaponInventory;
 
             FilteredInputListener = filteredInputListener;
+
+            RenderScale = new Vector2(1, 1);
         }
 
         /// <summary>
@@ -84,18 +86,11 @@ namespace Game1
                 (viewport.Y / 2) * GameData.Instance.MetersPerPixel);
         }
 
-        /// <summary>
-        /// player draw routine
-        /// </summary>
-        /// <param name="spriteBatch"></param>
-        /// <param name="cameraPosition"></param>
-        /// <param name="viewport"></param>
-        [Obsolete]
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraPosition, Vector2 viewport)
         {
             if (Active)
             {
-                var angle = RigidBody.GetAngle();
+                Rotation = RigidBody.GetAngle();
 
                 //draw player relative to camera
                 var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
@@ -107,10 +102,8 @@ namespace Game1
                 var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
                     (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
 
-                spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, origin: new Vector2(Texture.Width / 2, Texture.Height / 2));
-                spriteBatch.Draw(_positionTexture, bodyPosition);
-                spriteBatch.Draw(_upperBoundTexture, upperBound);
-                spriteBatch.Draw(_lowerBoundTexture, lowerBound);
+                spriteBatch.Draw(Texture, texturePosition, null, null, rotation: Rotation, origin: new Vector2(Texture.Width / 2, Texture.Height / 2));
+                DrawShadow(spriteBatch, texturePosition);
             }
         }
 

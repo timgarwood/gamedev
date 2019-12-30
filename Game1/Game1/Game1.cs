@@ -218,6 +218,8 @@ namespace Game1
                 wallPhysicsSize.Y = 1*gameData.MetersPerPixel;
             }
 
+            wallShapeDef.Filter.CategoryBits = (ushort)CollisionCategory.Wall;
+            wallShapeDef.Filter.MaskBits = (ushort)(CollisionCategory.Player | CollisionCategory.Alien | CollisionCategory.PlayerProjectile | CollisionCategory.AlienProjectile);
             wallShapeDef.SetAsBox(wallPhysicsSize.X, wallPhysicsSize.Y);
 
             // Add the ground shape to the ground body.
@@ -260,11 +262,11 @@ namespace Game1
             venusPlanet = Content.Load<Texture2D>("sprites/planets/venus-planet-transparent");
             yellowPlanet = Content.Load<Texture2D>("sprites/planets/yellow-planet-transparent");
             positionTexture = new Texture2D(graphics.GraphicsDevice, 5, 5);
-            var data = new Microsoft.Xna.Framework.Color[5*5];
+            var data = new Microsoft.Xna.Framework.Color[5 * 5];
             for (int i = 0; i < data.Length; ++i)
-             {
-                 data[i] = Microsoft.Xna.Framework.Color.Red;
-             }
+            {
+                data[i] = Microsoft.Xna.Framework.Color.Red;
+            }
 
             positionTexture.SetData(data);
 
@@ -292,7 +294,7 @@ namespace Game1
                 planets.Add(yellowPlanet);
             }
 
-            Background.GenerateBackground(planets.ToArray(), gameData);
+            Background.GenerateBackground(new[] { Content.Load<Texture2D>("sprites/backgrounds/bk_water2") }, gameData);
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -300,19 +302,19 @@ namespace Game1
 
 
             //top wall
-            topWall = Wall(new Vec2(0.1f, 0.1f), new Vec2(gameData.MaxXDimension-1,0.1f));
+            topWall = Wall(new Vec2(0.1f, 0.1f), new Vec2(gameData.MaxXDimension - 1, 0.1f));
             //bottom wall
             bottomWall = Wall(new Vec2(0.1f, gameData.MaxYDimension - 1), new Vec2(gameData.MaxXDimension - 1, gameData.MaxYDimension - 1));
             //left wall
-            leftWall = Wall(new Vec2(0.1f,0.1f), new Vec2(0.1f,gameData.MaxYDimension-1));
+            leftWall = Wall(new Vec2(0.1f, 0.1f), new Vec2(0.1f, gameData.MaxYDimension - 1));
             //right wall
             rightWall = Wall(new Vec2(gameData.MaxXDimension - 1, 0.1f), new Vec2(gameData.MaxXDimension - 1, gameData.MaxYDimension - 1));
 
             var crateShapeDef = new PolygonDef();
             var cratePhysicsSize = GameUtils.PhysicsVec(new Vector2(crateTexture.Width, crateTexture.Height));
             crateShapeDef.Vertices = new Vec2[4];
-            crateShapeDef.Vertices[0] = new Vec2( -(cratePhysicsSize.X / 2),  -(cratePhysicsSize.Y / 2));
-            crateShapeDef.Vertices[1] = new Vec2((cratePhysicsSize.X / 2),  -(cratePhysicsSize.Y / 2));
+            crateShapeDef.Vertices[0] = new Vec2(-(cratePhysicsSize.X / 2), -(cratePhysicsSize.Y / 2));
+            crateShapeDef.Vertices[1] = new Vec2((cratePhysicsSize.X / 2), -(cratePhysicsSize.Y / 2));
             crateShapeDef.Vertices[2] = new Vec2((cratePhysicsSize.X / 2), (cratePhysicsSize.Y / 2));
             crateShapeDef.Vertices[3] = new Vec2(-(cratePhysicsSize.X / 2), (cratePhysicsSize.Y / 2));
             crateShapeDef.VertexCount = 4;
@@ -321,7 +323,7 @@ namespace Game1
             crateShapeDef.Density = gameData.PlayerDensity;
             crateShapeDef.Friction = gameData.PlayerFriction;
             crateShapeDef.Filter.CategoryBits = CollisionCategory.Player;
-            crateShapeDef.Filter.MaskBits = (ushort) (CollisionCategory.Alien | CollisionCategory.AlienProjectile | CollisionCategory.Pickup);
+            crateShapeDef.Filter.MaskBits = (ushort)(CollisionCategory.Wall | CollisionCategory.Alien | CollisionCategory.AlienProjectile | CollisionCategory.Pickup);
 
             var crateBodyDef = new BodyDef();
             crateBodyDef.IsBullet = true;
