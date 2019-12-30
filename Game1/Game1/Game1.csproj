@@ -63,6 +63,7 @@
     <Compile Include="GameObject.cs" />
     <Compile Include="GameUtils.cs" />
     <Compile Include="GameWorld.cs" />
+    <Compile Include="HealthBar.cs" />
     <Compile Include="Hud\HorizontalAlignment.cs" />
     <Compile Include="Hud\Hud.cs" />
     <Compile Include="Hud\HudComponent.cs" />

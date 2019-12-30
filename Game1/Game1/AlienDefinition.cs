@@ -16,7 +16,7 @@
 
         public string TextureName { get; set; }
 
-        public int Hp { get; set; }
+        public int MaxHp { get; set; }
 
         public float Scale { get; set; }
 

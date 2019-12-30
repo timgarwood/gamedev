@@ -51,7 +51,8 @@ namespace Game1
         /// <param name="rigidBody"></param>
         public Player(World world, Texture2D texture, Texture2D positionTexture, 
             Texture2D upperBoundTexture, Texture2D lowerBoundTexture, 
-            Shape shape, Body rigidBody, AnimationFactory animationFactory, WeaponInventory weaponInventory, FilteredKeyListener filteredInputListener) : 
+            Shape shape, Body rigidBody, AnimationFactory animationFactory, 
+            WeaponInventory weaponInventory, FilteredKeyListener filteredInputListener) : 
             base(world, texture, shape, rigidBody, 0)
         {
             Active = true;

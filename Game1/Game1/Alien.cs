@@ -52,6 +52,8 @@ namespace Game1
         /// </summary>
         private DateTime LastAttackTime { get; set; } = DateTime.MinValue;
 
+        private HealthBar HealthBar { get; set; }
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -59,10 +61,10 @@ namespace Game1
         /// <param name="texture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public Alien(World world, AlienDefinition def, AnimationFactory animationFactory, Texture2D texture, Shape shape, Body rigidBody) :
+        public Alien(World world, AlienDefinition def, AnimationFactory animationFactory, Texture2D texture, Shape shape, Body rigidBody, GraphicsDevice graphicsDevice) :
             base(world, texture, shape, rigidBody, 0)
         {
-            Hp = def.Hp;
+            Hp = def.MaxHp;
 
             AnimationFactory = animationFactory;
 
@@ -71,11 +73,14 @@ namespace Game1
 
             //set initial distance to as far from the player as possible
             _lastDistanceToTarget = Vec2.Distance(Vec2.Zero, new Vec2(GameData.Instance.MaxXDimension, GameData.Instance.MaxYDimension));
+
+            HealthBar = new HealthBar(graphicsDevice);
         }
 
         public override void Dispose()
         {
             base.Dispose();
+            HealthBar.Dispose();
             AnimationFactory.Create(DeathLocation, "AlienExplosion");
         }
 
@@ -283,6 +288,7 @@ namespace Game1
 
             spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, scale: RenderScale, origin: RenderScale * new Vector2(Texture.Width / 2, Texture.Height / 2));
             DrawShadow(spriteBatch, texturePosition);
+            HealthBar.Draw(spriteBatch, texturePosition, Hp, _definition.MaxHp);
         }
     }
 }

@@ -94,7 +94,6 @@ namespace Game1
             this.TargetElapsedTime = System.TimeSpan.FromSeconds(1f / gameData.Fps);
 
             _animationFactory = new AnimationFactory(Content);
-            _alienFactory = new AlienFactory(physicsWorld, Content, _animationFactory);
             _weaponsFactory = new WeaponFactory(physicsWorld, Content);
             _pickupFactory = new PickupFactory(physicsWorld, Content);
             _fontFactory = new FontFactory(Content);
@@ -115,6 +114,8 @@ namespace Game1
             // TODO: Add your initialization logic here
             Window.AllowUserResizing = true;
             Window.Title = "Game1";
+            
+            _alienFactory = new AlienFactory(physicsWorld, Content, _animationFactory, GraphicsDevice);
 
             float xpix = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             float ypix = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;

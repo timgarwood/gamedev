@@ -46,6 +46,9 @@ namespace Game1
                     RemainingAmmo = laser.StartingAmmo,
                     ProjectileName = laser.ProjectileName
                 });
+
+                // make this the current laser
+                LaserIndex = Lasers.Count - 1;
             }
         }
 
@@ -60,6 +63,7 @@ namespace Game1
             if(info.RemainingAmmo <= 0)
             {
                 info.RemainingAmmo = 0;
+                SelectNextWeapon();
             }
         }
 
