@@ -1,9 +1,27 @@
 fix player controls
-enemy ai
+enemy ai - general
+enemy ai - get health when low
 menus
 texture wall boundaries
 add sound effects
 add background music
 new background
 Shadows have to be drawn before all real GameObjects
-
+enable other aliens
+weapon powerups
+speed powerup?
+fire animation behind player while accelerating
+balance weapon damage
+balance weapon fire rate
+fix things spawning outside boundaries
+track # of lives
+track score total
+fix fonts
+spawn weapons periodically
+reduce player top speed
+increase alien top speed
+create collision vertices for the other alien sprites
+introduce dependency injection
+clean up code
+don't draw objects that aren't visible
+don't move camera if camera is at edges of map
