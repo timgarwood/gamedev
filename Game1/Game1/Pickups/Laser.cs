@@ -16,8 +16,17 @@ namespace Game1.Pickups
 
         public string Name { get; private set; }
 
-        public Laser(World world, Texture2D texture, Shape shape, Body rigidBody, string projectileName, int startingAmmo, string name, float scale)
-            : base(world, texture, shape, rigidBody, scale)
+        public Laser(GameData gameData,
+            GameUtils gameUtils,
+            World world, 
+            Texture2D texture, 
+            Shape shape, 
+            Body rigidBody, 
+            string projectileName, 
+            int startingAmmo, 
+            string name, 
+            float scale)
+            : base(gameData, gameUtils, world, texture, shape, rigidBody, scale)
         {
             ProjectileName = projectileName;
             StartingAmmo = startingAmmo;

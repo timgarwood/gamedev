@@ -8,14 +8,17 @@ namespace Game1.GameMode
 {
     public class BasicGameMode : GameMode
     {
+        private GameData GameData { get; set; }
+
         public BasicGameMode(GameWorld gameWorld,
             AnimationFactory animationFactory,
             AlienFactory alienFactory, 
             PickupFactory pickupFactory, 
-            Player player) : 
+            Player player,
+            GameData gameData) : 
             base(gameWorld, animationFactory, alienFactory, pickupFactory, player)
         {
-
+            GameData = gameData;
         }
 
         public override void Initialize()
@@ -54,7 +57,7 @@ namespace Game1.GameMode
             for (var i = 0; i < numAliens; ++i)
             {
                 var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).Ticks);
-                AlienFactory.Create("Alien1", new Vec2(rand.Next(0, (int)GameData.Instance.MaxXDimension), rand.Next(0, (int)GameData.Instance.MaxYDimension)));
+                AlienFactory.Create("Alien1", new Vec2(rand.Next(0, (int)GameData.MaxXDimension), rand.Next(0, (int)GameData.MaxYDimension)));
                 Thread.Sleep(100);
             }
 
@@ -63,7 +66,7 @@ namespace Game1.GameMode
             for(var i = 0; i < numHealths; ++i)
             {
                 var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).Ticks);
-                PickupFactory.CreateHealthPickup(new Vec2(rand.Next(0, (int)GameData.Instance.MaxXDimension), rand.Next(0, (int)GameData.Instance.MaxYDimension)), "SmallHealth");
+                PickupFactory.CreateHealthPickup(new Vec2(rand.Next(0, (int)GameData.MaxXDimension), rand.Next(0, (int)GameData.MaxYDimension)), "SmallHealth");
                 Thread.Sleep(100);
             }
 
@@ -79,7 +82,7 @@ namespace Game1.GameMode
             for(var i = 0; i < numLasers; ++i)
             {
                 var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).Ticks);
-                PickupFactory.CreateLaserPickup(new Vec2(rand.Next(0, (int)GameData.Instance.MaxXDimension), rand.Next(0, (int)GameData.Instance.MaxYDimension)), definitionName);
+                PickupFactory.CreateLaserPickup(new Vec2(rand.Next(0, (int)GameData.MaxXDimension), rand.Next(0, (int)GameData.MaxYDimension)), definitionName);
                 Thread.Sleep(100);
             }
         }

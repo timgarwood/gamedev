@@ -9,18 +9,28 @@ namespace Game1
     /// </summary>
     public class BackgroundObject : Drawable
     {
+        private GameData GameData { get; set; }
+
+        private GameUtils GameUtils { get; set; }
+
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="scale"></param>
-        public BackgroundObject(Texture2D texture, Vec2 worldPosition, int distanceFromCamera) : base(texture)
+        public BackgroundObject(GameData gameData,
+            GameUtils gameUtils,
+            Texture2D texture, 
+            Vec2 worldPosition, 
+            int distanceFromCamera) : base(texture)
         {
+            GameData = gameData;
+            GameUtils = gameUtils;
             WorldPosition = worldPosition;
             DistanceFromCamera = distanceFromCamera;
 
-            var scale = (((float)GameData.Instance.MaxDistanceFromCamera / (float)distanceFromCamera) * GameData.Instance.MaxBackgroundScale) + 
-                GameData.Instance.MinBackgroundScale;
+            var scale = (((float)GameData.MaxDistanceFromCamera / (float)distanceFromCamera) * GameData.MaxBackgroundScale) + 
+                GameData.MinBackgroundScale;
             Scale = new Vector2(scale, scale);
         }
 
@@ -62,7 +72,7 @@ namespace Game1
             /*var diffx = (WorldPosition.X + ((1 - Scale.X) * cameraOrigin.X)) - cameraOrigin.X;
             var diffy = (WorldPosition.Y + ((1 - Scale.Y) * cameraOrigin.Y)) - cameraOrigin.Y;
 
-            var location = new Vector2(diffx * GameData.Instance.PixelsPerMeter, diffy * GameData.Instance.PixelsPerMeter);
+            var location = new Vector2(diffx * GameData.PixelsPerMeter, diffy * GameData.Instance.PixelsPerMeter);
             spriteBatch.Draw(Texture, location, null, null, null, 0, Scale);
             */
             var location = GameUtils.GraphicsVec(WorldPosition - cameraOrigin);

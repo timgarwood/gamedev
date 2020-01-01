@@ -22,11 +22,14 @@ namespace Game1
 
         private GameData GameData { get; set; }
 
+        private GameUtils GameUtils { get; set; }
+
         private static Logger Logger = LogManager.GetCurrentClassLogger();
 
         private WeaponInventory WeaponInventory { get; set; }
 
         public PlayerFactory(GameData gameData, 
+            GameUtils gameUtils,
             ContentManager contentManager, 
             World physicsWorld, 
             GameWorld gameWorld, 
@@ -34,6 +37,7 @@ namespace Game1
             WeaponInventory weaponInventory)
         {
             GameData = gameData;
+            GameUtils = gameUtils;
             Content = contentManager;
             PhysicsWorld = physicsWorld;
             GameWorld = gameWorld;
@@ -60,13 +64,13 @@ namespace Game1
 
             var crateBodyDef = new BodyDef();
             crateBodyDef.IsBullet = true;
-            var playerPosition = new Vec2(GameData.Instance.PlayerStartX, GameData.Instance.PlayerStartY);
+            var playerPosition = new Vec2(GameData.PlayerStartX, GameData.PlayerStartY);
             crateBodyDef.Position.Set(playerPosition.X, playerPosition.Y);
             var crateBody = PhysicsWorld.CreateBody(crateBodyDef);
             var crateShape = crateBody.CreateShape(crateShapeDef);
             crateBody.SetMassFromShapes();
 
-            var player = new Player(PhysicsWorld, crateTexture, GameWorld, crateShape, crateBody, AnimationFactory, WeaponInventory, new FilteredKeyListener());
+            var player = new Player(PhysicsWorld, crateTexture, GameWorld, crateShape, crateBody, AnimationFactory, WeaponInventory, new FilteredKeyListener(), GameData, GameUtils);
             GameWorld.AddGameObject(player);
             return player;
         }

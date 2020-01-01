@@ -2,13 +2,6 @@
 {
     public class GameData
     {
-        public GameData()
-        {
-            Instance = this;
-        }
-
-        public static GameData Instance { get; private set; }
-
         /// <summary>
         /// this parameter defines how dense the background should be
         /// </summary>

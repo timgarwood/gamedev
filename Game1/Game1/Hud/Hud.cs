@@ -19,6 +19,8 @@ namespace Game1.Hud
         private GraphicsDevice _graphicsDevice;
         private WeaponInventory _weaponInventory;
         private GameWorld GameWorld { get; set; }
+        private GameData GameData { get; set; }
+        private Player Player { get; set; }
 
         /// <summary>
         /// ctor
@@ -26,13 +28,17 @@ namespace Game1.Hud
         public Hud(ContentManager contentManager, 
             GraphicsDevice graphicsDevice, 
             WeaponInventory weaponInventory,
-            GameWorld gameWorld)
+            GameWorld gameWorld,
+            GameData gameData,
+            Player player)
         {
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
             _weaponInventory = weaponInventory;
             _hudComponents = new List<HudComponent>();
             GameWorld = gameWorld;
+            GameData = gameData;
+            Player = player;
         }
 
         /// <summary>
@@ -68,7 +74,7 @@ namespace Game1.Hud
                             throw new Exception($"No create method found for type {type}");
                         }
 
-                        var hudComponent = createMethod.Invoke(null, new object[] { o, _contentManager, _graphicsDevice, _weaponInventory, GameWorld});
+                        var hudComponent = createMethod.Invoke(null, new object[] { o, _contentManager, _graphicsDevice, _weaponInventory, GameWorld, GameData, Player});
                         _hudComponents.Add((HudComponent)hudComponent);
                     }
                 }

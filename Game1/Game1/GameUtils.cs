@@ -3,14 +3,21 @@ using Microsoft.Xna.Framework;
 
 namespace Game1
 {
-    public static class GameUtils
+    public class GameUtils
     {
+        private GameData GameData { get; set; }
+
+        public GameUtils(GameData gameData)
+        {
+            GameData = gameData;
+        }
+
         /// <summary>
         /// converts degrees to radians
         /// </summary>
         /// <param name="degrees"></param>
         /// <returns></returns>
-        public static double ToRadians(double degrees)
+        public double ToRadians(double degrees)
         {
             return degrees * System.Math.PI / 180.0;
         }
@@ -26,7 +33,7 @@ namespace Game1
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public static float Vec2ToRotation(Vec2 v)
+        public float Vec2ToRotation(Vec2 v)
         {
             var degrees = System.Math.Atan2(v.Y, v.X) * 180 / System.Math.PI;
             //TODO:  this amount should take into account the default rotation of the object
@@ -39,7 +46,7 @@ namespace Game1
         /// </summary>
         /// <param name="r"></param>
         /// <returns></returns>
-        public static Vec2 RotationToVec2_2(float r)
+        public Vec2 RotationToVec2_2(float r)
         {
             return new Vec2((float)System.Math.Cos(r), (float)System.Math.Sin(r));
         }
@@ -49,7 +56,7 @@ namespace Game1
         /// </summary>
         /// <param name="r"></param>
         /// <returns></returns>
-        public static Vec2 RotationToVec2(float r)
+        public Vec2 RotationToVec2(float r)
         {
             //TODO:  is there a better way to do this?
             r = r % 360;
@@ -134,9 +141,9 @@ namespace Game1
         /// </summary>
         /// <param name="gfxVector"></param>
         /// <returns></returns>
-        public static Vec2 PhysicsVec(Vector2 gfxVector)
+        public Vec2 PhysicsVec(Vector2 gfxVector)
         {
-            return new Vec2(((float)gfxVector.X) * (1.0f / GameData.Instance.PixelsPerMeter), ((float)gfxVector.Y) * (1.0f / GameData.Instance.PixelsPerMeter));
+            return new Vec2(((float)gfxVector.X) * (1.0f / GameData.PixelsPerMeter), ((float)gfxVector.Y) * (1.0f / GameData.PixelsPerMeter));
         }
 
         /// <summary>
@@ -144,12 +151,12 @@ namespace Game1
         /// </summary>
         /// <param name="physicsVec"></param>
         /// <returns></returns>
-        public static Vector2 GraphicsVec(Vec2 physicsVec)
+        public Vector2 GraphicsVec(Vec2 physicsVec)
         {
             return new Vector2()
             {
-                X = physicsVec.X * GameData.Instance.PixelsPerMeter,
-                Y = physicsVec.Y * GameData.Instance.PixelsPerMeter
+                X = physicsVec.X * GameData.PixelsPerMeter,
+                Y = physicsVec.Y * GameData.PixelsPerMeter
             };
         }
     }

@@ -26,13 +26,23 @@ namespace Game1
         /// </summary>
         public bool PendingDispose { get; protected set; }
 
+        protected GameData GameData { get; set; }
+
+        protected GameUtils GameUtils { get; set; }
+
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public GameObject(World world, Texture2D texture, Shape shape, Body rigidBody, float rotation) : base(texture)
+        public GameObject(World world, 
+            Texture2D texture, 
+            Shape shape, 
+            Body rigidBody, 
+            float rotation, 
+            GameData gameData, 
+            GameUtils gameUtils) : base(texture)
         {
             World = world;
             Shape = shape;
@@ -59,6 +69,9 @@ namespace Game1
             {
                 ShadowOffset = new Vector2(-20, 20);
             }
+
+            GameData = gameData;
+            GameUtils = gameUtils;
         }
 
         /// <summary>
@@ -176,8 +189,8 @@ namespace Game1
             if (Texture != null)
             {
                 var rigidBodyPosition = RigidBody.GetPosition();
-                var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraOrigin.X) * GameData.Instance.PixelsPerMeter,
-                    (RigidBody.GetPosition().Y - cameraOrigin.Y) * GameData.Instance.PixelsPerMeter);
+                var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraOrigin.X) * GameData.PixelsPerMeter,
+                    (RigidBody.GetPosition().Y - cameraOrigin.Y) * GameData.PixelsPerMeter);
                 //Logger.Info($"body position @ ({rigidBodyPosition.X},{rigidBodyPosition.Y})");
                 //Logger.Info($"texture @ ({texturePosition.X},{texturePosition.Y})");
                 spriteBatch.Draw(Texture, texturePosition, null, null, rotation: Rotation, origin: CenterOfRotation, scale: RenderScale);

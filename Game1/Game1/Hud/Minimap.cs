@@ -15,16 +15,28 @@ namespace Game1.Hud
         private Vector2 _destPoint;
         private static int MinimapBorderThicknessPx = 5;
         private GameWorld GameWorld { get; set; }
+        private GameData GameData { get; set; }
+
+        private Player Player { get; set; }
 
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="definition"></param>
-        private Minimap(GameWorld gameWorld, Texture2D backgroundTexture, Texture2D alienTexture, Texture2D pickupTexture, Texture2D playerTexture, HudComponentDefinition definition) 
+        private Minimap(GameWorld gameWorld, 
+            GameData gameData,
+            Texture2D backgroundTexture, 
+            Texture2D alienTexture, 
+            Texture2D pickupTexture, 
+            Texture2D playerTexture, 
+            HudComponentDefinition definition,
+            Player player) 
             :base(definition)
         {
             GameWorld = gameWorld;
+            GameData = gameData;
+            Player = player;
             _backgroundTexture = backgroundTexture;
             _alienTexture = alienTexture;
             _pickupTexture = pickupTexture;
@@ -36,7 +48,9 @@ namespace Game1.Hud
             ContentManager contentManager, 
             GraphicsDevice graphicsDevice, 
             WeaponInventory weaponInventory,
-            GameWorld gameWorld)
+            GameWorld gameWorld,
+            GameData gameData,
+            Player player)
         {
             Texture2D backgroundTexture = null;
             try
@@ -131,7 +145,7 @@ namespace Game1.Hud
             playerTexture.SetData(playerTextureData);
 
             var hudComponentDefinition = HudComponentDefinition.Create(jsonData);
-            return new Minimap(gameWorld, backgroundTexture, alienTexture, pickupTexture, playerTexture, hudComponentDefinition);
+            return new Minimap(gameWorld, gameData, backgroundTexture, alienTexture, pickupTexture, playerTexture, hudComponentDefinition, player);
         }
 
         /// <summary>
@@ -146,8 +160,8 @@ namespace Game1.Hud
             foreach(var obj in objects)
             {
                 var alienPosition = obj.GetWorldPosition();
-                var minimapPosition = new Vector2(_destPoint.X + (alienPosition.X * _backgroundTexture.Width / GameData.Instance.MaxXDimension),
-                    _destPoint.Y + (alienPosition.Y * _backgroundTexture.Height / GameData.Instance.MaxYDimension));
+                var minimapPosition = new Vector2(_destPoint.X + (alienPosition.X * _backgroundTexture.Width / GameData.MaxXDimension),
+                    _destPoint.Y + (alienPosition.Y * _backgroundTexture.Height / GameData.MaxYDimension));
                 spriteBatch.Draw(texture, minimapPosition);
             }
         }
@@ -167,9 +181,9 @@ namespace Game1.Hud
                 spriteBatch.Draw(_backgroundTexture, _destPoint);
             }
 
-            var playerPosition = Player.Instance.GetWorldPosition();
-            var minimapPosition = new Vector2(_destPoint.X + (playerPosition.X * _backgroundTexture.Width / GameData.Instance.MaxXDimension),
-                _destPoint.Y + (playerPosition.Y * _backgroundTexture.Height / GameData.Instance.MaxYDimension));
+            var playerPosition = Player.GetWorldPosition();
+            var minimapPosition = new Vector2(_destPoint.X + (playerPosition.X * _backgroundTexture.Width / GameData.MaxXDimension),
+                _destPoint.Y + (playerPosition.Y * _backgroundTexture.Height / GameData.MaxYDimension));
             spriteBatch.Draw(_playerTexture, minimapPosition);
 
             Draw<Alien>(spriteBatch, _alienTexture);

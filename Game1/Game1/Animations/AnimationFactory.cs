@@ -14,10 +14,18 @@ namespace Game1.Animations
         private ContentManager ContentManager { get; set; }
         private GameWorld GameWorld { get; set; }
 
-        public AnimationFactory(ContentManager contentManager, GameWorld gameWorld)
+        private GameData GameData { get; set; }
+        private GameUtils GameUtils { get; set; }
+
+        public AnimationFactory(ContentManager contentManager, 
+            GameWorld gameWorld, 
+            GameData gameData, 
+            GameUtils gameUtils)
         {
             ContentManager = contentManager;
             GameWorld = gameWorld;
+            GameData = gameData;
+            GameUtils = gameUtils;
         }
         public void Load(Stream stream)
         {
@@ -69,7 +77,7 @@ namespace Game1.Animations
                 throw new System.Exception($"No such definition for animation {name}");
             }
 
-            var animation = new Animation(position, def);
+            var animation = new Animation(position, def, GameData, GameUtils);
             GameWorld.AddGameObject(animation);
             return animation;
         }

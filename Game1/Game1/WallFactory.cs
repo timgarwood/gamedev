@@ -16,14 +16,20 @@ namespace Game1
     {
         private GameData GameData { get; set; }
 
+        private GameUtils GameUtils { get; set; }
+
         private World PhysicsWorld { get; set; }
         private GameWorld GameWorld { get; set; }
 
         private static Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public WallFactory(GameData gameData, World physicsWorld, GameWorld gameWorld)
+        public WallFactory(GameData gameData, 
+            GameUtils gameUtils,
+            World physicsWorld, 
+            GameWorld gameWorld)
         {
             GameData = gameData;
+            GameUtils = gameUtils;
             PhysicsWorld = physicsWorld;
             GameWorld = gameWorld;
         }
@@ -81,7 +87,7 @@ namespace Game1
 
             Logger.Info($"Wall created at ({wallBody.GetPosition().X},{wallBody.GetPosition().Y}) " +
                 $"extends to ({wallBody.GetPosition().X + wallPhysicsSize.X},{wallBody.GetPosition().Y + wallPhysicsSize.Y})");
-            return new GameObject(PhysicsWorld, null, shape, wallBody, 0);
+            return new GameObject(PhysicsWorld, null, shape, wallBody, 0, GameData, GameUtils);
         }
 
         public void CreateWalls()

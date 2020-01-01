@@ -26,8 +26,6 @@ namespace Game1
 
         public int Hp { get; private set; }
 
-        public static Player Instance { get; private set; }
-
         private static int MaxHp { get; set; } = 100;
 
         private AnimationFactory AnimationFactory { get; set; }
@@ -53,8 +51,10 @@ namespace Game1
             Body rigidBody, 
             AnimationFactory animationFactory, 
             WeaponInventory weaponInventory, 
-            FilteredKeyListener filteredInputListener) : 
-            base(world, texture, shape, rigidBody, 0)
+            FilteredKeyListener filteredInputListener,
+            GameData gameData,
+            GameUtils gameUtils) : 
+            base(world, texture, shape, rigidBody, 0, gameData, gameUtils)
         {
             Active = true;
 
@@ -64,7 +64,6 @@ namespace Game1
 
             Hp = MaxHp;
 
-            Instance = this;
             _lastProjectileTime = DateTime.MinValue;
 
             WeaponInventory = weaponInventory;
@@ -82,8 +81,8 @@ namespace Game1
         public Vec2 CalculateCamera(Vector2 viewport)
         {
             //figure out where the camera should be using the player position
-            return RigidBody.GetPosition() - new Vec2((viewport.X / 2) * GameData.Instance.MetersPerPixel,
-                (viewport.Y / 2) * GameData.Instance.MetersPerPixel);
+            return RigidBody.GetPosition() - new Vec2((viewport.X / 2) * GameData.MetersPerPixel,
+                (viewport.Y / 2) * GameData.MetersPerPixel);
         }
 
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraPosition, Vector2 viewport)
@@ -93,14 +92,14 @@ namespace Game1
                 Rotation = RigidBody.GetAngle();
 
                 //draw player relative to camera
-                var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                    (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-                var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                    (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-                var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                    (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-                var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                    (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+                var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.PixelsPerMeter,
+                    (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.PixelsPerMeter);
+                var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.PixelsPerMeter,
+                    (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.PixelsPerMeter);
+                var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.PixelsPerMeter,
+                    (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.PixelsPerMeter);
+                var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.PixelsPerMeter,
+                    (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.PixelsPerMeter);
 
                 spriteBatch.Draw(Texture, texturePosition, null, null, rotation: Rotation, origin: new Vector2(Texture.Width / 2, Texture.Height / 2));
                 DrawShadow(spriteBatch, texturePosition);
@@ -139,7 +138,7 @@ namespace Game1
                 {
                     //apply impulse to push the player to left
                     var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees - 90);
-                    RigidBody.ApplyImpulse(impulseVec * GameData.Instance.PlayerLateralImpulse
+                    RigidBody.ApplyImpulse(impulseVec * GameData.PlayerLateralImpulse
                         , RigidBody.GetPosition());
                 }
 
@@ -148,7 +147,7 @@ namespace Game1
                     //apply impulse to push the player to right 
                     var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees + 90);
 
-                    RigidBody.ApplyImpulse(impulseVec * GameData.Instance.PlayerLateralImpulse
+                    RigidBody.ApplyImpulse(impulseVec * GameData.PlayerLateralImpulse
                         , RigidBody.GetPosition());
                 }
 
@@ -166,35 +165,35 @@ namespace Game1
 
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
-                    //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                    //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.PlayerMaxSpeed)
                     {
                         var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees);
                         if(Vec2.Dot(impulseVec, RigidBody.GetLinearVelocity()) == 0)
                         {
                             RigidBody.SetLinearVelocity(Vec2.Zero);
                         }
-                        RigidBody.ApplyImpulse(impulseVec * GameData.Instance.PlayerImpulse
+                        RigidBody.ApplyImpulse(impulseVec * GameData.PlayerImpulse
                             , RigidBody.GetPosition());
                     }
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.S))
                 {
-                    //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.Instance.PlayerMaxSpeed)
+                    //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.PlayerMaxSpeed)
                     {
                         var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees);
-                        RigidBody.ApplyImpulse(impulseVec * -GameData.Instance.PlayerImpulse
+                        RigidBody.ApplyImpulse(impulseVec * -GameData.PlayerImpulse
                             , RigidBody.GetPosition());
                     }
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.D))
                 {
-                    //DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
-                    RigidBody.ApplyTorque(GameData.Instance.PlayerTurnTorque);
+                    //DecreaseLinearVelocity(GameData.PlayerTurnVelocityDecrement, 1);
+                    RigidBody.ApplyTorque(GameData.PlayerTurnTorque);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
-                    //DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 1);
-                    RigidBody.ApplyTorque(-GameData.Instance.PlayerTurnTorque);
+                    //DecreaseLinearVelocity(GameData.PlayerTurnVelocityDecrement, 1);
+                    RigidBody.ApplyTorque(-GameData.PlayerTurnTorque);
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Space))
                 {
@@ -215,7 +214,7 @@ namespace Game1
                    Keyboard.GetState().IsKeyUp(Keys.S) &&
                    Keyboard.GetState().IsKeyUp(Keys.D))
                 {
-                    DecreaseLinearVelocity(GameData.Instance.PlayerTurnVelocityDecrement, 0);
+                    DecreaseLinearVelocity(GameData.PlayerTurnVelocityDecrement, 0);
                 }
 
                 if (Keyboard.GetState().IsKeyUp(Keys.A) && Keyboard.GetState().IsKeyUp(Keys.D))

@@ -33,22 +33,21 @@ namespace Game1.Pickups
 
         private GameWorld GameWorld { get; set; }
 
-        public static PickupFactory Instance
-        {
-            get
-            {
-                return _instance;
-            }
-        }
+        private GameUtils GameUtils { get; set; }
+        private GameData GameData { get; set; }
 
-        private static PickupFactory _instance { get; set; }
 
-        public PickupFactory(World physicsWorld, ContentManager _manager, GameWorld gameWorld)
+        public PickupFactory(World physicsWorld, 
+            ContentManager _manager, 
+            GameWorld gameWorld,
+            GameUtils gameUtils,
+            GameData gameData)
         {
             ContentManager = _manager;
             PhysicsWorld = physicsWorld;
             GameWorld = gameWorld;
-            _instance = this;
+            GameUtils = gameUtils;
+            GameData = gameData;
         }
 
         public void Load(Stream stream)
@@ -114,7 +113,7 @@ namespace Game1.Pickups
 
             var hp = int.Parse(definition.Values["Hp"]);
 
-            var healthPickup = new Health(PhysicsWorld, template.Texture, template.Shape, template.RigidBody, hp, template.Scale);
+            var healthPickup = new Health(GameData, GameUtils, PhysicsWorld, template.Texture, template.Shape, template.RigidBody, hp, template.Scale);
             GameWorld.AddGameObject(healthPickup);
         }
 
@@ -131,7 +130,7 @@ namespace Game1.Pickups
             
             var template = CreatePickupTemplate(origin, definition);
 
-            var laserPickup = new Laser(PhysicsWorld, template.Texture, template.Shape, template.RigidBody, projectileName, startingAmmo, definitionName, template.Scale);
+            var laserPickup = new Laser(GameData, GameUtils, PhysicsWorld, template.Texture, template.Shape, template.RigidBody, projectileName, startingAmmo, definitionName, template.Scale);
             GameWorld.AddGameObject(laserPickup);
         }
 

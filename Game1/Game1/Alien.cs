@@ -59,6 +59,8 @@ namespace Game1
 
         private HealthBar HealthBar { get; set; }
 
+        private Player Player { get; set; }
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -67,14 +69,17 @@ namespace Game1
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
         public Alien(World world, 
+            GameData gameData,
+            GameUtils gameUtils,
             AlienDefinition def, 
             AnimationFactory animationFactory, 
             GameWorld gameWorld,
             Texture2D texture, 
             Shape shape, 
             Body rigidBody, 
-            GraphicsDevice graphicsDevice) :
-            base(world, texture, shape, rigidBody, 0)
+            GraphicsDevice graphicsDevice,
+            Player player) :
+            base(world, texture, shape, rigidBody, 0, gameData, gameUtils)
         {
             Hp = def.MaxHp;
 
@@ -86,9 +91,11 @@ namespace Game1
             RenderScale = new Vector2(def.Scale, def.Scale);
 
             //set initial distance to as far from the player as possible
-            _lastDistanceToTarget = Vec2.Distance(Vec2.Zero, new Vec2(GameData.Instance.MaxXDimension, GameData.Instance.MaxYDimension));
+            _lastDistanceToTarget = Vec2.Distance(Vec2.Zero, new Vec2(GameData.MaxXDimension, GameData.MaxYDimension));
 
             HealthBar = new HealthBar(graphicsDevice);
+
+            Player = player;
         }
 
         public override void Dispose()
@@ -150,8 +157,8 @@ namespace Game1
         public override void Update(GameTime gameTime)
         {
             // track the player, just for now.
-            var toTarget = Player.Instance.GetWorldPosition() - RigidBody.GetPosition();
-            var distToTarget = Vec2.Distance(Player.Instance.GetWorldPosition(), RigidBody.GetPosition());
+            var toTarget = Player.GetWorldPosition() - RigidBody.GetPosition();
+            var distToTarget = Vec2.Distance(Player.GetWorldPosition(), RigidBody.GetPosition());
 
             if(distToTarget > 10 && !Active)
             {
@@ -169,7 +176,7 @@ namespace Game1
 
             _lastDecision = DateTime.UtcNow;
 
-            var targetVelocity = Player.Instance.RigidBody.GetLinearVelocity();
+            var targetVelocity = Player.RigidBody.GetLinearVelocity();
             var myVelocity = RigidBody.GetLinearVelocity();
 
             //velocityAngle will tell us if the alien and player are moving in different directions
@@ -229,7 +236,7 @@ namespace Game1
             /*if (distToTarget > 1 && distToTarget <= 3)
             {
                 // if the target is stopped
-                if (Player.Instance.RigidBody.GetLinearVelocity().Length() < 0.05)
+                if (Player.RigidBody.GetLinearVelocity().Length() < 0.05)
                 {
                     if (_moveState == MoveState.Stopping)
                     {
@@ -291,14 +298,14 @@ namespace Game1
             var angle = RigidBody.GetAngle();
 
             //draw player relative to camera
-            var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
-            var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.Instance.PixelsPerMeter,
-                (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.Instance.PixelsPerMeter);
+            var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.PixelsPerMeter,
+                (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.PixelsPerMeter);
+            var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.PixelsPerMeter,
+                (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.PixelsPerMeter);
+            var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.PixelsPerMeter,
+                (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.PixelsPerMeter);
+            var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.PixelsPerMeter,
+                (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.PixelsPerMeter);
 
             spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, scale: RenderScale, origin: RenderScale * new Vector2(Texture.Width / 2, Texture.Height / 2));
             DrawShadow(spriteBatch, texturePosition);

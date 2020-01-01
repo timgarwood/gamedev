@@ -17,8 +17,8 @@ namespace Game1.Pickups
 
         private TimeSpan LastUpdateTime { get; set; } = TimeSpan.FromSeconds(0);
 
-        public Pickup(World world, Texture2D texture, Shape shape, Body rigidBody, float scale) :
-            base(world, texture, shape, rigidBody, 0)
+        public Pickup(GameData gameData, GameUtils gameUtils, World world, Texture2D texture, Shape shape, Body rigidBody, float scale) :
+            base(world, texture, shape, rigidBody, 0, gameData, gameUtils)
         {
             RenderScale = new Vector2(scale, scale);
         }

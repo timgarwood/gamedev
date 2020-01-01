@@ -41,10 +41,6 @@ namespace Game1
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Player Player;
-        private GameObject topWall;
-        private GameObject bottomWall;
-        private GameObject leftWall;
-        private GameObject rightWall;
         private Logger Logger = LogManager.GetCurrentClassLogger();
 
         private List<Texture2D> planets = new List<Texture2D>();
@@ -94,6 +90,8 @@ namespace Game1
             var gameData = JsonConvert.DeserializeObject<GameData>(File.ReadAllText("./GameData.json"));
             this.TargetElapsedTime = System.TimeSpan.FromSeconds(1f / gameData.Fps);
 
+            var gameUtils = new GameUtils(gameData);
+
             //create physics bounds
             var aabb = new AABB();
             aabb.LowerBound = new Vec2(0, 0);
@@ -103,6 +101,7 @@ namespace Game1
 
             Container.Register(Component.For<GraphicsDevice>().Instance(GraphicsDevice).LifestyleSingleton());
             Container.Register(Component.For<GameData>().Instance(gameData).LifestyleSingleton());
+            Container.Register(Component.For<GameUtils>().Instance(gameUtils).LifestyleSingleton());
             Container.Register(Component.For<GameWorld>().ImplementedBy<GameWorld>().LifestyleSingleton());
             Container.Register(Component.For<World>().Instance(PhysicsWorld).LifestyleSingleton());
             Container.Register(Component.For<ContentManager>().Instance(Content).LifestyleSingleton());
@@ -123,6 +122,10 @@ namespace Game1
             float ypix = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
 
             viewport = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            
+            var crateTexture = Content.Load<Texture2D>("sprites/ships/ship1small");
+            Player = Container.Resolve<PlayerFactory>().CreatePlayer(crateTexture);
+            Container.Register(Component.For<Player>().Instance(Player).LifestyleSingleton());
 
             //load up aliens
             using (var stream = new FileStream("./AlienDefinitions.json", FileMode.Open))
@@ -190,13 +193,10 @@ namespace Game1
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            var crateTexture = Content.Load<Texture2D>("sprites/ships/ship1small");
 
             Container.Resolve<Background>().GenerateBackground(new[] { Content.Load<Texture2D>("sprites/backgrounds/bk_water2") });
             Container.Resolve<WallFactory>().CreateWalls();
 
-            Player = Container.Resolve<PlayerFactory>().CreatePlayer(crateTexture);
-            Container.Register(Component.For<Player>().Instance(Player).LifestyleSingleton());
 
             Background = Container.Resolve<Background>();
             GameWorld = Container.Resolve<GameWorld>();
@@ -241,7 +241,7 @@ namespace Game1
                 if(timeWaited >= RespawnWaitTime)
                 {
                     GameState = GameStates.Normal;
-                    Player.Instance.Reset();
+                    Player.Reset();
                     CurrentGameMode.Initialize();
                 }
             }

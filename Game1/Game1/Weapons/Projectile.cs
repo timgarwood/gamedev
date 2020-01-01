@@ -30,8 +30,11 @@ namespace Game1.Weapons
             ,Shape shape
             ,Body rigidBody
             ,Vec2 origin
-            ,float rotation) :
-            base(world, texture, shape, rigidBody, rotation)
+            ,float rotation
+            ,GameData gameData
+            ,GameUtils gameUtils
+            ) :
+            base(world, texture, shape, rigidBody, rotation, gameData, gameUtils)
         {
             Active = true;
             _origin = origin;

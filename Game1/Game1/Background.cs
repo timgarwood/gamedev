@@ -17,10 +17,12 @@ namespace Game1
         private List<BackgroundObject> BackgroundObjects { get; set; } = new List<BackgroundObject>();
 
         private GameData GameData { get; set; }
+        private GameUtils GameUtils { get; set; }
 
-        public Background(GameData gameData)
+        public Background(GameData gameData, GameUtils gameUtils)
         {
             GameData = gameData;
+            GameUtils = gameUtils;
         }
 
         /// <summary>
@@ -51,7 +53,7 @@ namespace Game1
                 for(var j = 0; j < rows; ++j)
                 {
                     var v = GameUtils.PhysicsVec(new Vector2(i * Texture.Width, j * Texture.Height));
-                    BackgroundObjects.Add(new BackgroundObject(Texture, v, GameData.Instance.MaxDistanceFromCamera));
+                    BackgroundObjects.Add(new BackgroundObject(GameData, GameUtils, Texture, v, GameData.MaxDistanceFromCamera));
                 }
             }
 

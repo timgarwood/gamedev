@@ -10,12 +10,15 @@ namespace Game1.Pickups
 {
     public class Health : Pickup
     {
-        public Health(World _world, 
+        public Health(
+            GameData gameData,
+            GameUtils gameUtils,
+            World _world, 
             Texture2D _texture, 
             Shape _shape, 
             Body _rigidBody,
             int hp,
-            float scale) : base(_world, _texture, _shape, _rigidBody, scale)
+            float scale) : base(gameData, gameUtils, _world, _texture, _shape, _rigidBody, scale)
         {
             Hp = hp;
         }

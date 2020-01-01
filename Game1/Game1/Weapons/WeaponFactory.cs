@@ -23,12 +23,22 @@ namespace Game1.Weapons
         private World _physicsWorld;
         private GameWorld GameWorld { get; set; }
 
-        public WeaponFactory(World physicsWorld, ContentManager contentManager, GameWorld gameWorld)
+        private GameUtils GameUtils { get; set; }
+
+        private GameData GameData { get; set; }
+
+        public WeaponFactory(World physicsWorld, 
+            ContentManager contentManager, 
+            GameWorld gameWorld, 
+            GameData gameData,
+            GameUtils gameUtils)
         {
             Instance = this;
             _physicsWorld = physicsWorld;
             _contentManager = contentManager;
             GameWorld = gameWorld;
+            GameUtils = gameUtils;
+            GameData = gameData;
         }
 
         public void Load(Stream stream)
@@ -98,7 +108,9 @@ namespace Game1.Weapons
                 , shape
                 , body
                 , origin
-                , rotation);
+                , rotation
+                , GameData
+                , GameUtils);
 
             GameWorld.AddGameObject(gameObject);
             return gameObject;

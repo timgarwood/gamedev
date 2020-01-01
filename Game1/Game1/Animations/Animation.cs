@@ -12,10 +12,10 @@ namespace Game1.Animations
         private int _nextFrame;
         private DateTime _lastFrameTime;
 
-        public Animation(Vec2 position, AnimationDefinition definition) :
+        public Animation(Vec2 position, AnimationDefinition definition, GameData gameData, GameUtils gameUtils) :
             // animations don't participate in the physics world
             // they are GameObjects so that they can be drawn
-            base(null, null, null, null, 0)
+            base(null, null, null, null, 0, gameData, gameUtils)
         {
             _position = position;
             _definition = definition;
@@ -35,8 +35,8 @@ namespace Game1.Animations
             {
                 var srcRect = _definition.FrameRectangles[_nextFrame];
 
-                var texturePosition = new Vector2((_position.X - cameraOrigin.X) * GameData.Instance.PixelsPerMeter,
-                    (_position.Y - cameraOrigin.Y) * GameData.Instance.PixelsPerMeter);
+                var texturePosition = new Vector2((_position.X - cameraOrigin.X) * GameData.PixelsPerMeter,
+                    (_position.Y - cameraOrigin.Y) * GameData.PixelsPerMeter);
                 spriteBatch.Draw(_definition.Texture, texturePosition, null, srcRect, rotation: 0, scale: RenderScale);
 
                 if (DateTime.Now - _lastFrameTime > TimeSpan.FromSeconds(_definition.FrameDurationSecs))
