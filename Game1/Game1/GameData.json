@@ -1,7 +1,7 @@
 ﻿{
   "numBackgroundObjects": 1000,
-  "maxXDimension" :  100,
-  "maxYDimension" :  100,
+  "maxXDimension" :  60,
+  "maxYDimension" :  60,
   "playerStartX" :  40,
   "playerStartY" :  40,
   "playerFriction": 0.6,

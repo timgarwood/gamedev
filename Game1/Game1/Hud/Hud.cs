@@ -15,25 +15,24 @@ namespace Game1.Hud
         /// </summary>
         private List<HudComponent> _hudComponents;
 
-        /// <summary>
-        /// oh hey, a singleton!
-        /// </summary>
-        public static Hud Instance { get; private set; }
-
         private ContentManager _contentManager;
         private GraphicsDevice _graphicsDevice;
         private WeaponInventory _weaponInventory;
+        private GameWorld GameWorld { get; set; }
 
         /// <summary>
         /// ctor
         /// </summary>
-        public Hud(ContentManager contentManager, GraphicsDevice graphicsDevice, WeaponInventory weaponInventory)
+        public Hud(ContentManager contentManager, 
+            GraphicsDevice graphicsDevice, 
+            WeaponInventory weaponInventory,
+            GameWorld gameWorld)
         {
             _contentManager = contentManager;
             _graphicsDevice = graphicsDevice;
             _weaponInventory = weaponInventory;
             _hudComponents = new List<HudComponent>();
-            Instance = this;
+            GameWorld = gameWorld;
         }
 
         /// <summary>
@@ -69,7 +68,7 @@ namespace Game1.Hud
                             throw new Exception($"No create method found for type {type}");
                         }
 
-                        var hudComponent = createMethod.Invoke(null, new object[] { o, _contentManager, _graphicsDevice, _weaponInventory });
+                        var hudComponent = createMethod.Invoke(null, new object[] { o, _contentManager, _graphicsDevice, _weaponInventory, GameWorld});
                         _hudComponents.Add((HudComponent)hudComponent);
                     }
                 }

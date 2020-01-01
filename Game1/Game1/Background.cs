@@ -10,23 +10,29 @@ namespace Game1
     /// <summary>
     /// 
     /// </summary>
-    public static class Background
+    public class Background
     {
-
         private static Texture2D Texture { get; set; }
 
-        private static List<BackgroundObject> BackgroundObjects { get; set; } = new List<BackgroundObject>();
+        private List<BackgroundObject> BackgroundObjects { get; set; } = new List<BackgroundObject>();
+
+        private GameData GameData { get; set; }
+
+        public Background(GameData gameData)
+        {
+            GameData = gameData;
+        }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="gameData"></param>
-        public static void GenerateBackground(Texture2D[] backgroundTextures, GameData gameData)
+        public void GenerateBackground(Texture2D[] backgroundTextures)
         {
             Texture = backgroundTextures[0];
 
-            var xPixelTotal = gameData.MaxXDimension * gameData.PixelsPerMeter;
-            var yPixelTotal = gameData.MaxYDimension * gameData.PixelsPerMeter;
+            var xPixelTotal = GameData.MaxXDimension * GameData.PixelsPerMeter;
+            var yPixelTotal = GameData.MaxYDimension * GameData.PixelsPerMeter;
 
             var cols = xPixelTotal / Texture.Width;
             if(xPixelTotal % Texture.Width != 0)
@@ -74,7 +80,7 @@ namespace Game1
         /// 
         /// </summary>
         /// <param name="spriteBatch"></param>
-        public static void DrawBackground(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
+        public void DrawBackground(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
             foreach (var bgo in BackgroundObjects)
             {

@@ -14,15 +14,17 @@ namespace Game1.Hud
         private Texture2D _playerTexture;
         private Vector2 _destPoint;
         private static int MinimapBorderThicknessPx = 5;
+        private GameWorld GameWorld { get; set; }
 
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="definition"></param>
-        private Minimap(Texture2D backgroundTexture, Texture2D alienTexture, Texture2D pickupTexture, Texture2D playerTexture, HudComponentDefinition definition) 
+        private Minimap(GameWorld gameWorld, Texture2D backgroundTexture, Texture2D alienTexture, Texture2D pickupTexture, Texture2D playerTexture, HudComponentDefinition definition) 
             :base(definition)
         {
+            GameWorld = gameWorld;
             _backgroundTexture = backgroundTexture;
             _alienTexture = alienTexture;
             _pickupTexture = pickupTexture;
@@ -30,7 +32,11 @@ namespace Game1.Hud
             _destPoint = new Vector2();
         }
 
-        public static Minimap CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice, WeaponInventory weaponInventory)
+        public static Minimap CreateFromData(dynamic jsonData, 
+            ContentManager contentManager, 
+            GraphicsDevice graphicsDevice, 
+            WeaponInventory weaponInventory,
+            GameWorld gameWorld)
         {
             Texture2D backgroundTexture = null;
             try
@@ -125,7 +131,7 @@ namespace Game1.Hud
             playerTexture.SetData(playerTextureData);
 
             var hudComponentDefinition = HudComponentDefinition.Create(jsonData);
-            return new Minimap(backgroundTexture, alienTexture, pickupTexture, playerTexture, hudComponentDefinition);
+            return new Minimap(gameWorld, backgroundTexture, alienTexture, pickupTexture, playerTexture, hudComponentDefinition);
         }
 
         /// <summary>
@@ -136,7 +142,7 @@ namespace Game1.Hud
         /// <param name="texture"></param>
         private void Draw<T>(SpriteBatch spriteBatch, Texture2D texture) where T : GameObject
         {
-            var objects = GameWorld.Instance.GetGameObjects<T>();
+            var objects = GameWorld.GetGameObjects<T>();
             foreach(var obj in objects)
             {
                 var alienPosition = obj.GetWorldPosition();

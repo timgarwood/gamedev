@@ -11,26 +11,14 @@ namespace Game1.Animations
     public class AnimationFactory
     {
         private IList<AnimationDefinition> _definitions;
-        private ContentManager _contentManager;
-        private static AnimationFactory _instance = null;
+        private ContentManager ContentManager { get; set; }
+        private GameWorld GameWorld { get; set; }
 
-        public AnimationFactory(ContentManager contentManager)
+        public AnimationFactory(ContentManager contentManager, GameWorld gameWorld)
         {
-            _contentManager = contentManager;
-            Instance = this;
+            ContentManager = contentManager;
+            GameWorld = gameWorld;
         }
-
-        public static AnimationFactory Instance
-        {
-            get
-            {
-                return _instance;
-            }
-
-            private set { _instance = value; }
-        }
-
-
         public void Load(Stream stream)
         {
             using (stream)
@@ -41,7 +29,7 @@ namespace Game1.Animations
                     _definitions = JsonConvert.DeserializeObject<AnimationDefinition[]>(json).ToList();
                     foreach(var def in _definitions)
                     {
-                        def.Texture = _contentManager.Load<Texture2D>(def.SpriteSheet);
+                        def.Texture = ContentManager.Load<Texture2D>(def.SpriteSheet);
                         def.FrameRectangles = new Microsoft.Xna.Framework.Rectangle[def.NumFrames];
                         var x = 0;
                         var y = 0;
@@ -82,7 +70,7 @@ namespace Game1.Animations
             }
 
             var animation = new Animation(position, def);
-            GameWorld.Instance.AddGameObject(animation);
+            GameWorld.AddGameObject(animation);
             return animation;
         }
     }

@@ -22,10 +22,6 @@ namespace Game1
         /// </summary>
         private Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private Texture2D _positionTexture;
-        private Texture2D _upperBoundTexture;
-        private Texture2D _lowerBoundTexture;
-
         private DateTime _lastProjectileTime;
 
         public int Hp { get; private set; }
@@ -40,6 +36,8 @@ namespace Game1
 
         private FilteredKeyListener FilteredInputListener { get; set; }
 
+        private GameWorld GameWorld { get; set; }
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -49,19 +47,20 @@ namespace Game1
         /// <param name="lowerBoundTexture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public Player(World world, Texture2D texture, Texture2D positionTexture, 
-            Texture2D upperBoundTexture, Texture2D lowerBoundTexture, 
-            Shape shape, Body rigidBody, AnimationFactory animationFactory, 
-            WeaponInventory weaponInventory, FilteredKeyListener filteredInputListener) : 
+        public Player(World world, Texture2D texture, 
+            GameWorld gameWorld,
+            Shape shape, 
+            Body rigidBody, 
+            AnimationFactory animationFactory, 
+            WeaponInventory weaponInventory, 
+            FilteredKeyListener filteredInputListener) : 
             base(world, texture, shape, rigidBody, 0)
         {
             Active = true;
 
-            _positionTexture = positionTexture;
-            _upperBoundTexture = upperBoundTexture;
-            _lowerBoundTexture = lowerBoundTexture;
-
             AnimationFactory = animationFactory;
+
+            GameWorld = gameWorld;
 
             Hp = MaxHp;
 
@@ -233,7 +232,7 @@ namespace Game1
                 var proj = other as Projectile;
                 if (!proj.PendingDispose)
                 {
-                    GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(position, "LaserExplosion"));
+                    GameWorld.AddGameObject(AnimationFactory.Create(position, "LaserExplosion"));
                     Hp -= proj.Definition.Damage;
                     if (Hp <= 0)
                     {

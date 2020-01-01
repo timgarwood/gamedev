@@ -43,6 +43,11 @@ namespace Game1
         private AnimationFactory AnimationFactory { get; set; }
 
         /// <summary>
+        /// the game world
+        /// </summary>
+        private GameWorld GameWorld { get; set; }
+
+        /// <summary>
         /// where i died
         /// </summary>
         private Vec2 DeathLocation { get; set; }
@@ -61,12 +66,21 @@ namespace Game1
         /// <param name="texture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public Alien(World world, AlienDefinition def, AnimationFactory animationFactory, Texture2D texture, Shape shape, Body rigidBody, GraphicsDevice graphicsDevice) :
+        public Alien(World world, 
+            AlienDefinition def, 
+            AnimationFactory animationFactory, 
+            GameWorld gameWorld,
+            Texture2D texture, 
+            Shape shape, 
+            Body rigidBody, 
+            GraphicsDevice graphicsDevice) :
             base(world, texture, shape, rigidBody, 0)
         {
             Hp = def.MaxHp;
 
             AnimationFactory = animationFactory;
+
+            GameWorld = gameWorld;
 
             _definition = def;
             RenderScale = new Vector2(def.Scale, def.Scale);
@@ -115,7 +129,7 @@ namespace Game1
                     var proj = other as Projectile;
                     if (!proj.PendingDispose)
                     {
-                        GameWorld.Instance.AddGameObject(AnimationFactory.Instance.Create(position, "LaserExplosion"));
+                        GameWorld.AddGameObject(AnimationFactory.Create(position, "LaserExplosion"));
 
                         Hp -= proj.Definition.Damage;
                         if (Hp <= 0)

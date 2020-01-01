@@ -23,26 +23,9 @@ namespace Game1
         private bool Updating { get; set; }
 
         /// <summary>
-        /// singleton getters
-        /// </summary>
-        private static GameWorld _instance = null;
-        public static GameWorld Instance
-        {
-            get
-            {
-                if(_instance == null)
-                {
-                    _instance = new GameWorld();
-                }
-
-                return _instance;
-            }
-        }
-
-        /// <summary>
         /// ctor
         /// </summary>
-        private GameWorld()
+        public GameWorld()
         {
             _gameObjectAdded = new List<Action<GameObject>>();
             _gameObjectRemoved = new List<Action<GameObject>>();

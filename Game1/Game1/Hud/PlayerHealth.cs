@@ -25,7 +25,7 @@ namespace Game1.Hud
             _font.DrawString(spriteBatch, text, Location);
         }
 
-        public static PlayerHealth CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice, WeaponInventory weaponInventory)
+        public static PlayerHealth CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice, WeaponInventory weaponInventory, GameWorld gameWorld)
         {
             var hudComponentDefinition = HudComponentDefinition.Create(jsonData);
 

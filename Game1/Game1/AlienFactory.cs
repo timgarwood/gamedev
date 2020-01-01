@@ -30,18 +30,22 @@ namespace Game1
 
         private AnimationFactory _animationFactory;
 
+        private GameWorld GameWorld { get; set; }
+
         private GraphicsDevice GraphicsDevice { get; set; }
 
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="physicsWorld"></param>
-        public AlienFactory(World physicsWorld, ContentManager contentManager, AnimationFactory animationFactory, GraphicsDevice graphicsDevice)
+        public AlienFactory(World physicsWorld, ContentManager contentManager, GameWorld gameWorld,
+            AnimationFactory animationFactory, GraphicsDevice graphicsDevice)
         {
             _physicsWorld = physicsWorld;
             _contentManager = contentManager;
             _animationFactory = animationFactory;
             GraphicsDevice = graphicsDevice;
+            GameWorld = gameWorld;
         }
 
         /// <summary>
@@ -102,8 +106,8 @@ namespace Game1
 
                 body.SetMassFromShapes();
 
-                var gameObject = new Alien(_physicsWorld, definition, _animationFactory, texture, shape, body, GraphicsDevice);
-                GameWorld.Instance.AddGameObject(gameObject);
+                var gameObject = new Alien(_physicsWorld, definition, _animationFactory, GameWorld, texture, shape, body, GraphicsDevice);
+                GameWorld.AddGameObject(gameObject);
                 return gameObject;
             }
 

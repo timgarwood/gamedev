@@ -27,7 +27,7 @@ namespace Game1.Hud
             }
         }
 
-        public static SelectedWeapon CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice, WeaponInventory weaponInventory)
+        public static SelectedWeapon CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice, WeaponInventory weaponInventory, GameWorld gameWorld)
         {
             var hudComponentDefinition = HudComponentDefinition.Create(jsonData);
 

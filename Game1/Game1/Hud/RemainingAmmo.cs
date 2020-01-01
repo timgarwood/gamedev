@@ -25,7 +25,7 @@ namespace Game1.Hud
             WeaponInventory = weaponInventory;
         }
 
-        public static RemainingAmmo CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice, WeaponInventory weaponInventory)
+        public static RemainingAmmo CreateFromData(dynamic jsonData, ContentManager contentManager, GraphicsDevice graphicsDevice, WeaponInventory weaponInventory, GameWorld gameWorld)
         {
             var definition = HudComponentDefinition.Create(jsonData);
 
