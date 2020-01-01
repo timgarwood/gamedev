@@ -80,9 +80,32 @@ namespace Game1
         /// <returns></returns>
         public Vec2 CalculateCamera(Vector2 viewport)
         {
-            //figure out where the camera should be using the player position
-            return RigidBody.GetPosition() - new Vec2((viewport.X / 2) * GameData.MetersPerPixel,
-                (viewport.Y / 2) * GameData.MetersPerPixel);
+            var halfViewportHeight = viewport.Y * GameData.MetersPerPixel / 2;
+            var halfViewportWidth = viewport.X * GameData.MetersPerPixel / 2;
+            var cameraTop = RigidBody.GetPosition().Y - halfViewportHeight;
+            var cameraLeft = RigidBody.GetPosition().X - halfViewportWidth;
+
+            if(cameraTop < 0)
+            {
+                cameraTop = 0;
+            }
+
+            if(cameraLeft < 0)
+            {
+                cameraLeft = 0;
+            }
+
+            if(cameraTop > (GameData.MaxYDimension - (halfViewportHeight * 2)))
+            {
+                cameraTop = GameData.MaxYDimension - (halfViewportHeight * 2);
+            }
+
+            if(cameraLeft > (GameData.MaxXDimension - (halfViewportWidth * 2)))
+            {
+                cameraLeft = GameData.MaxXDimension - (halfViewportWidth * 2);
+            }
+
+            return new Vec2(cameraLeft, cameraTop);
         }
 
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraPosition, Vector2 viewport)
