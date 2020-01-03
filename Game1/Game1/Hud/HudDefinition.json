@@ -48,5 +48,31 @@
     "textTemplate": "Ammo: {remainingAmmo}",
     "width": 200,
     "height": 30
+  },
+  {
+    "name": "LivesRemaining",
+    "componentTypeName": "Game1.Hud.LivesRemaining",
+    "fontName": "Default2",
+    "hAlignment": "Left",
+    "vAlignment": "Top",
+    "horizontalPercentage": 0,
+    "verticalPercentage": 0,
+    "textTemplate": "Lives: {livesRemaining}",
+    "width": 200,
+    "height": 30
+  },
+  {
+    "name": "TotalScore",
+    "componentTypeName": "Game1.Hud.TotalScore",
+    "fontName": "Default2",
+    "hAlignment": "Left",
+    "vAlignment": "Top",
+    "horizontalPercentage": 0,
+    "verticalPercentage": 0.035,
+    "textTemplate": "Score: {totalScore}",
+    "width": 200,
+    "height": 30
   }
+
+
 ]

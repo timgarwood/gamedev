@@ -229,6 +229,11 @@ namespace Game1
             {
                 var modeState = CurrentGameMode.Update(gameTime);
                 PhysicsWorld.Step(1.0f / 120.0f, 1,1);
+                if(Player.LivesRemaining <= 0)
+                {
+                    Exit();
+                }
+
                 if(modeState != GameModeStatus.Continue)
                 {
                     LastRespawnTime = gameTime.TotalGameTime;
@@ -242,7 +247,6 @@ namespace Game1
                 {
                     GameState = GameStates.Normal;
                     Player.Reset();
-                    CurrentGameMode.Initialize();
                 }
             }
 

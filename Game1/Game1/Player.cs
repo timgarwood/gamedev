@@ -26,7 +26,13 @@ namespace Game1
 
         public int Hp { get; private set; }
 
+        public int LivesRemaining { get; private set; }
+
+        public int TotalScore { get; set; }
+
         private static int MaxHp { get; set; } = 100;
+
+        private static int MaxLives { get; set; } = 3;
 
         private AnimationFactory AnimationFactory { get; set; }
 
@@ -71,6 +77,8 @@ namespace Game1
             FilteredInputListener = filteredInputListener;
 
             RenderScale = new Vector2(1, 1);
+
+            LivesRemaining = MaxLives;
         }
 
         /// <summary>
@@ -259,6 +267,13 @@ namespace Game1
                     if (Hp <= 0)
                     {
                         Hp = 0;
+
+                        LivesRemaining--;
+                        if(LivesRemaining < 0)
+                        {
+                            LivesRemaining = 0;
+                        }
+
                         if (Active)
                         {
                             AnimationFactory.Create(RigidBody.GetPosition(), "AlienExplosion");

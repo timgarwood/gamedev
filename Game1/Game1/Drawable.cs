@@ -12,6 +12,16 @@ namespace Game1
     public abstract class Drawable : IDrawable, IDisposable
     {
         /// <summary>
+        /// the rendering scale
+        /// </summary>
+        protected Vector2 RenderScale { get; set; }
+
+        /// <summary>
+        /// rectangle for determining if this object is within the camera bounds
+        /// </summary>
+        private Rectangle MyRectangle;
+
+        /// <summary>
         /// ctor
         /// </summary>
         /// <param name="texture"></param>
@@ -19,6 +29,7 @@ namespace Game1
         public Drawable(Texture2D texture)
         {
             Texture = texture;
+            RenderScale = new Vector2(1, 1);
         }
 
         /// <summary>
@@ -42,7 +53,6 @@ namespace Game1
         /// <param name="viewport">Size of graphics viewport</param>
         public void Draw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
-            //FIXME:  add filtering for objects that are not visible
             OnDraw(spriteBatch, cameraOrigin, viewport);
         }
 

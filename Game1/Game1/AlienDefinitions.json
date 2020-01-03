@@ -11,6 +11,7 @@
     "maxSpeed" :  5,
     "alienTurnVelocityDecrement": 1,
     "maxHp": 100,
+    "scoreValue":  10,
     "vertices": [
       {
         "X": 0,
@@ -53,7 +54,8 @@
     "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
     "alienTurnVelocityDecrement": 1,
-    "maxHp" :  100
+    "maxHp" :  100,
+    "scoreValue":  10
   },
   {
     "name" :  "Alien3",
@@ -66,7 +68,8 @@
     "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
     "alienTurnVelocityDecrement": 1,
-    "maxHp" :  100
+    "maxHp" :  100,
+    "scoreValue":  10
   },
   {
     "name" :  "Alien4",
@@ -79,7 +82,8 @@
     "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
     "alienTurnVelocityDecrement": 1,
-    "maxHp": 100
+    "maxHp": 100,
+    "scoreValue":  10
   },
   {
     "name" :  "Alien5",
@@ -92,7 +96,8 @@
     "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
     "alienTurnVelocityDecrement": 1,
-    "maxHp" :  100
+    "maxHp" :  100,
+    "scoreValue":  10
   },
   {
     "name" :  "Alien6",
@@ -105,7 +110,8 @@
     "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
     "alienTurnVelocityDecrement": 1,
-    "maxHp" :  100
+    "maxHp" :  100,
+    "scoreValue":  10
   },
   {
     "name" :  "Alien7",
@@ -118,7 +124,8 @@
     "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
     "alienTurnVelocityDecrement": 1,
-    "maxHp" :  100
+    "maxHp" :  100,
+    "scoreValue":  10
   },
   {
     "name" :  "Alien8",
@@ -131,6 +138,7 @@
     "decisionFrequencySec" :  1.0,
     "maxSpeed" :  5,
     "alienTurnVelocityDecrement": 1,
-    "maxHp" :  100
+    "maxHp" :  100,
+    "scoreValue":  10
   }
 ]

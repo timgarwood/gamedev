@@ -32,6 +32,8 @@
 
         public float DecisionFrequencySec { get; set; }
 
+        public int ScoreValue { get; set; }
+
         public Vertice[] Vertices { get; set; }
     }
 }

@@ -13,15 +13,18 @@ speed powerup?
 fire animation behind player while accelerating
 balance weapon damage
 balance weapon fire rate
-fix things spawning outside boundaries
-track # of lives
-track score total
 fix fonts
-spawn weapons periodically
 reduce player top speed
 increase alien top speed
 create collision vertices for the other alien sprites
-introduce dependency injection
+scale collision vertices by 'render scale'
 clean up code
+add icon for window
+add icon for toolbar
+installer
+
+fix things spawning outside boundaries
 don't draw objects that aren't visible
-don't move camera if camera is at edges of map
+spawn weapons periodically
+track # of lives
+track score total

@@ -138,10 +138,12 @@ namespace Game1
                     {
                         GameWorld.AddGameObject(AnimationFactory.Create(position, "LaserExplosion"));
 
+                        Player.TotalScore++;
+
                         Hp -= proj.Definition.Damage;
                         if (Hp <= 0)
                         {
-
+                            Player.TotalScore += _definition.ScoreValue;
                             PendingDispose = true;
                             DeathLocation = RigidBody.GetPosition();
                         }

@@ -134,8 +134,6 @@ namespace Game1
 
         protected Vector2 CenterOfRotation { get; set; }
 
-        protected Vector2 RenderScale { get; set; }
-
         protected float Rotation { get; set; } = 0.0f;
 
         protected void DecreaseLinearVelocity(float step, float min)
