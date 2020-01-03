@@ -2,10 +2,9 @@ fix player controls
 enemy ai - general
 enemy ai - get health when low
 menus
-texture wall boundaries
 add sound effects
 add background music
-new background
+multiple backgrounds
 Shadows have to be drawn before all real GameObjects
 enable other aliens
 weapon powerups
@@ -22,6 +21,7 @@ clean up code
 add icon for window
 add icon for toolbar
 installer
+fix bottom of minimap
 
 fix things spawning outside boundaries
 don't draw objects that aren't visible

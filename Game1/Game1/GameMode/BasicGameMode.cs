@@ -10,6 +10,8 @@ namespace Game1.GameMode
     {
         private GameData GameData { get; set; }
 
+        private int MaxNumWeapons { get; set; } = 10;
+
         public BasicGameMode(GameWorld gameWorld,
             AnimationFactory animationFactory,
             AlienFactory alienFactory, 
@@ -56,8 +58,7 @@ namespace Game1.GameMode
             var numAliens = 10;
             for (var i = 0; i < numAliens; ++i)
             {
-                var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).Ticks);
-                AlienFactory.Create("Alien1", new Vec2(rand.Next(0, (int)GameData.MaxXDimension), rand.Next(0, (int)GameData.MaxYDimension)));
+                AlienFactory.Create("Alien1");
                 Thread.Sleep(100);
             }
 

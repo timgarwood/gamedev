@@ -84,7 +84,7 @@ namespace Game1
         /// creates an instance of the given alien definition name
         /// </summary>
         /// <param name="name"></param>
-        public Alien Create(string name, Vec2 location)
+        public Alien Create(string name)
         {
             if(_alienDefinitions != null)
             {
@@ -93,10 +93,17 @@ namespace Game1
                 {
                     throw new Exception($"No Alien definition found for name {name}");
                 }
+
+                var rand = new Random((int)(DateTime.UtcNow - DateTime.MinValue).Ticks);
                 var texture = _contentManager.Load<Texture2D>(definition.TextureName);
-
                 var physicsSize = GameUtils.PhysicsVec(new Vector2(texture.Width * definition.Scale, texture.Height * definition.Scale));
+                var minX = GameData.MaxXDimension * .1;
+                var minY = GameData.MaxYDimension * .1;
+                var maxX = GameData.MaxXDimension - minX;
+                var maxY = GameData.MaxYDimension - minY;
 
+                var loc = new Vec2(rand.Next((int)minX, (int)maxX), rand.Next((int)minY, (int)maxY));
+                
                 var shapeDef = new PolygonDef();
                 shapeDef.Vertices = new Vec2[definition.Vertices.Length];
                 for(var i = 0; i < definition.Vertices.Length; ++i)
@@ -115,7 +122,7 @@ namespace Game1
 
                 var bodyDef = new BodyDef();
                 bodyDef.IsBullet = true;
-                bodyDef.Position.Set(location.X, location.Y);
+                bodyDef.Position.Set(loc.X, loc.Y);
                 var body = _physicsWorld.CreateBody(bodyDef);
                 var shape = body.CreateShape(shapeDef);
 
