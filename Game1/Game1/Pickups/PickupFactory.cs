@@ -60,7 +60,7 @@ namespace Game1.Pickups
             }
         }
 
-        private PickupTemplate CreatePickupTemplate(Vec2 origin, PickupDefinition definition)
+        private PickupTemplate CreatePickupTemplate(PickupDefinition definition)
         {
             var kvp = definition.Values;
 
@@ -82,6 +82,14 @@ namespace Game1.Pickups
             shapeDef.Filter.CategoryBits = CollisionCategory.Pickup;
             shapeDef.Filter.MaskBits = CollisionCategory.Player;
 
+            var rand = new Random((int)(DateTime.UtcNow - DateTime.MinValue).Ticks);
+            var minX = GameData.MaxXDimension * .1;
+            var minY = GameData.MaxYDimension * .1;
+            var maxX = GameData.MaxXDimension - minX;
+            var maxY = GameData.MaxYDimension - minY;
+
+            var origin = new Vec2(rand.Next((int)minX, (int)maxX), rand.Next((int)minY, (int)maxY));
+
             var bodyDef = new BodyDef();
             bodyDef.Position.Set(origin.X, origin.Y);
             var body = PhysicsWorld.CreateBody(bodyDef);
@@ -101,7 +109,7 @@ namespace Game1.Pickups
             };
         }
 
-        public void CreateHealthPickup(Vec2 origin, string definitionName)
+        public void CreateHealthPickup(string definitionName)
         {
             var definition = Definitions.FirstOrDefault(d => d.Name.ToLower().Equals(definitionName.ToLower()));
             if(definition == null)
@@ -109,7 +117,7 @@ namespace Game1.Pickups
                 throw new Exception($"No such pickup definition {definitionName}");
             }
 
-            var template = CreatePickupTemplate(origin, definition);
+            var template = CreatePickupTemplate(definition);
 
             var hp = int.Parse(definition.Values["Hp"]);
 
@@ -117,7 +125,7 @@ namespace Game1.Pickups
             GameWorld.AddGameObject(healthPickup);
         }
 
-        public void CreateLaserPickup(Vec2 origin, string definitionName)
+        public void CreateLaserPickup(string definitionName)
         {
             var definition = Definitions.FirstOrDefault(d => d.Name.ToLower().Equals(definitionName.ToLower()));
             if(definition == null)
@@ -128,7 +136,7 @@ namespace Game1.Pickups
             var projectileName = definition.Values["ProjectileName"];
             var startingAmmo = int.Parse(definition.Values["StartingAmmo"]);
             
-            var template = CreatePickupTemplate(origin, definition);
+            var template = CreatePickupTemplate(definition);
 
             var laserPickup = new Laser(GameData, GameUtils, PhysicsWorld, template.Texture, template.Shape, template.RigidBody, projectileName, startingAmmo, definitionName, template.Scale);
             GameWorld.AddGameObject(laserPickup);

@@ -22,9 +22,13 @@ add icon for window
 add icon for toolbar
 installer
 fix bottom of minimap
-
-fix things spawning outside boundaries
 don't draw objects that aren't visible
+
+DONE
+center explosions around objects
 spawn weapons periodically
-track # of lives
-track score total
+don't spawn aliens outside bounds
+don't spawn pickups outside bounds
+don't move camera past bounds
+fix game loop when player wins
+

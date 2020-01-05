@@ -247,6 +247,7 @@ namespace Game1
                 {
                     GameState = GameStates.Normal;
                     Player.Reset();
+                    CurrentGameMode.Initialize();
                 }
             }
 

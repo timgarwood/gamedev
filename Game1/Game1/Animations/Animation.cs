@@ -17,11 +17,13 @@ namespace Game1.Animations
             // they are GameObjects so that they can be drawn
             base(null, null, null, null, 0, gameData, gameUtils)
         {
-            _position = position;
             _definition = definition;
             RenderScale = new Vector2(_definition.Scale, _definition.Scale);
             _nextFrame = 0;
             _lastFrameTime = DateTime.Now;
+            _position = position - GameUtils.PhysicsVec(
+                new Vector2((_definition.FrameRectangles[0].Width * _definition.Scale) / 2,
+                            (_definition.FrameRectangles[0].Height * _definition.Scale) / 2));
         }
 
         public override Vec2 GetWorldPosition()

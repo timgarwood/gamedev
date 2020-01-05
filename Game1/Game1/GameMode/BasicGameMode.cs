@@ -1,8 +1,8 @@
-﻿using Box2DX.Common;
-using Game1.Animations;
+﻿using Game1.Animations;
 using Game1.Pickups;
 using Microsoft.Xna.Framework;
 using System.Threading;
+using System;
 
 namespace Game1.GameMode
 {
@@ -10,7 +10,46 @@ namespace Game1.GameMode
     {
         private GameData GameData { get; set; }
 
-        private int MaxNumWeapons { get; set; } = 10;
+        private static string[] LaserNames = new string[]
+        {
+            "RedLaser",
+            "YellowLaser",
+            "TealLaser",
+            "PurpleLaser",
+            "BlueLaser"
+        };
+
+        private static string[] AlienNames = new string[]
+        {
+            "Alien1"
+        };
+
+        private TimeSpan TimeOfLastWeaponSpawn { get; set; }
+        
+        /// <summary>
+        /// how often to spawn weapons
+        /// </summary>
+        private TimeSpan WeaponSpawnFrequency { get; set; } = TimeSpan.FromSeconds(30);
+
+        /// <summary>
+        /// hack to set TimeOfLastWeaponSpawn
+        /// </summary>
+        private bool FirstFrame { get; set; } = true;
+
+        private bool FirstSpawn { get; set; } = true;
+
+        /// <summary>
+        /// max number of laser pickups at one time
+        /// </summary>
+        private static int MaxLasers { get; set; } = 10;
+        /// <summary>
+        /// max number of healths at one time
+        /// </summary>
+        private static int MaxHealths { get; set; } = 10;
+        /// <summary>
+        /// max number of aliens at one time
+        /// </summary>
+        private static int MaxAliens { get; set; } = 10;
 
         public BasicGameMode(GameWorld gameWorld,
             AnimationFactory animationFactory,
@@ -25,11 +64,13 @@ namespace Game1.GameMode
 
         public override void Initialize()
         {
+            FirstFrame = true;
             Spawn();
         }
 
         public override GameModeStatus Update(GameTime gameTime)
         {
+            
             var disposed = GameWorld.GetAll(x => x.PendingDispose);
             foreach(var d in disposed)
             {
@@ -47,6 +88,31 @@ namespace Game1.GameMode
                 return GameModeStatus.Failed;
             }
 
+            var remainingWeapons = GameWorld.GetGameObjects<Laser>();
+            if(remainingWeapons.Count < MaxLasers)
+            {
+                if(FirstFrame)
+                {
+                    FirstFrame = false;
+                    TimeOfLastWeaponSpawn = gameTime.TotalGameTime;
+                }
+
+                if(gameTime.TotalGameTime - TimeOfLastWeaponSpawn > WeaponSpawnFrequency)
+                {
+                    var rand = new Random((int)gameTime.TotalGameTime.TotalMilliseconds);
+                    TimeOfLastWeaponSpawn = gameTime.TotalGameTime;
+                    for(var i = 0; i < MaxLasers - remainingWeapons.Count; ++i)
+                    {
+                        var laserIndex = rand.Next(0, LaserNames.Length - 1);
+                        PickupFactory.CreateLaserPickup(LaserNames[laserIndex]);
+                    }
+                }
+            }
+            else
+            {
+                TimeOfLastWeaponSpawn = gameTime.TotalGameTime;
+            }
+
             Player.Update(gameTime);
             GameWorld.Update(gameTime);
 
@@ -55,35 +121,41 @@ namespace Game1.GameMode
 
         private void Spawn()
         {
-            var numAliens = 10;
-            for (var i = 0; i < numAliens; ++i)
+            var aliens = GameWorld.GetGameObjects<Alien>();
+            var lasers = GameWorld.GetGameObjects<Laser>();
+
+            var rand = new Random();
+            for (var i = 0; i < MaxAliens - aliens.Count; ++i)
             {
-                AlienFactory.Create("Alien1");
+                var alienIndex = rand.Next(0, AlienNames.Length - 1);
+                AlienFactory.Create(AlienNames[alienIndex]);
                 Thread.Sleep(100);
             }
 
-            var numHealths = 10;
-
-            for(var i = 0; i < numHealths; ++i)
+            if (FirstSpawn)
             {
-                var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).Ticks);
-                PickupFactory.CreateHealthPickup(new Vec2(rand.Next(0, (int)GameData.MaxXDimension), rand.Next(0, (int)GameData.MaxYDimension)), "SmallHealth");
+                for (var i = 0; i < MaxHealths; ++i)
+                {
+                    PickupFactory.CreateHealthPickup("SmallHealth");
+                    Thread.Sleep(100);
+                }
+            }
+
+            for(var i = 0; i < MaxLasers - lasers.Count; ++i)
+            {
+                var laserIndex = rand.Next(0, LaserNames.Length - 1);
+                SpawnLaserPickup(1, LaserNames[laserIndex]);
                 Thread.Sleep(100);
             }
 
-            SpawnLaserPickup(2, "RedLaser");
-            SpawnLaserPickup(2, "YellowLaser");
-            SpawnLaserPickup(2, "TealLaser");
-            SpawnLaserPickup(2, "PurpleLaser");
-            SpawnLaserPickup(2, "BlueLaser");
+            FirstSpawn = false;
         }
 
         private void SpawnLaserPickup(int numLasers, string definitionName)
         {
             for(var i = 0; i < numLasers; ++i)
             {
-                var rand = new System.Random((int)(System.DateTime.UtcNow - System.DateTime.MinValue).Ticks);
-                PickupFactory.CreateLaserPickup(new Vec2(rand.Next(0, (int)GameData.MaxXDimension), rand.Next(0, (int)GameData.MaxYDimension)), definitionName);
+                PickupFactory.CreateLaserPickup(definitionName);
                 Thread.Sleep(100);
             }
         }

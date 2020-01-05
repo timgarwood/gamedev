@@ -165,7 +165,7 @@ namespace Game1
 
                 var rotationDegrees = RigidBody.GetAngle() * 180 / System.Math.PI;
 
-                if(Mouse.GetState().LeftButton == ButtonState.Pressed)
+                if(Keyboard.GetState().IsKeyDown(Keys.OemOpenBrackets) )
                 {
                     //apply impulse to push the player to left
                     var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees - 90);
@@ -173,7 +173,7 @@ namespace Game1
                         , RigidBody.GetPosition());
                 }
 
-                if(Mouse.GetState().RightButton == ButtonState.Pressed)
+                if(Keyboard.GetState().IsKeyDown(Keys.OemCloseBrackets) )
                 {
                     //apply impulse to push the player to right 
                     var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees + 90);
@@ -182,16 +182,16 @@ namespace Game1
                         , RigidBody.GetPosition());
                 }
 
-                if(FilteredInputListener.WasKeyPressed(Keys.OemOpenBrackets))
+                if(FilteredInputListener.WasKeyPressed(Keys.Left))
                 {
                     WeaponInventory.SelectPreviousWeapon();
-                    FilteredInputListener.ResetKey(Keys.OemOpenBrackets);
+                    FilteredInputListener.ResetKey(Keys.Left);
                 }
 
-                if(FilteredInputListener.WasKeyPressed(Keys.OemCloseBrackets))
+                if(FilteredInputListener.WasKeyPressed(Keys.Right))
                 {
                     WeaponInventory.SelectNextWeapon();
-                    FilteredInputListener.ResetKey(Keys.OemCloseBrackets);
+                    FilteredInputListener.ResetKey(Keys.Right);
                 }
 
                 if (Keyboard.GetState().IsKeyDown(Keys.W))

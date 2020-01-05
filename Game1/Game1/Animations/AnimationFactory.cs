@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Newtonsoft.Json;
 using Box2DX.Common;
+using Microsoft.Xna.Framework;
 
 namespace Game1.Animations
 {

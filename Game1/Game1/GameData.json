@@ -4,7 +4,7 @@
   "maxYDimension" :  60,
   "playerStartX" :  40,
   "playerStartY" :  40,
-  "playerFriction": 0.6,
+  "playerFriction": 2.6,
   "playerDensity" :  1.0,
   "playerTurnTorque" :  0.015,
   "playerLateralImpulse" :  0.0150,

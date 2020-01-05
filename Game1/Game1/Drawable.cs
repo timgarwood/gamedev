@@ -17,11 +17,6 @@ namespace Game1
         protected Vector2 RenderScale { get; set; }
 
         /// <summary>
-        /// rectangle for determining if this object is within the camera bounds
-        /// </summary>
-        private Rectangle MyRectangle;
-
-        /// <summary>
         /// ctor
         /// </summary>
         /// <param name="texture"></param>

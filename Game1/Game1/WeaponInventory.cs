@@ -52,6 +52,15 @@ namespace Game1
             }
         }
 
+        private void SelectWeaponWithAmmo()
+        {
+            var weapon = Lasers.FirstOrDefault(l => l.RemainingAmmo > 0);
+            if(weapon != null)
+            {
+                LaserIndex = Lasers.IndexOf(weapon);
+            }
+        }
+
         public void DecreaseAmmo(int amt)
         {
             if (Lasers.Count <= 0) return;
@@ -63,7 +72,7 @@ namespace Game1
             if(info.RemainingAmmo <= 0)
             {
                 info.RemainingAmmo = 0;
-                SelectNextWeapon();
+                SelectWeaponWithAmmo();
             }
         }
 
