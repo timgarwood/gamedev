@@ -46,72 +46,234 @@
   {
     "name" :  "Alien2",
     "textureName" : "sprites\\ships\\alien2-transparent",
-    "scale" : 0.25,
+    "scale" : 1.0,
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
-    "moveImpulse" :  0.0075,
-    "decisionFrequencySec" :  1.0,
+    "moveImpulse" :  0.075,
+    "decisionFrequencySec" : 0.1,
     "maxSpeed" :  5,
     "alienTurnVelocityDecrement": 1,
     "maxHp" :  100,
-    "scoreValue":  10
+    "scoreValue": 10,
+    "vertices": [
+      {
+        "X": 0,
+        "Y": -102
+      },
+      {
+        "X": 42,
+        "Y": -95
+      },
+      {
+        "X": 57,
+        "Y": -64
+      },
+      {
+        "X": 17,
+        "Y": 100
+      },
+      {
+        "X": -19,
+        "Y": 100
+      },
+      {
+        "X": -59,
+        "Y": -64
+      },
+      {
+        "X": -42,
+        "Y": -95
+      }
+    ]
   },
   {
-    "name" :  "Alien3",
-    "textureName" : "sprites\\ships\\alien3-transparent",
-    "scale" : 0.25,
+    "name": "Alien3",
+    "textureName": "sprites\\ships\\alien3-transparent",
+    "scale": 1,
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
-    "moveImpulse" :  0.0075,
-    "decisionFrequencySec" :  1.0,
-    "maxSpeed" :  5,
-    "alienTurnVelocityDecrement": 1,
-    "maxHp" :  100,
-    "scoreValue":  10
-  },
-  {
-    "name" :  "Alien4",
-    "textureName": "sprites\\ships\\alien4-transparent",
-    "scale" : 0.25,
-    "mass": 1.0,
-    "density": 1.0,
-    "friction": 0.3,
-    "moveImpulse" :  0.0075,
-    "decisionFrequencySec" :  1.0,
-    "maxSpeed" :  5,
+    "moveImpulse": 0.075,
+    "decisionFrequencySec": 0.1,
+    "maxSpeed": 5,
     "alienTurnVelocityDecrement": 1,
     "maxHp": 100,
-    "scoreValue":  10
+    "scoreValue": 10,
+    "vertices": [
+      {
+        "X": 21,
+        "Y": -100
+      },
+      {
+        "X": 91,
+        "Y": -21
+      },
+      {
+        "X": 71,
+        "Y": 73
+      },
+      {
+        "X": 0,
+        "Y": 103
+      },
+      {
+        "X": -70,
+        "Y": 73
+      },
+      {
+        "X": -91,
+        "Y": -21
+      },
+      {
+        "X": -22,
+        "Y": -100
+      }
+    ]
   },
   {
-    "name" :  "Alien5",
+    "name": "Alien4",
+    "textureName": "sprites\\ships\\alien4-transparent",
+    "scale": 1.0,
+    "mass": 1.0,
+    "density": 1.0,
+    "friction": 0.3,
+    "moveImpulse": 0.075,
+    "decisionFrequencySec": 0.1,
+    "maxSpeed": 5,
+    "alienTurnVelocityDecrement": 1,
+    "maxHp": 100,
+    "scoreValue": 10,
+    "vertices": [
+      {
+        "X": 12,
+        "Y": -96
+      },
+      {
+        "X": 40,
+        "Y": -62
+      },
+      {
+        "X": 51,
+        "Y": -17
+      },
+      {
+        "X": 43,
+        "Y": 79
+      },
+      {
+        "X": -44,
+        "Y": 79
+      },
+      {
+        "X": -51,
+        "Y": -17
+      },
+      {
+        "X": -41,
+        "Y": -62
+      },
+      {
+        "X": -11,
+        "Y": -96
+      }
+    ]
+  },
+  {
+    "name": "Alien5",
     "textureName": "sprites\\ships\\alien5-transparent",
-    "scale" : 0.25,
+    "scale": 1.0,
     "mass": 1.0,
     "density": 1.0,
     "friction": 1.0,
-    "moveImpulse" :  0.0075,
-    "decisionFrequencySec" :  1.0,
-    "maxSpeed" :  5,
+    "moveImpulse": 0.075,
+    "decisionFrequencySec": 1.0,
+    "maxSpeed": 5,
     "alienTurnVelocityDecrement": 1,
-    "maxHp" :  100,
-    "scoreValue":  10
+    "maxHp": 100,
+    "scoreValue": 10,
+    "vertices": [
+      {
+        "X": 5,
+        "Y": -161
+      },
+      {
+        "X": 41,
+        "Y": -126
+      },
+      {
+        "X": 55,
+        "Y": -42
+      },
+      {
+        "X": 35,
+        "Y": 64
+      },
+      {
+        "X": -36,
+        "Y": 64
+      },
+      {
+        "X": -54,
+        "Y": -42
+      },
+      {
+        "X": -41,
+        "Y": -126
+      },
+      {
+        "X": -4,
+        "Y": -161
+      }
+    ]
   },
   {
-    "name" :  "Alien6",
+    "name": "Alien6",
     "textureName": "sprites\\ships\\alien6-transparent",
-    "scale" : 0.25,
+    "scale": 1.0,
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
-    "moveImpulse" :  0.0075,
-    "decisionFrequencySec" :  1.0,
-    "maxSpeed" :  5,
+    "moveImpulse": 0.075,
+    "decisionFrequencySec": 0.1,
+    "maxSpeed": 5,
     "alienTurnVelocityDecrement": 1,
-    "maxHp" :  100,
-    "scoreValue":  10
+    "maxHp": 100,
+    "scoreValue": 10,
+    "vertices": [
+      {
+        "X": 16,
+        "Y": -91
+      },
+      {
+        "X": 68,
+        "Y": -48
+      },
+      {
+        "X": 88,
+        "Y": 3
+      },
+      {
+        "X": 73,
+        "Y": 96
+      },
+      {
+        "X": -73,
+        "Y": 96
+      },
+      {
+        "X": -89,
+        "Y": 3
+      },
+      {
+        "X": -67,
+        "Y": -48
+      },
+      {
+        "X": -15,
+        "Y": -91
+      }
+    ]
   },
   {
     "name" :  "Alien7",
@@ -128,17 +290,51 @@
     "scoreValue":  10
   },
   {
-    "name" :  "Alien8",
+    "name": "Alien8",
     "textureName": "sprites\\ships\\alien8-transparent",
-    "scale" : 0.25,
+    "scale": 1.0,
     "mass": 1.0,
     "density": 1.0,
     "friction": 0.3,
-    "moveImpulse" :  0.0075,
-    "decisionFrequencySec" :  1.0,
-    "maxSpeed" :  5,
+    "moveImpulse": 0.075,
+    "decisionFrequencySec": 0.1,
+    "maxSpeed": 5,
     "alienTurnVelocityDecrement": 1,
-    "maxHp" :  100,
-    "scoreValue":  10
+    "maxHp": 100,
+    "scoreValue": 10,
+    "vertices": [
+      {
+        "X": 39,
+        "Y": -108
+      },
+      {
+        "X": 67,
+        "Y": -71
+      },
+      {
+        "X": 94,
+        "Y": 4
+      },
+      {
+        "X": 65,
+        "Y": 107
+      },
+      {
+        "X": -65,
+        "Y": 107
+      },
+      {
+        "X": -93,
+        "Y": 4
+      },
+      {
+        "X": -66,
+        "Y": -71
+      },
+      {
+        "X": -38,
+        "Y": -108
+      }
+    ]
   }
 ]

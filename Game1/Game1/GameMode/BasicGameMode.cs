@@ -21,7 +21,10 @@ namespace Game1.GameMode
 
         private static string[] AlienNames = new string[]
         {
-            "Alien1"
+            "Alien4",
+            "Alien5",
+            "Alien6",
+            "Alien8"
         };
 
         private TimeSpan TimeOfLastWeaponSpawn { get; set; }
@@ -103,7 +106,7 @@ namespace Game1.GameMode
                     TimeOfLastWeaponSpawn = gameTime.TotalGameTime;
                     for(var i = 0; i < MaxLasers - remainingWeapons.Count; ++i)
                     {
-                        var laserIndex = rand.Next(0, LaserNames.Length - 1);
+                        var laserIndex = rand.Next(0, LaserNames.Length);
                         PickupFactory.CreateLaserPickup(LaserNames[laserIndex]);
                     }
                 }
@@ -127,7 +130,7 @@ namespace Game1.GameMode
             var rand = new Random();
             for (var i = 0; i < MaxAliens - aliens.Count; ++i)
             {
-                var alienIndex = rand.Next(0, AlienNames.Length - 1);
+                var alienIndex = rand.Next(0, AlienNames.Length);
                 AlienFactory.Create(AlienNames[alienIndex]);
                 Thread.Sleep(100);
             }
@@ -143,7 +146,7 @@ namespace Game1.GameMode
 
             for(var i = 0; i < MaxLasers - lasers.Count; ++i)
             {
-                var laserIndex = rand.Next(0, LaserNames.Length - 1);
+                var laserIndex = rand.Next(0, LaserNames.Length);
                 SpawnLaserPickup(1, LaserNames[laserIndex]);
                 Thread.Sleep(100);
             }

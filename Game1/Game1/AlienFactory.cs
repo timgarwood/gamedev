@@ -108,8 +108,8 @@ namespace Game1
                 shapeDef.Vertices = new Vec2[definition.Vertices.Length];
                 for(var i = 0; i < definition.Vertices.Length; ++i)
                 {
-                    var x = definition.Vertices[i].X;
-                    var y = definition.Vertices[i].Y;
+                    var x = definition.Vertices[i].X * definition.Scale;
+                    var y = definition.Vertices[i].Y * definition.Scale;
                     shapeDef.Vertices[i] = GameUtils.PhysicsVec(new Vector2(x, y));
                 }
 
