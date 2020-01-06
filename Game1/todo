@@ -15,7 +15,6 @@ balance weapon fire rate
 fix fonts
 reduce player top speed
 increase alien top speed
-create collision vertices for the other alien sprites
 scale collision vertices by 'render scale'
 clean up code
 add icon for window
@@ -31,4 +30,4 @@ don't spawn aliens outside bounds
 don't spawn pickups outside bounds
 don't move camera past bounds
 fix game loop when player wins
-
+create collision vertices for the other alien sprites

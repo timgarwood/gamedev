@@ -159,7 +159,7 @@ namespace Game1
         public override void Update(GameTime gameTime)
         {
             // track the player, just for now.
-            /*var toTarget = Player.GetWorldPosition() - RigidBody.GetPosition();
+            var toTarget = Player.GetWorldPosition() - RigidBody.GetPosition();
             var distToTarget = Vec2.Distance(Player.GetWorldPosition(), RigidBody.GetPosition());
 
             if(distToTarget > 10 && !Active)
@@ -291,10 +291,8 @@ namespace Game1
             //    RigidBody.SetAngularVelocity(0);
             //}
 
-            /*
             _lastDistanceToTarget = distToTarget;
             base.Update(gameTime);
-            */
         }
 
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraPosition, Vector2 viewport)
