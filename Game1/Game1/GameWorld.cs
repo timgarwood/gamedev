@@ -131,8 +131,14 @@ namespace Game1
         {
             foreach(var obj in _gameObjects)
             {
+                obj.DrawShadow(spriteBatch, cameraOrigin);
+            }
+
+            foreach(var obj in _gameObjects)
+            {
                 obj.Draw(spriteBatch, cameraOrigin, viewport);
             }
+
         }
 
         /// <summary>

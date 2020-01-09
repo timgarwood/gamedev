@@ -15,10 +15,6 @@ namespace Game1
 
         private static Dictionary<int, Color[]> HealthBars = new Dictionary<int, Color[]>();
 
-        private static void SetHealthBar(Color[] bar, int pct)
-        {
-        }
-
         private static Color GetColorForPct(int pct)
         {
             if(pct > 60)

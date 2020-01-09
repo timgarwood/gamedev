@@ -125,15 +125,8 @@ namespace Game1
                 //draw player relative to camera
                 var texturePosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.PixelsPerMeter,
                     (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.PixelsPerMeter);
-                var bodyPosition = new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.PixelsPerMeter,
-                    (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.PixelsPerMeter);
-                var upperBound = new Vector2((BoundingBox.UpperBound.X - cameraPosition.X) * GameData.PixelsPerMeter,
-                    (BoundingBox.UpperBound.Y - cameraPosition.Y) * GameData.PixelsPerMeter);
-                var lowerBound = new Vector2((BoundingBox.LowerBound.X - cameraPosition.X) * GameData.PixelsPerMeter,
-                    (BoundingBox.LowerBound.Y - cameraPosition.Y) * GameData.PixelsPerMeter);
 
                 spriteBatch.Draw(Texture, texturePosition, null, null, rotation: Rotation, origin: new Vector2(Texture.Width / 2, Texture.Height / 2));
-                DrawShadow(spriteBatch, texturePosition);
             }
         }
 

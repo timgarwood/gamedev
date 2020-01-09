@@ -136,6 +136,12 @@ namespace Game1
 
         protected float Rotation { get; set; } = 0.0f;
 
+        protected Vector2 GetTexturePosition(Vec2 cameraPosition)
+        {
+            return new Vector2((RigidBody.GetPosition().X - cameraPosition.X) * GameData.PixelsPerMeter,
+                (RigidBody.GetPosition().Y - cameraPosition.Y) * GameData.PixelsPerMeter);
+        }
+
         protected void DecreaseLinearVelocity(float step, float min)
         {
             var lv = RigidBody.GetLinearVelocity();
@@ -176,10 +182,14 @@ namespace Game1
             RigidBody.SetLinearVelocity(lv);
         }
 
-        protected void DrawShadow(SpriteBatch spriteBatch, Vector2 texturePosition)
+        public void DrawShadow(SpriteBatch spriteBatch, Vec2 cameraPosition)
         {
-            var shadowLocation = new Vector2(texturePosition.X + ShadowOffset.X, texturePosition.Y + (Texture.Height * RenderScale.Y) + ShadowOffset.Y);
-            spriteBatch.Draw(Texture, shadowLocation, null, null, rotation: Rotation, color: Color.Black, origin: CenterOfRotation, scale: ShadowScale * RenderScale);
+            if (Texture != null)
+            {
+                var texturePosition = GetTexturePosition(cameraPosition);
+                var shadowLocation = new Vector2(texturePosition.X + ShadowOffset.X, texturePosition.Y + (Texture.Height * RenderScale.Y) + ShadowOffset.Y);
+                spriteBatch.Draw(Texture, shadowLocation, null, null, rotation: Rotation, color: Color.Black, origin: CenterOfRotation, scale: ShadowScale * RenderScale);
+            }
         }
 
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
@@ -192,7 +202,6 @@ namespace Game1
                 //Logger.Info($"body position @ ({rigidBodyPosition.X},{rigidBodyPosition.Y})");
                 //Logger.Info($"texture @ ({texturePosition.X},{texturePosition.Y})");
                 spriteBatch.Draw(Texture, texturePosition, null, null, rotation: Rotation, origin: CenterOfRotation, scale: RenderScale);
-                DrawShadow(spriteBatch, texturePosition);
             }
         }
 
