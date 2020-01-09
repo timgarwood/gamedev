@@ -53,76 +53,55 @@ namespace Game1.Hud
             Player player)
         {
             Texture2D backgroundTexture = null;
-            try
+            var mapWidth = (int)jsonData["width"];
+            var mapHeight = (int)jsonData["height"];
+            backgroundTexture = new Texture2D(graphicsDevice, mapWidth + (2*MinimapBorderThicknessPx), mapHeight + (2*MinimapBorderThicknessPx));
+            var textureData = new Color[(mapWidth+(2*MinimapBorderThicknessPx)) * (mapHeight + (2*MinimapBorderThicknessPx))];
+
+            //color the top border
+            for(var i = 0; i < MinimapBorderThicknessPx * mapWidth; ++i)
             {
-                backgroundTexture = contentManager.Load<Texture2D>((string)jsonData["textureAsset"]);
+                textureData[i] = Color.Red;
             }
-            catch(Exception e)
+
+            //color the bottom border
+            for(var i = (mapWidth* mapHeight); i < textureData.Length; ++i)
             {
-                var mapWidth = (int)jsonData["width"];
-                var mapHeight = (int)jsonData["height"];
-                backgroundTexture = new Texture2D(graphicsDevice, mapWidth + (2*MinimapBorderThicknessPx), mapHeight + (2*MinimapBorderThicknessPx));
-                var textureData = new Color[(mapWidth+(2*MinimapBorderThicknessPx)) * (mapHeight + (2*MinimapBorderThicknessPx))];
-                /*backgroundTexture = new Texture2D(graphicsDevice, width, height);
-                var textureData = new Color[width* height];
-                for(var i = 0; i < textureData.Length; ++i)
+                textureData[i] = Color.Red;
+            }
+
+            for (var i = MinimapBorderThicknessPx * mapWidth; i < textureData.Length - (MinimapBorderThicknessPx * mapWidth); ++i)
+            {
+                var col = i % (mapWidth+ 2*MinimapBorderThicknessPx);
+                if (col < MinimapBorderThicknessPx)
+                {
+                    textureData[i] = Color.Red;
+                }
+                else if (col > mapWidth)
+                {
+                    textureData[i] = Color.Red;
+                }
+                else
                 {
                     textureData[i] = Color.Black;
                 }
-                */
 
-                //color the top border
-                for(var i = 0; i < MinimapBorderThicknessPx * mapWidth; ++i)
-                {
-                    textureData[i] = Color.Red;
-                }
-
-                //color the bottom border
-                for(var i = (mapWidth* mapHeight); i < textureData.Length; ++i)
-                {
-                    textureData[i] = Color.Red;
-                }
-
-                for (var i = MinimapBorderThicknessPx * mapWidth; i < textureData.Length - (MinimapBorderThicknessPx * mapWidth); ++i)
-                {
-                    var col = i % (mapWidth+ 2*MinimapBorderThicknessPx);
-                    if (col < MinimapBorderThicknessPx)
-                    {
-                        textureData[i] = Color.Red;
-                    }
-                    else if (col > mapWidth)
-                    {
-                        textureData[i] = Color.Red;
-                    }
-                    else
-                    {
-                        textureData[i] = Color.Black;
-                    }
-
-                }
-
-                backgroundTexture.SetData(textureData);
             }
+
+            backgroundTexture.SetData(textureData);
 
             var width = (int)jsonData["alienWidth"];
             var height = (int)jsonData["alienHeight"];
 
             Texture2D alienTexture = null;
-            try
+            alienTexture = new Texture2D(graphicsDevice, width, height);
+            var alienTextureData = new Color[width * height];
+            for (var i = 0; i < alienTextureData.Length; ++i)
             {
-                alienTexture = contentManager.Load<Texture2D>((string)jsonData["alienTextureAsset"]);
+                alienTextureData[i] = Color.Green;
             }
-            catch(Exception e)
-            {
-                alienTexture = new Texture2D(graphicsDevice, width, height);
-                var textureData = new Color[width * height];
-                for (var i = 0; i < textureData.Length; ++i)
-                {
-                    textureData[i] = Color.Green;
-                }
 
-                alienTexture.SetData(textureData);
-            }
+            alienTexture.SetData(alienTextureData);
 
             var pickupTexture = new Texture2D(graphicsDevice, width, height);
             var pickupTextureData = new Color[width * height];

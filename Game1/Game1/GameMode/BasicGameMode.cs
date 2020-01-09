@@ -21,6 +21,9 @@ namespace Game1.GameMode
 
         private static string[] AlienNames = new string[]
         {
+            "Alien1",
+            "Alien2",
+            "Alien3",
             "Alien4",
             "Alien5",
             "Alien6",
