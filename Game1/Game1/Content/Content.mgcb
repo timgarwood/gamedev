@@ -13,6 +13,36 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin sound/alienDeath.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/alienDeath.mp3
+
+#begin sound/alienGrowl.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/alienGrowl.mp3
+
+#begin sound/alienLaser.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/alienLaser.mp3
+
+#begin sound/healthEffect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/healthEffect.mp3
+
+#begin sound/weaponEffect.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:sound/weaponEffect.mp3
+
 #begin sprites/animations/explosion1.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -84,6 +114,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:sprites/backgrounds/bk_water2.jpg
+
+#begin sprites/backgrounds/redsand1.jpg
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:sprites/backgrounds/redsand1.jpg
 
 #begin sprites/backgrounds/water2.jpg
 /importer:TextureImporter

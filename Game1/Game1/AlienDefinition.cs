@@ -35,5 +35,9 @@
         public int ScoreValue { get; set; }
 
         public Vertice[] Vertices { get; set; }
+
+        public string ShootingEffect { get; set; }
+        public string DeathEffect { get; set; }
+        public string ActiveEffect { get; set; }
     }
 }

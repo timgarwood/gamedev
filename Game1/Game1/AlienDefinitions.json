@@ -12,6 +12,9 @@
     "alienTurnVelocityDecrement": 1,
     "maxHp": 100,
     "scoreValue":  10,
+    "shootingEffect" :  "sound\\alienLaser",
+    "deathEffect" :  "sound\\alienDeath",
+    "activeEffect" :  "sound\\alienGrowl",
     "vertices": [
       {
         "X": 0,
@@ -56,6 +59,9 @@
     "alienTurnVelocityDecrement": 1,
     "maxHp" :  100,
     "scoreValue": 10,
+    "shootingEffect" :  "sound\\alienLaser",
+    "deathEffect" :  "sound\\alienDeath",
+    "activeEffect" :  "sound\\alienGrowl",
     "vertices": [
       {
         "X": 0,
@@ -100,6 +106,9 @@
     "alienTurnVelocityDecrement": 1,
     "maxHp": 100,
     "scoreValue": 10,
+    "shootingEffect" :  "sound\\alienLaser",
+    "deathEffect" :  "sound\\alienDeath",
+    "activeEffect" :  "sound\\alienGrowl",
     "vertices": [
       {
         "X": 21,
@@ -144,6 +153,9 @@
     "alienTurnVelocityDecrement": 1,
     "maxHp": 100,
     "scoreValue": 10,
+    "shootingEffect" :  "sound\\alienLaser",
+    "deathEffect" :  "sound\\alienDeath",
+    "activeEffect" :  "sound\\alienGrowl",
     "vertices": [
       {
         "X": 12,
@@ -192,6 +204,9 @@
     "alienTurnVelocityDecrement": 1,
     "maxHp": 100,
     "scoreValue": 10,
+    "shootingEffect" :  "sound\\alienLaser",
+    "deathEffect" :  "sound\\alienDeath",
+    "activeEffect" :  "sound\\alienGrowl",
     "vertices": [
       {
         "X": 5,
@@ -240,6 +255,9 @@
     "alienTurnVelocityDecrement": 1,
     "maxHp": 100,
     "scoreValue": 10,
+    "shootingEffect" :  "sound\\alienLaser",
+    "deathEffect" :  "sound\\alienDeath",
+    "activeEffect" :  "sound\\alienGrowl",
     "vertices": [
       {
         "X": 16,
@@ -287,7 +305,10 @@
     "maxSpeed" :  5,
     "alienTurnVelocityDecrement": 1,
     "maxHp" :  100,
-    "scoreValue":  10
+    "scoreValue":  10,
+    "shootingEffect" :  "sound\\alienLaser",
+    "deathEffect" :  "sound\\alienDeath",
+    "activeEffect" :  "sound\\alienGrowl",
   },
   {
     "name": "Alien8",
@@ -302,6 +323,9 @@
     "alienTurnVelocityDecrement": 1,
     "maxHp": 100,
     "scoreValue": 10,
+    "shootingEffect" :  "sound\\alienLaser",
+    "deathEffect" :  "sound\\alienDeath",
+    "activeEffect" :  "sound\\alienGrowl",
     "vertices": [
       {
         "X": 39,

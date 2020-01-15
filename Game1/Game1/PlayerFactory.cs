@@ -70,7 +70,7 @@ namespace Game1
             var crateShape = crateBody.CreateShape(crateShapeDef);
             crateBody.SetMassFromShapes();
 
-            var player = new Player(PhysicsWorld, crateTexture, GameWorld, crateShape, crateBody, AnimationFactory, WeaponInventory, new FilteredKeyListener(), GameData, GameUtils);
+            var player = new Player(Content, PhysicsWorld, crateTexture, GameWorld, crateShape, crateBody, AnimationFactory, WeaponInventory, new FilteredKeyListener(), GameData, GameUtils);
             GameWorld.AddGameObject(player);
             return player;
         }

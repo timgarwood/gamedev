@@ -70,5 +70,11 @@
         public int MaxDistanceFromCamera { get; set; }
         public float MinBackgroundScale { get; set; }
         public float MaxBackgroundScale { get; set; }
+
+        public string ShootingEffect { get; set; }
+
+        public string DeathEffect { get; set; }
+        public string HealthEffect { get; set; }
+        public string WeaponEffect { get; set; }
     }
 }

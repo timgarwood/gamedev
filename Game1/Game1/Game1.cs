@@ -194,7 +194,7 @@ namespace Game1
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            Container.Resolve<Background>().GenerateBackground(new[] { Content.Load<Texture2D>("sprites/backgrounds/bk_water2") });
+            Container.Resolve<Background>().GenerateBackground(new[] { Content.Load<Texture2D>("sprites/backgrounds/redsand1") });
             Container.Resolve<WallFactory>().CreateWalls();
 
 

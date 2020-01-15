@@ -4,12 +4,18 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/code/gamedev/Game1/Game1/Content/sound/alienDeath.mp3</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sound/alienGrowl.mp3</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sound/alienLaser.mp3</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sound/healthEffect.mp3</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sound/weaponEffect.mp3</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion1.png</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion2.png</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion3.jpg</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion4.png</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/animations/explosion5.jpg</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/backgrounds/bk_water2.jpg</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/sprites/backgrounds/redsand1.jpg</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/backgrounds/water2.jpg</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/fonts/font1.png</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/pickups/blue-laser-pickup.png</File>
@@ -63,6 +69,12 @@
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/weapons/yellow-laser-transparent.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

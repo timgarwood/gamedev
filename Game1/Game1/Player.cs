@@ -9,6 +9,8 @@ using Game1.Weapons;
 using System;
 using Game1.Animations;
 using Game1.Pickups;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 
 namespace Game1
 {
@@ -42,6 +44,12 @@ namespace Game1
 
         private GameWorld GameWorld { get; set; }
 
+        private SoundEffectInstance ShootingEffect { get; set;}
+
+        private SoundEffectInstance DeathEffect { get; set; }
+        private SoundEffectInstance WeaponEffect { get; set; }
+        private SoundEffectInstance HealthEffect { get; set; }
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -51,7 +59,10 @@ namespace Game1
         /// <param name="lowerBoundTexture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public Player(World world, Texture2D texture, 
+        public Player(
+            ContentManager contentManager,
+            World world, 
+            Texture2D texture, 
             GameWorld gameWorld,
             Shape shape, 
             Body rigidBody, 
@@ -62,6 +73,12 @@ namespace Game1
             GameUtils gameUtils) : 
             base(world, texture, shape, rigidBody, 0, gameData, gameUtils)
         {
+            ShootingEffect = contentManager.Load<SoundEffect>(gameData.ShootingEffect).CreateInstance();
+            DeathEffect = contentManager.Load<SoundEffect>(gameData.DeathEffect).CreateInstance();
+            HealthEffect = contentManager.Load<SoundEffect>(gameData.HealthEffect).CreateInstance();
+            WeaponEffect = contentManager.Load<SoundEffect>(gameData.WeaponEffect).CreateInstance();
+            WeaponEffect.Volume = 1.0f;
+
             Active = true;
 
             AnimationFactory = animationFactory;
@@ -226,6 +243,8 @@ namespace Game1
                     {
                         if (DateTime.Now - _lastProjectileTime > TimeSpan.FromMilliseconds(100))
                         {
+                            ShootingEffect.Play();
+                            
                             _lastProjectileTime = DateTime.Now;
                             WeaponInventory.DecreaseAmmo(1);
                             SpawnProjectile(weapon.ProjectileName, ProjectileSource.Player);
@@ -269,6 +288,7 @@ namespace Game1
 
                         if (Active)
                         {
+                            DeathEffect.Play();
                             AnimationFactory.Create(RigidBody.GetPosition(), "AlienExplosion");
                         }
 
@@ -284,9 +304,13 @@ namespace Game1
                 {
                     Hp = MaxHp;
                 }
+
+                HealthEffect.Play();
             }
             else if(other is Laser)
             {
+                WeaponEffect.Play();
+
                 var laser = other as Laser;
                 WeaponInventory.AddToInventory(laser);
             }

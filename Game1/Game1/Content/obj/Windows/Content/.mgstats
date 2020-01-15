@@ -1,5 +1,11 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/code/gamedev/Game1/Game1/Content/sound/alienDeath.mp3","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sound/alienDeath.xnb","SoundEffectProcessor","SoundEffectContent",198471,988709,0.2355102
+"C:/code/gamedev/Game1/Game1/Content/sound/alienGrowl.mp3","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sound/alienGrowl.xnb","SoundEffectProcessor","SoundEffectContent",49272,396581,0.1206778
+"C:/code/gamedev/Game1/Game1/Content/sound/alienLaser.mp3","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sound/alienLaser.xnb","SoundEffectProcessor","SoundEffectContent",60425,170789,0.123698
+"C:/code/gamedev/Game1/Game1/Content/sound/healthEffect.mp3","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sound/healthEffect.xnb","SoundEffectProcessor","SoundEffectContent",4633,27847,0.427221
+"C:/code/gamedev/Game1/Game1/Content/sound/weaponEffect.mp3","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sound/weaponEffect.xnb","SoundEffectProcessor","SoundEffectContent",52182,650021,0.4882329
 "C:/code/gamedev/Game1/Game1/Content/sprites/backgrounds/bk_water2.jpg","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sprites/backgrounds/bk_water2.xnb","TextureProcessor","Texture2DContent",190764,4194389,0.3401151
+"C:/code/gamedev/Game1/Game1/Content/sprites/backgrounds/redsand1.jpg","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sprites/backgrounds/redsand1.xnb","TextureProcessor","Texture2DContent",429896,2797653,0.2953618
 "C:/code/gamedev/Game1/Game1/Content/sprites/backgrounds/water2.jpg","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sprites/backgrounds/water2.xnb","TextureProcessor","Texture2DContent",148064,2800085,0.1215984
 "C:/code/gamedev/Game1/Game1/Content/sprites/pickups/blue-laser-pickup.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sprites/pickups/blue-laser-pickup.xnb","TextureProcessor","Texture2DContent",54552,2244565,0.2575135
 "C:/code/gamedev/Game1/Game1/Content/sprites/pickups/Health.PNG","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sprites/pickups/Health.xnb","TextureProcessor","Texture2DContent",71351,594301,0.6827067

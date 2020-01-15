@@ -6,6 +6,8 @@ using Box2DX.Common;
 using System;
 using Game1.Weapons;
 using Game1.Animations;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Game1
 {
@@ -61,6 +63,10 @@ namespace Game1
 
         private Player Player { get; set; }
 
+        private SoundEffectInstance ShootingEffect { get; set; }
+        private SoundEffectInstance ActiveEffect { get; set; }
+        private SoundEffectInstance DeathEffect { get; set; }
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -68,7 +74,8 @@ namespace Game1
         /// <param name="texture"></param>
         /// <param name="shape"></param>
         /// <param name="rigidBody"></param>
-        public Alien(World world, 
+        public Alien(ContentManager contentManager,
+            World world, 
             GameData gameData,
             GameUtils gameUtils,
             AlienDefinition def, 
@@ -81,6 +88,11 @@ namespace Game1
             Player player) :
             base(world, texture, shape, rigidBody, 0, gameData, gameUtils)
         {
+            ShootingEffect = contentManager.Load<SoundEffect>(def.ShootingEffect).CreateInstance();
+            ActiveEffect = contentManager.Load<SoundEffect>(def.ActiveEffect).CreateInstance();
+            DeathEffect = contentManager.Load<SoundEffect>(def.DeathEffect).CreateInstance();
+            
+
             Hp = def.MaxHp;
 
             AnimationFactory = animationFactory;
@@ -146,6 +158,7 @@ namespace Game1
                             Player.TotalScore += _definition.ScoreValue;
                             PendingDispose = true;
                             DeathLocation = RigidBody.GetPosition();
+                            DeathEffect.Play();
                         }
                     }
                 }
@@ -165,6 +178,11 @@ namespace Game1
             if(distToTarget > 10 && !Active)
             {
                 return;
+            }
+
+            if(!Active)
+            {
+                ActiveEffect.Play();
             }
 
             Active = true;
@@ -231,6 +249,7 @@ namespace Game1
                 if(attackDiff.TotalMilliseconds >= 500)
                 {
                     LastAttackTime = DateTime.UtcNow;
+                    ShootingEffect.Play();
                     SpawnProjectile("GreenLaser-small", ProjectileSource.Alien);
                 }
             }

@@ -36,6 +36,7 @@ namespace Game1
             if(existing != null)
             {
                 existing.RemainingAmmo += laser.StartingAmmo;
+                LaserIndex = Lasers.IndexOf(existing);
             }
             else
             {
