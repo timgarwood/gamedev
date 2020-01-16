@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using Game1.Fonts;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Game1.Menu
 {
     public class MenuFactory
     {
         private MenuDefinition[] _menuDefinitions;
-        private FontFactory _fontFactory;
 
-        public MenuFactory(FontFactory fontFactory)
+        private ContentManager ContentManager { get; set; }
+
+        public MenuFactory(ContentManager contentManager)
         {
-            _fontFactory = fontFactory;
+            ContentManager = contentManager;
         }
 
         public void Load(Stream stream)
@@ -36,8 +39,16 @@ namespace Game1.Menu
             if (string.IsNullOrEmpty(name)) return null;
 
             var menuDefinition = _menuDefinitions.FirstOrDefault(m => m.Name.ToLower().Equals(name.ToLower()));
-            var font = _fontFactory.GetFont(menuDefinition.FontName);
-            return new Menu(menuDefinition, font);
+            var menuItems = new List<MenuItem>();
+            foreach(var itemDefinition in menuDefinition.MenuItems)
+            {
+                menuItems.Add(new MenuItem
+                {
+                    Definition = itemDefinition,
+                    Texture = ContentManager.Load<Texture2D>(itemDefinition.TextureName)
+                });
+            }
+            return new Menu(menuDefinition, menuItems);
         }
     }
 }

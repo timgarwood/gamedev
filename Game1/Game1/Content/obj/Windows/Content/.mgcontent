@@ -4,6 +4,8 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/code/gamedev/Game1/Game1/Content/menu/new-game.png</File>
+    <File>C:/code/gamedev/Game1/Game1/Content/menu/quit-game.png</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sound/alienDeath.mp3</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sound/alienGrowl.mp3</File>
     <File>C:/code/gamedev/Game1/Game1/Content/sound/alienLaser.mp3</File>
@@ -69,6 +71,8 @@
     <File>C:/code/gamedev/Game1/Game1/Content/sprites/weapons/yellow-laser-transparent.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

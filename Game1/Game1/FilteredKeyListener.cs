@@ -10,7 +10,7 @@ namespace Game1
 {
     public class FilteredKeyListener
     {
-        private static Keys[] TrackKeys = new Keys[] { Keys.OemCloseBrackets, Keys.OemOpenBrackets };
+        private static Keys[] TrackKeys = new Keys[] { Keys.OemCloseBrackets, Keys.OemOpenBrackets, Keys.Escape };
         private class KeyInfo
         {
             public DateTime KeyDownTime { get; set; }
@@ -45,7 +45,7 @@ namespace Game1
                 {
                     info.KeyDownTime = DateTime.UtcNow;
                 }
-                            }
+            }
         }
 
         public bool WasKeyPressed(Keys key)

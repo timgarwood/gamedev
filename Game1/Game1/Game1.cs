@@ -64,6 +64,10 @@ namespace Game1
 
         private Hud.Hud Hud { get; set; }
 
+        private Menu.Menu PauseMenu { get; set; }
+
+        private FilteredKeyListener FilteredInputListener { get; set; }
+
         public Game1() 
         {
             graphics = new GraphicsDeviceManager(this);
@@ -99,6 +103,9 @@ namespace Game1
             PhysicsWorld = new World(aabb, new Vec2(0, 0), doSleep: false);
             PhysicsWorld.SetContactListener(new GameContactListener());
 
+            FilteredInputListener = new FilteredKeyListener();
+
+            Container.Register(Component.For<FilteredKeyListener>().Instance(FilteredInputListener).LifestyleSingleton());
             Container.Register(Component.For<GraphicsDevice>().Instance(GraphicsDevice).LifestyleSingleton());
             Container.Register(Component.For<GameData>().Instance(gameData).LifestyleSingleton());
             Container.Register(Component.For<GameUtils>().Instance(gameUtils).LifestyleSingleton());
@@ -161,6 +168,7 @@ namespace Game1
             using (var stream = new FileStream("./Menu/MenuDefinitions.json", FileMode.Open))
             {
                 Container.Resolve<MenuFactory>().Load(stream);
+                PauseMenu = Container.Resolve<MenuFactory>().Create("root");
             }
 
             //load up the HUD
@@ -222,36 +230,57 @@ namespace Game1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            FilteredInputListener.Update(gameTime);
 
-            if (GameState == GameStates.Normal)
+            if (GameState != GameStates.Paused)
             {
-                var modeState = CurrentGameMode.Update(gameTime);
-                PhysicsWorld.Step(1.0f / 120.0f, 1,1);
-                if(Player.LivesRemaining <= 0)
+                if(FilteredInputListener.WasKeyPressed(Keys.Escape))
                 {
-                    Exit();
+                    GameState = GameStates.Paused;
+                    FilteredInputListener.ResetKey(Keys.Escape);
                 }
 
-                if(modeState != GameModeStatus.Continue)
+                if (GameState == GameStates.Normal)
                 {
-                    LastRespawnTime = gameTime.TotalGameTime;
-                    GameState = GameStates.WaitingForRespawn;
+                    var modeState = CurrentGameMode.Update(gameTime);
+                    PhysicsWorld.Step(1.0f / 120.0f, 1, 1);
+                    if (Player.LivesRemaining <= 0)
+                    {
+                        Exit();
+                    }
+
+                    if (modeState != GameModeStatus.Continue)
+                    {
+                        LastRespawnTime = gameTime.TotalGameTime;
+                        GameState = GameStates.WaitingForRespawn;
+                    }
                 }
+                else if (GameState == GameStates.WaitingForRespawn)
+                {
+                    var timeWaited = gameTime.TotalGameTime - LastRespawnTime;
+                    if (timeWaited >= RespawnWaitTime)
+                    {
+                        GameState = GameStates.Normal;
+                        Player.Reset();
+                        CurrentGameMode.Initialize();
+                    }
+                }
+
+                base.Update(gameTime);
             }
-            else if (GameState == GameStates.WaitingForRespawn)
+            else
             {
-                var timeWaited = gameTime.TotalGameTime - LastRespawnTime;
-                if(timeWaited >= RespawnWaitTime)
+                if(FilteredInputListener.WasKeyPressed(Keys.Escape))
                 {
                     GameState = GameStates.Normal;
-                    Player.Reset();
-                    CurrentGameMode.Initialize();
+                    FilteredInputListener.ResetKey(Keys.Escape);
+                }
+                else
+                {
+                    PauseMenu.Update(gameTime);
                 }
             }
 
-            base.Update(gameTime);
         }
 
         /// <summary>
@@ -272,6 +301,11 @@ namespace Game1
 
             Hud.Draw(spriteBatch, viewport);
 
+            if(GameState == GameStates.Paused)
+            {
+                PauseMenu.Draw(spriteBatch, cameraPosition, viewport);
+            }
+            
             spriteBatch.End();
 
             base.Draw(gameTime);

@@ -1,4 +1,6 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/code/gamedev/Game1/Game1/Content/menu/new-game.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/menu/new-game.xnb","TextureProcessor","Texture2DContent",4694,200085,0.2494706
+"C:/code/gamedev/Game1/Game1/Content/menu/quit-game.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/menu/quit-game.xnb","TextureProcessor","Texture2DContent",5197,200085,0.0378053
 "C:/code/gamedev/Game1/Game1/Content/sound/alienDeath.mp3","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sound/alienDeath.xnb","SoundEffectProcessor","SoundEffectContent",198471,988709,0.242267
 "C:/code/gamedev/Game1/Game1/Content/sound/alienGrowl.mp3","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sound/alienGrowl.xnb","SoundEffectProcessor","SoundEffectContent",49272,396581,0.1426544
 "C:/code/gamedev/Game1/Game1/Content/sound/alienLaser.mp3","C:/code/gamedev/Game1/Game1/Content/bin/Windows/sound/alienLaser.xnb","SoundEffectProcessor","SoundEffectContent",60425,170789,0.139628

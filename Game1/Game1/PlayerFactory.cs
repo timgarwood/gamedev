@@ -28,13 +28,16 @@ namespace Game1
 
         private WeaponInventory WeaponInventory { get; set; }
 
+        private FilteredKeyListener FilteredInputListener { get; set; }
+
         public PlayerFactory(GameData gameData, 
             GameUtils gameUtils,
             ContentManager contentManager, 
             World physicsWorld, 
             GameWorld gameWorld, 
             AnimationFactory animationFactory,
-            WeaponInventory weaponInventory)
+            WeaponInventory weaponInventory,
+            FilteredKeyListener keyListener)
         {
             GameData = gameData;
             GameUtils = gameUtils;
@@ -43,6 +46,7 @@ namespace Game1
             GameWorld = gameWorld;
             AnimationFactory = animationFactory;
             WeaponInventory = weaponInventory;
+            FilteredInputListener = keyListener;
         }
 
         public Player CreatePlayer(Texture2D crateTexture)
@@ -70,7 +74,7 @@ namespace Game1
             var crateShape = crateBody.CreateShape(crateShapeDef);
             crateBody.SetMassFromShapes();
 
-            var player = new Player(Content, PhysicsWorld, crateTexture, GameWorld, crateShape, crateBody, AnimationFactory, WeaponInventory, new FilteredKeyListener(), GameData, GameUtils);
+            var player = new Player(Content, PhysicsWorld, crateTexture, GameWorld, crateShape, crateBody, AnimationFactory, WeaponInventory, FilteredInputListener, GameData, GameUtils);
             GameWorld.AddGameObject(player);
             return player;
         }

@@ -13,19 +13,9 @@
         public string ParentMenu { get; set; }
 
         /// <summary>
-        /// name of the font to render this menu
+        /// number of pixels between menu items
         /// </summary>
-        public string FontName { get; set; }
-
-        /// <summary>
-        /// starting x coordinate of menu
-        /// </summary>
-        public int StartX { get; set; }
-
-        /// <summary>
-        /// starting y coordinate of menu
-        /// </summary>
-        public int StartY { get; set; }
+        public int SpaceBetweenMenuItems { get; set; }
 
         /// <summary>
         /// list of menu items in this menu

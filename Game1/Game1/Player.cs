@@ -155,8 +155,6 @@ namespace Game1
         {
             if (Active)
             {
-                FilteredInputListener.Update(gameTime);
-
                 //if (Mouse.GetState().LeftButton == ButtonState.Pressed)
                 /*if (Keyboard.GetState().IsKeyDown(Keys.A))
                 {
