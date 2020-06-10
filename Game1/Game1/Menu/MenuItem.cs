@@ -14,9 +14,17 @@ namespace Game1.Menu
 
         public Texture2D Texture { get; set; }
 
+        public Vector2 Position { get; private set; }
+
+        /// <summary>
+        /// the menu to load when this MenuItem is selected
+        /// </summary>
+        public Menu Menu { get; set; }
+
         public void Draw(SpriteBatch spriteBatch, Vector2 origin)
         {
             spriteBatch.Draw(Texture, origin);
+            Position = origin;
         }
     }
 }

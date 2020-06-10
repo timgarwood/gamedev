@@ -10,7 +10,13 @@ namespace Game1
 {
     public class FilteredKeyListener
     {
-        private static Keys[] TrackKeys = new Keys[] { Keys.OemCloseBrackets, Keys.OemOpenBrackets, Keys.Escape };
+        public FilteredKeyListener(Keys[] trackKeys)
+        {
+            TrackKeys = trackKeys;
+        }
+
+        private Keys[] TrackKeys { get; set; }
+
         private class KeyInfo
         {
             public DateTime KeyDownTime { get; set; }

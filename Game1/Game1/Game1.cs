@@ -103,7 +103,8 @@ namespace Game1
             PhysicsWorld = new World(aabb, new Vec2(0, 0), doSleep: false);
             PhysicsWorld.SetContactListener(new GameContactListener());
 
-            FilteredInputListener = new FilteredKeyListener();
+            var trackKeys = new Keys[] { Keys.OemCloseBrackets, Keys.OemOpenBrackets, Keys.Escape };
+            FilteredInputListener = new FilteredKeyListener(trackKeys);
 
             Container.Register(Component.For<FilteredKeyListener>().Instance(FilteredInputListener).LifestyleSingleton());
             Container.Register(Component.For<GraphicsDevice>().Instance(GraphicsDevice).LifestyleSingleton());
@@ -168,7 +169,7 @@ namespace Game1
             using (var stream = new FileStream("./Menu/MenuDefinitions.json", FileMode.Open))
             {
                 Container.Resolve<MenuFactory>().Load(stream);
-                PauseMenu = Container.Resolve<MenuFactory>().Create("root");
+                PauseMenu = Container.Resolve<MenuFactory>().Get("root");
             }
 
             //load up the HUD

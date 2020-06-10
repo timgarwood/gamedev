@@ -1,16 +1,19 @@
-[
-  {
-    "name": "root",
-    "spaceBetweenMenuItems": 200,
-    "menuItems": [
-      {
-        "textureName": "menu\\new-game",
-        "action": "newGame"
-      },
-      {
-        "textureName": "menu\\quit-game",
-        "action": "quitGame"
-      }
-    ]
-  }
-]
+{
+  "selectTextureName" :  "sprites\\ships\\ship1small",
+  "menuDefinitions": [
+    {
+      "name": "root",
+      "spaceBetweenMenuItems": 200,
+      "menuItems": [
+        {
+          "textureName": "menu\\new-game",
+          "action": "newGame"
+        },
+        {
+          "textureName": "menu\\quit-game",
+          "action": "quitGame"
+        }
+      ]
+    }
+  ]
+}

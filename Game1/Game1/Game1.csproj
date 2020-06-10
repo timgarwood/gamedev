@@ -79,6 +79,7 @@
     <Compile Include="IDrawable.cs" />
     <Compile Include="IUpdateable.cs" />
     <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Menu\MenuData.cs" />
     <Compile Include="Menu\MenuFactory.cs" />
     <Compile Include="Menu\MenuDefinition.cs" />
     <Compile Include="Menu\MenuItem.cs" />

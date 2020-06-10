@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework.Input;
 
 namespace Game1.Menu
 {
@@ -14,11 +15,23 @@ namespace Game1.Menu
 
         private IList<MenuItem> MenuItems { get; set; }
 
-        public Menu(MenuDefinition menuDefinition, IList<MenuItem> menuItems) :
+        private int SelectedIndex { get; set; }
+
+        private FilteredKeyListener KeyListener { get; set; }
+
+        private Texture2D SelectTexture { get; set; }
+
+        public Menu(MenuDefinition menuDefinition, 
+            IList<MenuItem> menuItems, 
+            FilteredKeyListener keyListener,
+            Texture2D selectTexture) :
             base(null)
         {
             MenuDefinition = menuDefinition;
             MenuItems = menuItems;
+            SelectedIndex = 0;
+            KeyListener = keyListener;
+            SelectTexture = selectTexture;
         }
 
         public override Vec2 GetWorldPosition()
@@ -32,8 +45,9 @@ namespace Game1.Menu
             var totalHeight = MenuItems.Select(m => m.Texture.Height).Sum() + 
                 (MenuItems.Count() - 1 * MenuDefinition.SpaceBetweenMenuItems);
             var startY = ((viewport.Y / 2) - (totalHeight / 2));
-            foreach (var item in MenuItems)
+            for(var i = 0; i < MenuItems.Count(); ++i)
             {
+                var item = MenuItems[i];
                 // align x to the center of the widest menu item
                 var startX = (((viewport.X / 2) - (maxWidth / 2)) + 
                     ((maxWidth / 2) - (item.Texture.Width / 2)));
@@ -41,11 +55,43 @@ namespace Game1.Menu
                 item.Draw(spriteBatch, origin);
                 startY += item.Texture.Height + MenuDefinition.SpaceBetweenMenuItems;
             }
+
+            var selectedItem = MenuItems[SelectedIndex];
+
+            var position = selectedItem.Position;
+            position.X -= (SelectTexture.Width + 100);
+
+            spriteBatch.Draw(SelectTexture, position);
         }
 
         public void Update(GameTime gameTime)
         {
+            KeyListener.Update(gameTime);
 
+            if(KeyListener.WasKeyPressed(Keys.W) || 
+                KeyListener.WasKeyPressed(Keys.Up))
+            {
+                SelectedIndex--;
+                if(SelectedIndex < 0)
+                {
+                    SelectedIndex = MenuItems.Count() - 1;
+                }
+
+                KeyListener.ResetKey(Keys.W);
+                KeyListener.ResetKey(Keys.Up);
+            }
+            else if(KeyListener.WasKeyPressed(Keys.S) || 
+                KeyListener.WasKeyPressed(Keys.Down))
+            {
+                SelectedIndex++;
+                if(SelectedIndex >= MenuItems.Count())
+                {
+                    SelectedIndex = 0;
+                }
+
+                KeyListener.ResetKey(Keys.S);
+                KeyListener.ResetKey(Keys.Down);
+            }
         }
     }
 }
