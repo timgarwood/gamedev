@@ -21,9 +21,6 @@ namespace Game1.Menu
         {
             ContentManager = contentManager;
 
-            //create a FilteredKeyListener to track the keys for the menus
-            var trackKeys = new Keys[] { Keys.W, Keys.S, Keys.Down, Keys.Up, Keys.Enter};
-            KeyListener = new FilteredKeyListener(trackKeys);
 
             Menus = new Dictionary<string, Menu>();
         }
@@ -55,7 +52,12 @@ namespace Game1.Menu
 
                 }
 
-                var menu = new Menu(menuDefinition, menuItems, KeyListener, menuSelectTexture);
+            
+                //create a FilteredKeyListener to track the keys for the menus
+                var trackKeys = new Keys[] { Keys.W, Keys.S, Keys.Down, Keys.Up, Keys.Enter};
+                var keyListener = new FilteredKeyListener(trackKeys);
+
+                var menu = new Menu(menuDefinition, menuItems, keyListener, menuSelectTexture);
                 Menus.Add(menuDefinition.Name, menu);
             }
         }

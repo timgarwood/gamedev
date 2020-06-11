@@ -8,15 +8,7 @@ namespace Game1.Menu
 {
     public class MenuItemDefinition
     {
-        public enum SelectActions
-        {
-            Next,
-            Back,
-            NewGame,
-            QuitGame
-        };
-
-        private SelectActions _selectAction;
+        private MenuAction _selectAction;
         private string _selectActionString;
         public string Action
         {
@@ -31,7 +23,7 @@ namespace Game1.Menu
             }
         }
 
-        public SelectActions SelectAction
+        public MenuAction SelectAction
         {
             get
             {

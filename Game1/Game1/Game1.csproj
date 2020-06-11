@@ -79,11 +79,13 @@
     <Compile Include="IDrawable.cs" />
     <Compile Include="IUpdateable.cs" />
     <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Menu\MenuAction.cs" />
     <Compile Include="Menu\MenuData.cs" />
     <Compile Include="Menu\MenuFactory.cs" />
     <Compile Include="Menu\MenuDefinition.cs" />
     <Compile Include="Menu\MenuItem.cs" />
     <Compile Include="Menu\MenuItemDefinition.cs" />
+    <Compile Include="Menu\MenuResult.cs" />
     <Compile Include="Physics\CollisionCategory.cs" />
     <Compile Include="Physics\GameContactListener.cs" />
     <Compile Include="Pickups\Health.cs" />

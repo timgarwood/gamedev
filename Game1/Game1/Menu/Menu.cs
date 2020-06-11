@@ -43,7 +43,7 @@ namespace Game1.Menu
         {
             var maxWidth = MenuItems.Select(m => m.Texture.Width).Max();
             var totalHeight = MenuItems.Select(m => m.Texture.Height).Sum() + 
-                (MenuItems.Count() - 1 * MenuDefinition.SpaceBetweenMenuItems);
+                ((MenuItems.Count() - 1) * MenuDefinition.SpaceBetweenMenuItems);
             var startY = ((viewport.Y / 2) - (totalHeight / 2));
             for(var i = 0; i < MenuItems.Count(); ++i)
             {
@@ -64,7 +64,7 @@ namespace Game1.Menu
             spriteBatch.Draw(SelectTexture, position);
         }
 
-        public void Update(GameTime gameTime)
+        public MenuResult Update(GameTime gameTime)
         {
             KeyListener.Update(gameTime);
 
@@ -76,7 +76,7 @@ namespace Game1.Menu
                 {
                     SelectedIndex = MenuItems.Count() - 1;
                 }
-
+                
                 KeyListener.ResetKey(Keys.W);
                 KeyListener.ResetKey(Keys.Up);
             }
@@ -88,10 +88,30 @@ namespace Game1.Menu
                 {
                     SelectedIndex = 0;
                 }
-
+                
                 KeyListener.ResetKey(Keys.S);
                 KeyListener.ResetKey(Keys.Down);
             }
+            else if(KeyListener.WasKeyPressed(Keys.Enter))
+            {
+                KeyListener.ResetKey(Keys.Enter);
+
+                var menuItem = MenuItems[SelectedIndex];
+                if(menuItem.Definition.SelectAction == MenuAction.Navigate)
+                {
+                    var result = new MenuResult(menuItem.Definition.SelectAction, menuItem.Definition.MenuName);
+                    return result;
+                }
+                else if(menuItem.Definition.SelectAction == MenuAction.NewGame ||
+                    menuItem.Definition.SelectAction == MenuAction.QuitGame)
+                {
+                    var result = new MenuResult(menuItem.Definition.SelectAction);
+                    return result;
+                }
+
+            }
+
+            return null;
         }
     }
 }

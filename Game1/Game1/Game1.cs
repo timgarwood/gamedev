@@ -64,7 +64,7 @@ namespace Game1
 
         private Hud.Hud Hud { get; set; }
 
-        private Menu.Menu PauseMenu { get; set; }
+        private Menu.Menu CurrentMenu { get; set; }
 
         private FilteredKeyListener FilteredInputListener { get; set; }
 
@@ -169,7 +169,7 @@ namespace Game1
             using (var stream = new FileStream("./Menu/MenuDefinitions.json", FileMode.Open))
             {
                 Container.Resolve<MenuFactory>().Load(stream);
-                PauseMenu = Container.Resolve<MenuFactory>().Get("root");
+                CurrentMenu = Container.Resolve<MenuFactory>().Get("root");
             }
 
             //load up the HUD
@@ -278,7 +278,14 @@ namespace Game1
                 }
                 else
                 {
-                    PauseMenu.Update(gameTime);
+                    var menuResult = CurrentMenu.Update(gameTime);
+                    if (menuResult != null)
+                    {
+                        if (menuResult.Action == MenuAction.Navigate)
+                        {
+                            CurrentMenu = Container.Resolve<MenuFactory>().Get(menuResult.NextMenuName);
+                        }
+                    }
                 }
             }
 
@@ -304,7 +311,7 @@ namespace Game1
 
             if(GameState == GameStates.Paused)
             {
-                PauseMenu.Draw(spriteBatch, cameraPosition, viewport);
+                CurrentMenu.Draw(spriteBatch, cameraPosition, viewport);
             }
             
             spriteBatch.End();

@@ -7,11 +7,59 @@
       "menuItems": [
         {
           "textureName": "menu\\new-game",
-          "action": "newGame"
+          "action": "NewGame"
         },
         {
           "textureName": "menu\\quit-game",
-          "action": "quitGame"
+          "action": "QuitGame"
+        },
+        {
+          "textureName": "menu\\test2",
+          "action": "Navigate",
+          "menuName" :  "test2"
+        }
+      ]
+    },
+    {
+      "name": "test2",
+      "spaceBetweenMenuItems": 100,
+      "menuItems": [
+        {
+          "textureName": "menu\\test3",
+          "action": "Navigate",
+          "menuName": "test3"
+        },
+        {
+          "textureName": "menu\\test4",
+          "action": "Navigate",
+          "menuName": "test4"
+        },
+        {
+          "textureName": "menu\\back",
+          "action": "Navigate",
+          "menuName": "root"
+        }
+      ]
+    },
+    {
+      "name": "test3",
+      "spaceBetweenMenuItems": 100,
+      "menuItems": [
+        {
+          "textureName": "menu\\back",
+          "action": "Navigate",
+          "menuName": "test2"
+        }
+      ]
+    },
+    {
+      "name": "test4",
+      "spaceBetweenMenuItems": 100,
+      "menuItems": [
+        {
+          "textureName": "menu\\back",
+          "action": "Navigate",
+          "menuName" :  "test2"
         }
       ]
     }

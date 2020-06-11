@@ -66,5 +66,13 @@ namespace Game1
             var info = GetKeyInfo(key);
             info.Reset();
         }
+
+        public void ResetAll()
+        {
+            foreach(var kvp in KeyInfos)
+            {
+                kvp.Value.Reset();
+            }
+        }
     }
 }
