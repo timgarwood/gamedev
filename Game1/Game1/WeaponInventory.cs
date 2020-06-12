@@ -53,6 +53,11 @@ namespace Game1
             }
         }
 
+        public void Clear()
+        {
+            Lasers.Clear();
+        }
+
         private void SelectWeaponWithAmmo()
         {
             var weapon = Lasers.FirstOrDefault(l => l.RemainingAmmo > 0);

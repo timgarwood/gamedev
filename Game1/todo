@@ -1,11 +1,11 @@
 fix player controls
-enemy ai - general
 enemy ai - get health when low
-menus
-add sound effects
+enemy ai - don't pursue player forever?
+add menu titles
+bug - sound effects not playing when player shooting rapidly
 add background music
 multiple backgrounds
-enable other aliens
+aliens - variable aggressiveness, intelligence, fire rate, etc.
 weapon powerups
 speed powerup?
 fire animation behind player while accelerating
@@ -18,7 +18,6 @@ clean up code
 add icon for window
 add icon for toolbar
 installer
-fix bottom of minimap
 don't draw objects that aren't visible
 improve backgrounds somehow (create tiles?)
 add notifications for when player dies or wins the round
@@ -34,3 +33,4 @@ don't spawn pickups outside bounds
 don't move camera past bounds
 fix game loop when player wins
 create collision vertices for the other alien sprites
+fix bottom of minimap

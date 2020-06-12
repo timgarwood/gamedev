@@ -103,7 +103,7 @@ namespace Game1
             PhysicsWorld = new World(aabb, new Vec2(0, 0), doSleep: false);
             PhysicsWorld.SetContactListener(new GameContactListener());
 
-            var trackKeys = new Keys[] { Keys.OemCloseBrackets, Keys.OemOpenBrackets, Keys.Escape };
+            var trackKeys = new Keys[] { Keys.OemCloseBrackets, Keys.OemOpenBrackets, Keys.Left, Keys.Right, Keys.Escape };
             FilteredInputListener = new FilteredKeyListener(trackKeys);
 
             Container.Register(Component.For<FilteredKeyListener>().Instance(FilteredInputListener).LifestyleSingleton());
@@ -288,7 +288,7 @@ namespace Game1
                         }
                         else if(menuResult.Action == MenuAction.NewGame)
                         {
-                            Player.Reset();
+                            Player.SetUpForNewGame();
                             CurrentGameMode.SetUpForNewGame();
                         }
                         else if(menuResult.Action == MenuAction.QuitGame)

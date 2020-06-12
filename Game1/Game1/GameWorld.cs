@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq.Expressions;
 using Game1.Pickups;
+using Game1.Weapons;
 
 namespace Game1
 {
@@ -103,7 +104,7 @@ namespace Game1
         /// </summary>
         public void SetUpForNewGame()
         {
-            var whitelist = new Type[] { typeof(Alien), typeof(Health), typeof(Laser) };
+            var whitelist = new Type[] { typeof(Alien), typeof(Health), typeof(Laser), typeof(Projectile) };
             var objs = _gameObjects.Where(x =>
             {
                 return whitelist.Contains(x.GetType());

@@ -155,39 +155,29 @@ namespace Game1
         {
             if (Active)
             {
-                //if (Mouse.GetState().LeftButton == ButtonState.Pressed)
-                /*if (Keyboard.GetState().IsKeyDown(Keys.A))
-                {
-                    var cratePosition = RigidBody.GetPosition();
-                    RigidBody.ApplyImpulse(new Vec2(-GameData.Instance.PlayerImpulse, 0),
-                        new Vec2(cratePosition.X, cratePosition.Y));
-                }
-
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
-                {
-                    var cratePosition = RigidBody.GetPosition();
-                    RigidBody.ApplyImpulse(new Vec2(GameData.Instance.PlayerImpulse, 0),
-                        new Vec2(cratePosition.X, cratePosition.Y));
-                }
-                */
-
                 var rotationDegrees = RigidBody.GetAngle() * 180 / System.Math.PI;
 
                 if(Keyboard.GetState().IsKeyDown(Keys.OemOpenBrackets) )
                 {
-                    //apply impulse to push the player to left
-                    var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees - 90);
-                    RigidBody.ApplyImpulse(impulseVec * GameData.PlayerLateralImpulse
-                        , RigidBody.GetPosition());
+                    if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.PlayerMaxSpeed)
+                    {
+                        //apply impulse to push the player to left
+                        var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees - 90);
+                        RigidBody.ApplyImpulse(impulseVec * GameData.PlayerLateralImpulse
+                            , RigidBody.GetPosition());
+                    }
                 }
 
                 if(Keyboard.GetState().IsKeyDown(Keys.OemCloseBrackets) )
                 {
-                    //apply impulse to push the player to right 
-                    var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees + 90);
+                    if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.PlayerMaxSpeed)
+                    {
+                        //apply impulse to push the player to right 
+                        var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees + 90);
 
-                    RigidBody.ApplyImpulse(impulseVec * GameData.PlayerLateralImpulse
-                        , RigidBody.GetPosition());
+                        RigidBody.ApplyImpulse(impulseVec * GameData.PlayerLateralImpulse
+                            , RigidBody.GetPosition());
+                    }
                 }
 
                 if(FilteredInputListener.WasKeyPressed(Keys.Left))
@@ -204,7 +194,7 @@ namespace Game1
 
                 if (Keyboard.GetState().IsKeyDown(Keys.W))
                 {
-                    //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.PlayerMaxSpeed)
+                    if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.PlayerMaxSpeed)
                     {
                         var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees);
                         if(Vec2.Dot(impulseVec, RigidBody.GetLinearVelocity()) == 0)
@@ -217,7 +207,7 @@ namespace Game1
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.S))
                 {
-                    //if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.PlayerMaxSpeed)
+                    if (Vec2.Distance(Vec2.Zero, RigidBody.GetLinearVelocity()) < GameData.PlayerMaxSpeed)
                     {
                         var impulseVec = GameUtils.RotationToVec2((float)rotationDegrees);
                         RigidBody.ApplyImpulse(impulseVec * -GameData.PlayerImpulse
@@ -318,6 +308,15 @@ namespace Game1
         {
             Active = true;
             Hp = MaxHp;
+        }
+
+        public void SetUpForNewGame()
+        {
+            Reset();
+            WeaponInventory.Clear();
+
+            TotalScore = 0;
+            LivesRemaining = MaxLives;
         }
     }
 }
