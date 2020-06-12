@@ -84,8 +84,8 @@ namespace Game1
             Texture2D texture, 
             Shape shape, 
             Body rigidBody, 
-            GraphicsDevice graphicsDevice,
-            Player player) :
+            Player player,
+            HealthBar healthBar) :
             base(world, texture, shape, rigidBody, 0, gameData, gameUtils)
         {
             ShootingEffect = contentManager.Load<SoundEffect>(def.ShootingEffect).CreateInstance();
@@ -105,7 +105,7 @@ namespace Game1
             //set initial distance to as far from the player as possible
             _lastDistanceToTarget = Vec2.Distance(Vec2.Zero, new Vec2(GameData.MaxXDimension, GameData.MaxYDimension));
 
-            HealthBar = new HealthBar(graphicsDevice);
+            HealthBar = healthBar;
 
             Player = player;
         }
@@ -322,7 +322,7 @@ namespace Game1
             var texturePosition = GetTexturePosition(cameraPosition);
 
             spriteBatch.Draw(Texture, texturePosition, null, null, rotation: angle, scale: RenderScale, origin: RenderScale * new Vector2(Texture.Width / 2, Texture.Height / 2));
-            HealthBar.Draw(spriteBatch, texturePosition, Hp, _definition.MaxHp);
+            HealthBar.Draw(spriteBatch, texturePosition, Hp);
         }
     }
 }

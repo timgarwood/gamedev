@@ -31,6 +31,7 @@ namespace Game1.Hud
             WeaponInventory weaponInventory, 
             GameWorld gameWorld,
             GameData gameData,
+            HealthBarFactory healthBarFactory,
             Player player)
         {
             var definition = HudComponentDefinition.Create(jsonData);

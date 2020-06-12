@@ -13,7 +13,7 @@
     },
     {
       "name": "PlayerHealth",
-      "componentTypeName": "Game1.Hud.PlayerHealth",
+      "componentTypeName": "Game1.Hud.PlayerHealthBar",
       "fontName": "Default2",
       "hAlignment": "Center",
       "vAlignment": "Bottom",
@@ -21,7 +21,7 @@
       "verticalPercentage": 0,
       "textTemplate": "HP: {health}",
       "width": 200,
-      "height": 30
+      "height": 40
     },
   {
     "name": "SelectedWeapon",

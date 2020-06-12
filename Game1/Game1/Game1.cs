@@ -117,6 +117,7 @@ namespace Game1
             Container.Register(Component.For<MenuFactory>().ImplementedBy<MenuFactory>().LifestyleSingleton());
             Container.Register(Component.For<AnimationFactory>().ImplementedBy<AnimationFactory>().LifestyleSingleton());
             Container.Register(Component.For<WeaponFactory>().ImplementedBy<WeaponFactory>().LifestyleSingleton());
+            Container.Register(Component.For<HealthBarFactory>().ImplementedBy<HealthBarFactory>().LifestyleSingleton());
             Container.Register(Component.For<AlienFactory>().ImplementedBy<AlienFactory>().LifestyleSingleton());
             Container.Register(Component.For<WeaponInventory>().ImplementedBy<WeaponInventory>().LifestyleSingleton());
             Container.Register(Component.For<Background>().ImplementedBy<Background>().LifestyleSingleton());

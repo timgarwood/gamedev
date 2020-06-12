@@ -64,6 +64,7 @@
     <Compile Include="GameUtils.cs" />
     <Compile Include="GameWorld.cs" />
     <Compile Include="HealthBar.cs" />
+    <Compile Include="HealthBarFactory.cs" />
     <Compile Include="Hud\HorizontalAlignment.cs" />
     <Compile Include="Hud\Hud.cs" />
     <Compile Include="Hud\HudComponent.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Hud\LivesRemaining.cs" />
     <Compile Include="Hud\Minimap.cs" />
     <Compile Include="Hud\PlayerHealth.cs" />
+    <Compile Include="Hud\PlayerHealthBar.cs" />
     <Compile Include="Hud\RemainingAmmo.cs" />
     <Compile Include="Hud\SelectedWeapon.cs" />
     <Compile Include="Hud\TotalScore.cs" />

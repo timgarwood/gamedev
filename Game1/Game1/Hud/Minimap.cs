@@ -50,6 +50,7 @@ namespace Game1.Hud
             WeaponInventory weaponInventory,
             GameWorld gameWorld,
             GameData gameData,
+            HealthBarFactory healthBarFactory,
             Player player)
         {
             Texture2D backgroundTexture = null;
@@ -153,7 +154,7 @@ namespace Game1.Hud
         public override void Draw(SpriteBatch spriteBatch, Vector2 viewport)
         {
             _destPoint.X = (int) Left;
-            _destPoint.Y = (int) Top;
+            _destPoint.Y = (int) Top - (MinimapBorderThicknessPx * 2);
 
             if (_backgroundTexture != null)
             {

@@ -40,6 +40,8 @@ namespace Game1
 
         private Player Player { get; set; }
 
+        private HealthBarFactory HealthBarFactory { get; set; }
+
         /// <summary>
         /// ctor
         /// </summary>
@@ -51,6 +53,7 @@ namespace Game1
             GameWorld gameWorld,
             AnimationFactory animationFactory, 
             GraphicsDevice graphicsDevice,
+            HealthBarFactory healthBarFactory,
             Player player)
         {
             _physicsWorld = physicsWorld;
@@ -61,6 +64,7 @@ namespace Game1
             GraphicsDevice = graphicsDevice;
             GameWorld = gameWorld;
             Player = player;
+            HealthBarFactory = healthBarFactory;
         }
 
         /// <summary>
@@ -128,7 +132,9 @@ namespace Game1
 
                 body.SetMassFromShapes();
 
-                var gameObject = new Alien(_contentManager, _physicsWorld, GameData, GameUtils, definition, _animationFactory, GameWorld, texture, shape, body, GraphicsDevice, Player);
+                var healthBar = HealthBarFactory.Create("AlienHealthBar", 100, 5);
+
+                var gameObject = new Alien(_contentManager, _physicsWorld, GameData, GameUtils, definition, _animationFactory, GameWorld, texture, shape, body, Player, healthBar);
                 GameWorld.AddGameObject(gameObject);
                 return gameObject;
             }
