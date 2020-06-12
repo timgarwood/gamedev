@@ -1,4 +1,12 @@
-﻿using Game1.Animations;
+﻿// -----------------------------------------------------------------------
+// 
+//  BasicGameMode.cs
+// 
+//  Tim Garwood
+// 
+// -----------------------------------------------------------------------
+
+using Game1.Animations;
 using Game1.Pickups;
 using Microsoft.Xna.Framework;
 using System.Threading;
@@ -68,15 +76,15 @@ namespace Game1.GameMode
             GameData = gameData;
         }
 
-        public override void Initialize()
+        public override void SetUpForNewGame()
         {
+            GameWorld.SetUpForNewGame();
             FirstFrame = true;
             Spawn();
         }
 
         public override GameModeStatus Update(GameTime gameTime)
         {
-            
             var disposed = GameWorld.GetAll(x => x.PendingDispose);
             foreach(var d in disposed)
             {
@@ -125,7 +133,7 @@ namespace Game1.GameMode
             return GameModeStatus.Continue;
         }
 
-        private void Spawn()
+        public override void Spawn()
         {
             var aliens = GameWorld.GetGameObjects<Alien>();
             var lasers = GameWorld.GetGameObjects<Laser>();

@@ -35,7 +35,9 @@ namespace Game1.GameMode
             Player = player;
         }
 
-        public abstract void Initialize();
+        public abstract void SetUpForNewGame();
+
+        public abstract void Spawn();
 
         public abstract GameModeStatus Update(GameTime gameTime);
     }

@@ -213,7 +213,7 @@ namespace Game1
             Hud = Container.Resolve<Hud.Hud>();
 
             CurrentGameMode = Container.Resolve<BasicGameMode>();
-            CurrentGameMode.Initialize();
+            CurrentGameMode.SetUpForNewGame();
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace Game1
                     {
                         GameState = GameStates.Normal;
                         Player.Reset();
-                        CurrentGameMode.Initialize();
+                        CurrentGameMode.Spawn();
                     }
                 }
 
@@ -285,6 +285,16 @@ namespace Game1
                         if (menuResult.Action == MenuAction.Navigate)
                         {
                             CurrentMenu = Container.Resolve<MenuFactory>().Get(menuResult.NextMenuName);
+                        }
+                        else if(menuResult.Action == MenuAction.NewGame)
+                        {
+                            Player.Reset();
+                            CurrentGameMode.SetUpForNewGame();
+                        }
+                        else if(menuResult.Action == MenuAction.QuitGame)
+                        {
+                            GameWorld.SetUpForNewGame();
+                            Exit();
                         }
                     }
                 }

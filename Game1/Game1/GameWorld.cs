@@ -5,6 +5,7 @@ using Box2DX.Common;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Linq.Expressions;
+using Game1.Pickups;
 
 namespace Game1
 {
@@ -95,6 +96,28 @@ namespace Game1
         public ICollection<GameObject> GetAll(Func<GameObject, bool> expr)
         {
             return _gameObjects.Where(expr).ToList();
+        }
+
+        /// <summary>
+        /// remove all objects from the game
+        /// </summary>
+        public void SetUpForNewGame()
+        {
+            var whitelist = new Type[] { typeof(Alien), typeof(Health), typeof(Laser) };
+            var objs = _gameObjects.Where(x =>
+            {
+                return whitelist.Contains(x.GetType());
+            }).ToList();
+
+            objs.ForEach(x =>
+            {
+                if (!x.PendingDispose)
+                {
+                    x.Dispose();
+                    _gameObjects.Remove(x);
+                }
+            });
+
         }
 
         /// <summary>
