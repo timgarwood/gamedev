@@ -7,15 +7,14 @@
         /// </summary>
         public string Name { get; set; }
 
-        /// <summary>
-        /// the menu that brough us to this menu
-        /// </summary>
-        public string ParentMenu { get; set; }
+        public string[] MessageTextures { get; set; }
 
         /// <summary>
         /// number of pixels between menu items
         /// </summary>
         public int SpaceBetweenMenuItems { get; set; }
+
+        public int SpaceBetweenMessages { get; set; }
 
         /// <summary>
         /// list of menu items in this menu

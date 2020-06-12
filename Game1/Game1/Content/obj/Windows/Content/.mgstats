@@ -1,10 +1,11 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/code/gamedev/Game1/Game1/Content/menu/are-you-sure.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/menu/are-you-sure.xnb","TextureProcessor","Texture2DContent",6577,240085,0.107557
 "C:/code/gamedev/Game1/Game1/Content/menu/back.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/menu/back.xnb","TextureProcessor","Texture2DContent",3815,200085,0.243745
 "C:/code/gamedev/Game1/Game1/Content/menu/new-game.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/menu/new-game.xnb","TextureProcessor","Texture2DContent",4694,200085,0.2031123
+"C:/code/gamedev/Game1/Game1/Content/menu/no.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/menu/no.xnb","TextureProcessor","Texture2DContent",2301,200085,0.0134265
+"C:/code/gamedev/Game1/Game1/Content/menu/play-again.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/menu/play-again.xnb","TextureProcessor","Texture2DContent",5073,200085,0.0141551
 "C:/code/gamedev/Game1/Game1/Content/menu/quit-game.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/menu/quit-game.xnb","TextureProcessor","Texture2DContent",5197,200085,0.0359375
-"C:/code/gamedev/Game1/Game1/Content/menu/test2.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/menu/test2.xnb","TextureProcessor","Texture2DContent",2553,200085,0.0548998
-"C:/code/gamedev/Game1/Game1/Content/menu/test3.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/menu/test3.xnb","TextureProcessor","Texture2DContent",2717,200085,0.0547499
-"C:/code/gamedev/Game1/Game1/Content/menu/test4.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/menu/test4.xnb","TextureProcessor","Texture2DContent",2315,200085,0.0538069
+"C:/code/gamedev/Game1/Game1/Content/menu/yes.png","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/menu/yes.xnb","TextureProcessor","Texture2DContent",2486,200085,0.0182636
 "C:/code/gamedev/Game1/Game1/Content/sound/alienDeath.mp3","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sound/alienDeath.xnb","SoundEffectProcessor","SoundEffectContent",198471,988709,0.2355102
 "C:/code/gamedev/Game1/Game1/Content/sound/alienGrowl.mp3","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sound/alienGrowl.xnb","SoundEffectProcessor","SoundEffectContent",49272,396581,0.1206778
 "C:/code/gamedev/Game1/Game1/Content/sound/alienLaser.mp3","C:/code/gamedev/Game1/Game1/Content/bin/Windows/Content/sound/alienLaser.xnb","SoundEffectProcessor","SoundEffectContent",60425,170789,0.123698

@@ -21,9 +21,12 @@ namespace Game1.Menu
 
         private Texture2D SelectTexture { get; set; }
 
+        private Texture2D[] MessageTextures { get; set; }
+
         public Menu(MenuDefinition menuDefinition, 
             IList<MenuItem> menuItems, 
             FilteredKeyListener keyListener,
+            Texture2D[] messageTextures,
             Texture2D selectTexture) :
             base(null)
         {
@@ -32,6 +35,7 @@ namespace Game1.Menu
             SelectedIndex = 0;
             KeyListener = keyListener;
             SelectTexture = selectTexture;
+            MessageTextures = messageTextures;
         }
 
         public override Vec2 GetWorldPosition()
@@ -41,10 +45,20 @@ namespace Game1.Menu
 
         public override void OnDraw(SpriteBatch spriteBatch, Vec2 cameraOrigin, Vector2 viewport)
         {
-            var maxWidth = MenuItems.Select(m => m.Texture.Width).Max();
-            var totalHeight = MenuItems.Select(m => m.Texture.Height).Sum() + 
-                ((MenuItems.Count() - 1) * MenuDefinition.SpaceBetweenMenuItems);
+            var maxWidth = GetMaxWidth();
+            var totalHeight = GetTotalHeight();
             var startY = ((viewport.Y / 2) - (totalHeight / 2));
+            for(var i = 0; i < MessageTextures.Count(); ++i)
+            {
+                var item = MessageTextures[i];
+                // align x to the center of the widest menu item
+                var startX = (((viewport.X / 2) - (maxWidth / 2)) + 
+                    ((maxWidth / 2) - (item.Width / 2)));
+                var origin = new Vector2(startX, startY);
+                spriteBatch.Draw(item, origin);
+                startY += item.Height + MenuDefinition.SpaceBetweenMessages;
+            }
+
             for(var i = 0; i < MenuItems.Count(); ++i)
             {
                 var item = MenuItems[i];
@@ -62,6 +76,32 @@ namespace Game1.Menu
             position.X -= (SelectTexture.Width + 100);
 
             spriteBatch.Draw(SelectTexture, position);
+        }
+
+        private int GetTotalHeight()
+        {
+            var totalHeight = MenuItems.Select(m => m.Texture.Height).Sum() + 
+                ((MenuItems.Count() - 1) * MenuDefinition.SpaceBetweenMenuItems);
+
+            if (MessageTextures.Length > 0)
+            {
+                totalHeight += (MessageTextures.Select(m => m.Height).Sum() +
+                    ((MessageTextures.Count() - 1) * MenuDefinition.SpaceBetweenMessages));
+            }
+
+            return totalHeight;
+        }
+
+        private int GetMaxWidth()
+        {
+            var maxMenuItem = MenuItems.Select(m => m.Texture.Width).Max();
+            var maxMessage = 0;
+            if (MessageTextures.Length > 0)
+            {
+                maxMessage = MessageTextures.Select(m => m.Width).Max();
+            }
+
+            return System.Math.Max(maxMenuItem, maxMessage);
         }
 
         public MenuResult Update(GameTime gameTime)

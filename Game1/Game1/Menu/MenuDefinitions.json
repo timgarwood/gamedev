@@ -4,35 +4,39 @@
     {
       "name": "root",
       "spaceBetweenMenuItems": 200,
+      "spaceBetweenMessages": 20,
+      "messageTextures": [
+      ],
       "menuItems": [
         {
           "textureName": "menu\\new-game",
-          "action": "NewGame"
+          "action": "Navigate",
+          "menuName" :  "newGameAreYouSure"
         },
         {
           "textureName": "menu\\quit-game",
-          "action": "QuitGame"
-        },
-        {
-          "textureName": "menu\\test2",
           "action": "Navigate",
-          "menuName" :  "test2"
-        }
+          "menuName" :  "quitGameAreYouSure"
+        },
       ]
     },
     {
-      "name": "test2",
+      "name": "newGameAreYouSure",
       "spaceBetweenMenuItems": 100,
+      "spaceBetweenMessages": 20,
+      "messageTextures": [
+        "menu\\new-game",
+        "menu\\are-you-sure"
+      ],
       "menuItems": [
         {
-          "textureName": "menu\\test3",
-          "action": "Navigate",
-          "menuName": "test3"
+          "textureName": "menu\\yes",
+          "action": "NewGame"
         },
         {
-          "textureName": "menu\\test4",
+          "textureName": "menu\\no",
           "action": "Navigate",
-          "menuName": "test4"
+          "menuName": "root"
         },
         {
           "textureName": "menu\\back",
@@ -42,24 +46,27 @@
       ]
     },
     {
-      "name": "test3",
+      "name": "quitGameAreYouSure",
       "spaceBetweenMenuItems": 100,
+      "spaceBetweenMessages": 20,
+      "messageTextures": [
+        "menu\\quit-game",
+        "menu\\are-you-sure"
+      ],
       "menuItems": [
+        {
+          "textureName": "menu\\yes",
+          "action": "QuitGame"
+        },
+        {
+          "textureName": "menu\\no",
+          "action": "Navigate",
+          "menuName": "root"
+        },
         {
           "textureName": "menu\\back",
           "action": "Navigate",
-          "menuName": "test2"
-        }
-      ]
-    },
-    {
-      "name": "test4",
-      "spaceBetweenMenuItems": 100,
-      "menuItems": [
-        {
-          "textureName": "menu\\back",
-          "action": "Navigate",
-          "menuName" :  "test2"
+          "menuName": "root"
         }
       ]
     }

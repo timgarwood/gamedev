@@ -42,6 +42,13 @@ namespace Game1.Menu
             {
                 var menuItems = new List<MenuItem>();
 
+                var messageTextures = new Texture2D[menuDefinition.MessageTextures.Length];
+
+                for(var i = 0; i < messageTextures.Length; ++i)
+                {
+                    messageTextures[i] = ContentManager.Load<Texture2D>(menuDefinition.MessageTextures[i]);
+                }
+
                 foreach (var itemDefinition in menuDefinition.MenuItems)
                 {
                     menuItems.Add(new MenuItem
@@ -57,7 +64,7 @@ namespace Game1.Menu
                 var trackKeys = new Keys[] { Keys.W, Keys.S, Keys.Down, Keys.Up, Keys.Enter};
                 var keyListener = new FilteredKeyListener(trackKeys);
 
-                var menu = new Menu(menuDefinition, menuItems, keyListener, menuSelectTexture);
+                var menu = new Menu(menuDefinition, menuItems, keyListener, messageTextures, menuSelectTexture);
                 Menus.Add(menuDefinition.Name, menu);
             }
         }
